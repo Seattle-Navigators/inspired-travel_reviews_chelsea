@@ -4,7 +4,7 @@ module.exports = {
   entry: './client/src/index.jsx',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'client', 'public')
+    path: path.resolve(__dirname, 'client', 'public'),
   },
   mode: 'development',
   devtool: 'inline-source-map',
@@ -15,16 +15,16 @@ module.exports = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-        }
+        },
       },
 
       {
         test: /\.css$/i,
         use: [
-              'style-loader',
-              'css-loader'
-        ]
-      }
-    ]
-  }
+          'style-loader',
+          'css-loader',
+        ],
+      },
+    ],
+  },
 };

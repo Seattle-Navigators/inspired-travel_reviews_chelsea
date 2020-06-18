@@ -1,6 +1,6 @@
-import css from './style.css';
+import './style.css';
 
-//testing css loader
+// testing css loader
 const element = document.createElement('div');
 element.innerHTML = 'Hi';
 document.body.appendChild(element);
