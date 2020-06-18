@@ -5,32 +5,31 @@ mongoose.Promise = global.Promise;
 
 db.on('error', console.error.bind(console, 'connection error: '));
 db.on('open', () => {
-  // subdocument
-  const userSchema = mongoose.Schema({
-    contributions: Number,
-    name: String,
-    image: String,
-  });
-
-  // main document
   const reviewSchema = mongoose.Schema({
     attractionId: Number,
     rating: Number,
-    userType: String,
+    travelType: String,
     expDate: Date,
     lang: String,
     body: String,
     title: String,
-    userOrigin: String,
     votes: Number,
-    user: userSchema,
-    imageUrls: [String],
+    createdAt: Date,
+    helpful: Boolean,
+    user: {
+      originCountry: String,
+      originRegion: String,
+      contributions: Number,
+      name: String,
+      profileImage: String,
+    },
+    uploadImages: [String],
   });
 
   const Review = mongoose.model('Review', reviewSchema);
 
   // Testing connection
-  Review.create({ user: { contributions: 15 }, imageUrls: ['test', 'foo'] })
+  Review.create({ user: { contributions: 13 }, uploadImages: ['test', 'foo'] })
     .then(() => {
       console.log('success');
     })
