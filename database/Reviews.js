@@ -5,6 +5,14 @@ mongoose.Promise = global.Promise;
 
 db.on('error', console.error.bind(console, 'connection error: '));
 db.on('open', () => {
+  // subdocument
+  const userSchema = mongoose.Schema({
+    contributions: Number,
+    name: String,
+    image: String,
+  });
+
+  // main document
   const reviewSchema = mongoose.Schema({
     attractionId: Number,
     rating: Number,
@@ -15,22 +23,14 @@ db.on('open', () => {
     title: String,
     userOrigin: String,
     votes: Number,
-    user: {
-      id: Number,
-      contributions: Number,
-      name: String,
-      image: String,
-    },
-    images: {
-      id: Number,
-      url: String,
-    },
+    user: userSchema,
+    imageUrls: [String],
   });
 
   const Review = mongoose.model('Review', reviewSchema);
 
   // Testing connection
-  Review.create({ rating: 5 })
+  Review.create({ user: { contributions: 15 }, imageUrls: ['test', 'foo'] })
     .then(() => {
       console.log('success');
     })
