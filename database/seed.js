@@ -1,36 +1,126 @@
-// set up languages array:
-  // [English, Spanish, Italian, French, Portuguese, German, Chinese, Japanese, Korean]
-// set up languages mapped to array of countries object
-// set up countries mapped to array of regions object
+const Chance = require('chance');
+const Review = require('./Reviews.js');
 
-// set up travelType array:
-  // [family, couple, solo, business, friends]
+const chance = new Chance();
 
-// set up seedData array
+const generateNumBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-// from attractionId 001 through 100...
-  // store random number from 20 through 200
-  // from 0 through stored random number...
-    // create empty object
-    // create rating key: store random rating 0 - 5
-    // create travelType key: store random type from languages array
-    // create expDate key: store random experience date in last 5 years
+const pickBiased = (array) => {
+  const index = generateNumBetween(0, 100);
+  if (index <= 75) {
+    return array[0];
+  }
+  const newIndex = generateNumBetween(1, array.length - 1);
+  return array[newIndex];
+};
 
-    // create lang key: store random language from languages array
-    // weighted toward English 76%, other languages 3% each
+const languages = [
+  'English',
+  'Spanish',
+  'Italian',
+  'French',
+  'Portuguese',
+  'German',
+  'Chinese',
+  'Japanese',
+  'Korean',
+];
 
-    // create body key: store random body in chosen lang (TODO: use library)
-    // create title key: store random title in chosen lang (TODO: use library)
-    // create votes key: store random votes number 0 - 1000
-    // create createdAt key: store random created date 0 - 3 months after experience date
-    // create helpful key: store false
-    // create user key: store object
-      // user.originCountry key: random from lang-->country object
-      // user.originRegion key: random from country-->region object
-      // user.contributions key: random from 0 - 1000
-      // user.name key: random username (TODO: use library)
-      // user.profileImage: (TODO: use library/S3?)
-    // create uploadImages key: store array
-    // for random number betwen 0 - 3, weighted 75% toward 0...
-      // add random image to uploadImages array (TODO: use library/S3?)
-    // push finished review object to seedData array
+const countries = [
+  'United States',
+  'Spain',
+  'Italy',
+  'France',
+  'Portugal',
+  'Germany',
+  'China',
+  'Japan',
+  'South Korea',
+];
+
+const regions = [
+  ['Washington State', 'California', 'Oregon', 'Texas'],
+  ['Andalucia', 'Aragon', 'Basque Country', 'Canary Islands'],
+  ['Abruzzo', 'Calabria', 'Lazio', 'Marche'],
+  ['Avignon', 'Bordeaux', 'Corse', 'Nouvelle-Aquitaine'],
+  ['Aveiro', 'Beja', 'Braga', 'Lisbon'],
+  ['Bavaria', 'Berlin', 'Brandenburg', 'Hesse'],
+  ['Hubei', 'Hainan', 'Shanghai', 'Hunan'],
+  ['Osaka', 'Kyoto', 'Tokyo', 'Okinawa'],
+  ['Gangwon', 'North Jeolla', 'South Jeolla', 'Jeju'],
+];
+
+const photoIds = [1001, 237, 1005, 1011, 1012, 1025, 1027]; // TODO: add more
+
+const profilePhotos = [];
+photoIds.forEach((id) => {
+  profilePhotos.push(`https://picsum.photos/${id}/1/200`);
+});
+
+const travelTypes = ['Family', 'Couple', 'Solo', 'Business', 'Friends'];
+
+const years = [2016, 2017, 2018, 2019, 2020];
+
+const seedData = [];
+
+const attractionIds = [];
+for (let i = 1; i <= 100; i += 1) {
+  let id;
+  if (i < 10) {
+    id = '00' + i;
+  } else if (i < 100) {
+    id = '0' + i;
+  } else {
+    id = i.toString();
+  }
+  attractionIds.push(id);
+}
+
+attractionIds.forEach((id) => {
+  const numReviews = generateNumBetween(1, 2); // TODO - increase
+
+  for (let i = 0; i < numReviews; i += 1) {
+    const year = years[generateNumBetween(0, years.length - 1)];
+    const experienceDate = chance.date({ year });
+    const month = experienceDate.getMonth();
+    const monthsAfter = generateNumBetween(0, 3);
+    const language = pickBiased(languages);
+    const langIndex = languages.indexOf(language);
+    const numImages = pickBiased([0, 1, 2, 3]);
+
+    const review = {
+      attractionId: id,
+      rating: generateNumBetween(0, 5),
+      travelType: travelTypes[generateNumBetween(0, travelTypes.length - 1)],
+      expDate: experienceDate,
+      lang: language,
+      body: chance.paragraph(),
+      title: chance.sentence({ words: generateNumBetween(1, 4) }),
+      votes: generateNumBetween(0, 1000),
+      createdAt: chance.date({ year, month: month + monthsAfter }),
+      helpful: false,
+      user: {
+        originCountry: countries[langIndex],
+        originRegion: regions[langIndex][generateNumBetween(0, regions[langIndex].length - 1)],
+        contributions: generateNumBetween(0, 1000),
+        name: chance.name(),
+        profileImage: profilePhotos[generateNumBetween(0, profilePhotos.length - 1)],
+      },
+      uploadImages: [],
+    };
+
+    for (let j = 0; j < numImages; j += 1) {
+      review.uploadImages.push('placeholder' + j.toString()); // TODO
+    }
+
+    seedData.push(review);
+  }
+});
+
+Review.create(seedData)
+  .then(() => {
+    console.log('success');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
