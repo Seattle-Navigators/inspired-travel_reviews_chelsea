@@ -50,18 +50,22 @@ const regions = [
   ['Gangwon', 'North Jeolla', 'South Jeolla', 'Jeju'],
 ];
 
-const photoIds = [1001, 237, 1005, 1011, 1012, 1025, 1027]; // TODO: add more
+const uploadBase = 'https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/userUploads';
+const profileBase = 'https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/profiles';
 
 const profilePhotos = [];
-photoIds.forEach((id) => {
-  profilePhotos.push(`https://picsum.photos/${id}/1/200`);
-});
+for (let i = 0; i < 20; i += 1) {
+  profilePhotos.push(`${profileBase}/img${i}.jpg`);
+}
+
+const userUploadPhotos = [];
+for (let i = 0; i < 100; i += 1) {
+  userUploadPhotos.push(`${uploadBase}/img${i}.jpg`);
+}
 
 const travelTypes = ['Family', 'Couple', 'Solo', 'Business', 'Friends'];
 
 const years = [2016, 2017, 2018, 2019, 2020];
-
-const seedData = [];
 
 const attractionIds = [];
 for (let i = 1; i <= 100; i += 1) {
@@ -76,41 +80,55 @@ for (let i = 1; i <= 100; i += 1) {
   attractionIds.push(id);
 }
 
+const seedData = [];
+
 attractionIds.forEach((id) => {
-  const numReviews = generateNumBetween(1, 2); // TODO - increase
+  const numReviews = generateNumBetween(1, 100);
 
   for (let i = 0; i < numReviews; i += 1) {
     const year = years[generateNumBetween(0, years.length - 1)];
-    const experienceDate = chance.date({ year });
-    const month = experienceDate.getMonth();
+    const expDate = chance.date({ year });
+    const month = expDate.getMonth();
     const monthsAfter = generateNumBetween(0, 3);
-    const language = pickBiased(languages);
-    const langIndex = languages.indexOf(language);
+    const createdAt = chance.date({ year, month: month + monthsAfter });
+    const lang = pickBiased(languages);
+    const langIndex = languages.indexOf(lang);
     const numImages = pickBiased([0, 1, 2, 3]);
+    const name = chance.name();
+    const title = chance.sentence({ words: generateNumBetween(1, 4) });
+    const rating = generateNumBetween(0, 5);
 
     const review = {
       attractionId: id,
-      rating: generateNumBetween(0, 5),
+      rating,
       travelType: travelTypes[generateNumBetween(0, travelTypes.length - 1)],
-      expDate: experienceDate,
-      lang: language,
+      expDate,
+      lang,
       body: chance.paragraph(),
-      title: chance.sentence({ words: generateNumBetween(1, 4) }),
+      title,
       votes: generateNumBetween(0, 1000),
-      createdAt: chance.date({ year, month: month + monthsAfter }),
+      createdAt,
       helpful: false,
       user: {
         originCountry: countries[langIndex],
         originRegion: regions[langIndex][generateNumBetween(0, regions[langIndex].length - 1)],
         contributions: generateNumBetween(0, 1000),
-        name: chance.name(),
+        name,
         profileImage: profilePhotos[generateNumBetween(0, profilePhotos.length - 1)],
       },
       uploadImages: [],
     };
 
     for (let j = 0; j < numImages; j += 1) {
-      review.uploadImages.push('placeholder' + j.toString()); // TODO
+      review.uploadImages.push({
+        id: id + i + j,
+        helpful: false,
+        url: userUploadPhotos[generateNumBetween(0, userUploadPhotos.length - 1)],
+        username: name,
+        createdAt,
+        reviewTitle: title,
+        reviewRating: rating,
+      });
     }
 
     seedData.push(review);

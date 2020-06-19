@@ -4,7 +4,7 @@ const db = require('./index.js');
 mongoose.Promise = global.Promise;
 
 const reviewSchema = mongoose.Schema({
-  attractionId: Number,
+  attractionId: String,
   rating: Number,
   travelType: String,
   expDate: Date,
@@ -21,7 +21,7 @@ const reviewSchema = mongoose.Schema({
     name: String,
     profileImage: String,
   },
-  uploadImages: [String],
+  uploadImages: [Map],
 });
 
 const Review = mongoose.model('Review', reviewSchema);
