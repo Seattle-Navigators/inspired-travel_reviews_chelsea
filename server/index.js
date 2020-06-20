@@ -35,37 +35,6 @@ app.patch('/:productId/api/reviews/:reviewId', (req, res) => {
 });
 
 app.patch('/:productId/api/reviews/:reviewId/:imageId', (req, res) => {
-  // Review.findOne({ 'uploadImages.id': req.params.imageId }, (err, doc) => {
-  //   if (err) {
-  //     res.sendStatus(418);
-  //   } else {
-
-  //     // doc.findOne({ 'uploadImages.id': req.params.imageId }, (err, doc) => {
-  //     //   console.log(err, '========', doc);
-  //     //   res.sendStatus(200);
-  //     // });
-
-  //     doc.uploadImages.forEach((obj) => {
-  //       if (obj.get('id') === req.params.imageId) {
-  //         obj.set('helpful', true);
-  //       }
-  //     });
-  //     doc.save()
-  //       .then(() => {
-  //         res.sendStatus(200);
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //         res.sendStatus(500);
-  //       });
-  //   }
-  // });
-
-  // Review.updateOne({ 'uploadImages.id': req.params.imageId }, {$set: {'uploadImages.$.helpful': true}}, (err, resp) => {
-  //   console.log(err, '=======', resp);
-  //   res.sendStatus(418);
-  // });
-
   Review.collection.updateOne({
     'uploadImages.id': req.params.imageId,
   }, {
