@@ -23,6 +23,31 @@ app.get('/:productId/api/reviews', (req, res) => {
   });
 });
 
+app.patch('/:productId/api/reviews/:reviewId', (req, res) => {
+  Review.updateOne({ _id: req.params.reviewId }, { helpful: true }, (err) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      console.log('reviewpatch');
+      res.sendStatus(200);
+    }
+  });
+});
+
+app.patch('/:productId/api/reviews/:reviewId/:imageId', (req, res) => {
+  Review.collection.updateOne({
+    'uploadImages.id': req.params.imageId,
+  }, {
+    $set: { 'uploadImages.$.helpful': true },
+  })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
 app.listen(port, () => {
   console.log('good to go');
 });
