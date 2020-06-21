@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const db = require('./index.js');
 
+mongoose.connect('mongodb://localhost/reviews', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 const reviewSchema = mongoose.Schema({

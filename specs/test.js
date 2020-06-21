@@ -1,4 +1,6 @@
 import App from '../client/src/components/App.jsx';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
 
 const { findForId, updateReview, updateImage } = require('../server/routeHandlers.js');
 
