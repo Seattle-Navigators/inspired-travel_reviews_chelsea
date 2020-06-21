@@ -24,5 +24,5 @@ module.exports = {
   ],
   rules: {
   },
-  ignorePatterns: ['bundle.js'],
+  ignorePatterns: ['bundle.js', 'jest.config.js'],
 };
