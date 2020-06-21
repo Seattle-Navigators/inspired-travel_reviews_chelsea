@@ -17,6 +17,5 @@ test('updateImage is a function', () => {
 });
 
 test('App is a function', () => {
-  const wrapper = mount(<App />);
   expect(typeof App).toBe('function');
 });
