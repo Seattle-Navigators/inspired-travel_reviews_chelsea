@@ -71,9 +71,9 @@ const attractionIds = [];
 for (let i = 1; i <= 100; i += 1) {
   let id;
   if (i < 10) {
-    id = '00' + i;
+    id = `00${i}`;
   } else if (i < 100) {
-    id = '0' + i;
+    id = `0${i}`;
   } else {
     id = i.toString();
   }
