@@ -14,6 +14,7 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+            - run: npx eslint ./
 workflows:
     build-and-test:
       jobs:
