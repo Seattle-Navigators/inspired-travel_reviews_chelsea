@@ -46,10 +46,7 @@ describe('server route handlers interact as expected with database', () => {
         helpful: false,
       });
     }
-    Review.create(testReviews)
-      .then(() => {
-        return;
-      });
+    return Review.create(testReviews);
   });
 
   afterAll(() => {
