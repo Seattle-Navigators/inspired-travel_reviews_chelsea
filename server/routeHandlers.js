@@ -14,13 +14,21 @@ module.exports.findForId = (req, res, testCb = () => {}) => {
 };
 
 module.exports.updateReview = (req, res, testCb = () => {}) => {
-  Review.updateOne({ _id: req.params.reviewId }, { helpful: true }, (err, data) => {
+  Review.findOne({ _id: req.params.reviewId }, (err, doc) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
     } else {
-      res.sendStatus(200);
-      testCb(null, data);
+      doc.helpful = true; // eslint-disable-line no-param-reassign
+      doc.save()
+        .then((modDoc) => {
+          res.sendStatus(200);
+          testCb(null, modDoc);
+        })
+        .catch((saveErr) => {
+          res.sendStatus(500);
+          testCb(saveErr);
+        });
     }
   });
 };
