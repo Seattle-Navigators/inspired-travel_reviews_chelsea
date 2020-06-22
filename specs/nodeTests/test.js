@@ -1,8 +1,6 @@
-import App from '../client/src/components/App.jsx'; // eslint-disable-line import/extensions
-
 const mongoose = require('mongoose');
-const { findForId, updateReview, updateImage } = require('../server/routeHandlers.js');
-const Review = require('../database/Reviews.js');
+const { findForId, updateReview, updateImage } = require('../../server/routeHandlers.js');
+const Review = require('../../database/Reviews.js');
 
 const attractionId = '200'; // okay to use any id above 100 for testing
 const mockRes = {
@@ -89,12 +87,5 @@ describe('server route handlers interact as expected with database', () => {
         });
       });
     });
-  });
-});
-
-describe('client components - TBD', () => {
-  test('App is a function', (done) => {
-    expect(typeof App).toEqual('function');
-    done();
   });
 });
