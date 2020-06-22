@@ -19,19 +19,16 @@ module.exports.updateReview = (req, res, testCb = () => {}) => {
       res.sendStatus(500);
       testCb(err);
     } else {
-      console.log('reviewId searched: ', req.params.reviewId);
-      console.log('doc returned from search: ', doc);
-      doc.helpful = true;
+      doc.helpful = true; // eslint-disable-line no-param-reassign
       doc.save()
-        .then((doc) => {
+        .then((modDoc) => {
           res.sendStatus(200);
-          testCb(null, doc);
+          testCb(null, modDoc);
         })
-        .catch((err) => {
+        .catch((saveErr) => {
           res.sendStatus(500);
-          testCb(err);
+          testCb(saveErr);
         });
-
     }
   });
 };
