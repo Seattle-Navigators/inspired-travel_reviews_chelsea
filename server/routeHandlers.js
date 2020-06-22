@@ -14,13 +14,24 @@ module.exports.findForId = (req, res, testCb = () => {}) => {
 };
 
 module.exports.updateReview = (req, res, testCb = () => {}) => {
-  Review.updateOne({ _id: req.params.reviewId }, { helpful: true }, (err, data) => {
+  Review.findOne({ _id: req.params.reviewId }, (err, doc) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
     } else {
-      res.sendStatus(200);
-      testCb(null, data);
+      console.log('reviewId searched: ', req.params.reviewId);
+      console.log('doc returned from search: ', doc);
+      doc.helpful = true;
+      doc.save()
+        .then((doc) => {
+          res.sendStatus(200);
+          testCb(null, doc);
+        })
+        .catch((err) => {
+          res.sendStatus(500);
+          testCb(err);
+        });
+
     }
   });
 };
