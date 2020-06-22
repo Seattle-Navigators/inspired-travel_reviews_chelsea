@@ -1,7 +1,5 @@
 const {defaults} = require('jest-config');
 
-console.log('run me too');
-
 module.exports = {
   transform: {
     "^.+\\.jsx?$": "babel-jest"
@@ -15,7 +13,6 @@ module.exports = {
     "jsx"
   ],
   setupFilesAfterEnv: [
-    "./setup.js",
     "jest-enzyme"
   ],
   testEnvironment: "node",
