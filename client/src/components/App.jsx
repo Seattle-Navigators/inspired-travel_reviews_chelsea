@@ -1,11 +1,37 @@
 import React from 'react';
+import Tab from './Tab.jsx';
+import Header from './Header.jsx';
+import Ratings from './Ratings.jsx';
+import Checklist from './Checklist.jsx';
+import RadioList from './RadioList.jsx';
+import Mentions from './Mentions.jsx';
+import Search from './Search.jsx';
+import ReviewPage from './ReviewPage.jsx';
+import NavBar from './NavBar.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      temp: null,
+      numReviews: 0,
+      numQuestions: 0,
+      view: 'Reviews',
+      reviews: [{}, {}, {}, {}, {}],
     }
+    this.getCurrentView = this.getCurrentView.bind(this);
+    this.switchView = this.switchView.bind(this);
+  }
+
+  getCurrentView() {
+    if (this.state.view === 'Reviews') {
+      return <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review"/>;
+    } else {
+      return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle="See all # questions" buttonId="ask-question"/>;
+    }
+  }
+
+  switchView(event) {
+
   }
 
   render() {
@@ -13,32 +39,24 @@ export default class App extends React.Component {
       <div className="container">
 
         <div id="tabs">
-          <div id="reviews-tab">Reviews</div>
-          <div id="qa-tab">Q&A</div>
+          <Tab icon="icon" title="Reviews" records={this.state.numReviews} id="reviews-tab"/>
+          <Tab icon="icon" title="Q&A" records={this.state.numQuestions} id="qa-tab"/>
         </div>
 
-        <div id="reviews-header">
-          <span>Reviews</span>
-          <button id="write-review">Write a review</button>
+        {this.getCurrentView()}
+
+        <div id="filter-container">
+          <Ratings />
+          <Checklist title="Traveler type" />
+          <Checklist title="Time of year" />
+          <RadioList title="Language" />
         </div>
 
-        <div id="filter-section">
-          <div>Travel rating</div>
-          <div>Traveler type</div>
-          <div>Time of year</div>
-          <div>Language</div>
-        </div>
-
-        <div id="popular-mentions">
-          <button id="all-reviews-filter">All reviews</button>
-        </div>
+        <Mentions />
+        <Search />
+        <ReviewPage reviews={this.state.reviews}/>
+        <NavBar />
       </div>
     );
   }
 }
-
-// max container component width: 814 pixels
-// min container component width: 500 pixels
-// 5 review blocks per page
-// page navigation component at bottom - 13px margin between final review block
-// height of each review block determined by line height and whether "helpful" marked

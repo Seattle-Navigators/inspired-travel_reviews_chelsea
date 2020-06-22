@@ -13,22 +13,18 @@
   flex-direction: row;
 }
 
-#reviews-tab {
+.tab {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
   width: 50%;
-  text-align: center;
   height: 110px;
-  line-height: 110px;
   background: #fff;
   padding: 16px 12px;
 }
 
-#qa-tab {
-  width: 50%;
-  text-align: center;
-  height: 110px;
-  line-height: 110px;
-  background: #f9f9f9;
-  padding: 16px 12px;
+.tab-line {
+  border: 1px solid gray;
 }
 
 #reviews-header {
@@ -39,6 +35,7 @@
   line-height: 71px;
   background: #fff;
   padding: 0px 24px;
+  border: 1px solid gray;
 }
 
 #write-review {
@@ -46,17 +43,46 @@
   color: #fff;
 }
 
-#filter-section {
+#filter-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 427px;
+  height: 200px;
   background: #fff;
   padding: 0px 24px;
+  border: 1px solid gray;
 }
 
 #all-reviews-filter {
   border: 1px solid #111;
   background: #111;
   color: white;
+}
+
+.filter-header {
+  font-weight: bold;
+}
+
+.search {
+  border: 1px solid gray;
+}
+
+.filter {
+  border: 1px solid gray;
+}
+
+#popular-mentions {
+  border: 1px solid gray;
+}
+
+.page {
+  border: 1px solid gray;
+}
+
+.review {
+  border: 1px solid gray;
+}
+
+.nav-bar {
+  border: 1px solid gray;
 }
