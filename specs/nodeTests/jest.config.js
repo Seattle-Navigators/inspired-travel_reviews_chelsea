@@ -20,5 +20,13 @@ module.exports = {
     "enzymeAdapter": "react16"
   },
   clearMocks: true,
-  coverageDirectory: "coverage"
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{js,jsx}"
+  ],
+  coverageDirectory: "coverage",
+  coveragePathIgnorePatterns: ["/node_modules/"],
+  coverageReporters: [
+    "text"
+  ]
 };

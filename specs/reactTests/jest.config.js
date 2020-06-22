@@ -1,7 +1,5 @@
 const {defaults} = require('jest-config');
 
-console.log('run me');
-
 module.exports = {
   transform: {
     "^.+\\.jsx?$": "babel-jest"
@@ -23,5 +21,13 @@ module.exports = {
     "enzymeAdapter": "react16"
   },
   clearMocks: true,
-  coverageDirectory: "coverage"
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "/*.{js,jsx}/"
+  ],
+  coverageDirectory: "coverage",
+  coveragePathIgnorePatterns: ["/node_modules/"],
+  coverageReporters: [
+    "text"
+  ]
 };
