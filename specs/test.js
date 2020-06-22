@@ -1,6 +1,7 @@
 import App from '../client/src/components/App.jsx';
 const { findForId, updateReview, updateImage } = require('../server/routeHandlers.js');
 const Review = require('../database/Reviews.js');
+const mongoose = require('mongoose');
 
 const attractionId = '200'; // okay to use any id above 100 for testing
 const mockRes = {
@@ -59,6 +60,7 @@ beforeAll(() => {
 afterAll(() => {
   return Review.deleteMany({ attractionId })
     .then(() => {
+      mongoose.connection.close();
       return;
     });
 });
