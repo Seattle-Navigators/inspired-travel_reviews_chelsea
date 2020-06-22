@@ -1,7 +1,8 @@
-import App from '../client/src/components/App.jsx';
+import App from '../client/src/components/App.jsx'; // eslint-disable-line import/extensions
+
+const mongoose = require('mongoose');
 const { findForId, updateReview, updateImage } = require('../server/routeHandlers.js');
 const Review = require('../database/Reviews.js');
-const mongoose = require('mongoose');
 
 const attractionId = '200'; // okay to use any id above 100 for testing
 const mockRes = {
@@ -14,7 +15,7 @@ const mockRes = {
 describe('server route handlers interact as expected with database', () => {
   beforeAll(() => {
     const testReviews = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i += 1) {
       testReviews.push({
         user: {
           originCountry: 'United States',
@@ -53,7 +54,6 @@ describe('server route handlers interact as expected with database', () => {
     Review.deleteMany({ attractionId })
       .then(() => {
         mongoose.connection.close();
-        return;
       });
   });
 
@@ -67,8 +67,8 @@ describe('server route handlers interact as expected with database', () => {
 
   test('updateReview changes a single review\'s "helpful" property to true', (done) => {
     Review.find({ attractionId }, (err, docs) => {
-      const reviewId = docs[0]._id;
-      updateReview({ params: { reviewId } }, mockRes, (err, doc) => {
+      const reviewId = docs[0]._id; // eslint-disable-line no-underscore-dangle
+      updateReview({ params: { reviewId } }, mockRes, (err) => {
         expect(err).toBe(null);
         Review.findOne({ _id: reviewId }, (err, doc) => {
           expect(doc.helpful).toBe(true);
@@ -81,7 +81,7 @@ describe('server route handlers interact as expected with database', () => {
   test('updateImage changes a single image\'s "helpful" property to true', (done) => {
     Review.find({ attractionId }, (err, docs) => {
       const imageId = docs[0].uploadImages[0].get('id');
-      updateImage({ params: { imageId } }, mockRes, (err, data) => {
+      updateImage({ params: { imageId } }, mockRes, (err) => {
         expect(err).toBe(null);
         Review.findOne({ 'uploadImages.id': imageId }, (err, doc) => {
           expect(doc.uploadImages[0].get('helpful')).toBe(true);
@@ -93,8 +93,8 @@ describe('server route handlers interact as expected with database', () => {
 });
 
 describe('client components - TBD', () => {
-    test('App is a function', (done) => {
-      expect(typeof App).toEqual('function');
-      done();
-    });
+  test('App is a function', (done) => {
+    expect(typeof App).toEqual('function');
+    done();
+  });
 });
