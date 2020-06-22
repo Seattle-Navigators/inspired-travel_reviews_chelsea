@@ -70,7 +70,6 @@ describe('server route handlers interact as expected with database', () => {
 
   test('updateReview changes a single review\'s "helpful" property to true', (done) => {
     Review.find({ attractionId }, (err, docs) => {
-      console.log(docs);
       const reviewId = docs[0]._id;
       updateReview({ params: { reviewId } }, mockRes, (err, doc) => {
         expect(err).toBe(null);
