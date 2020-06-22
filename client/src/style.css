@@ -1,4 +1,62 @@
-/* Testing css loader */
-div {
-  color: blue;
+.container {
+  display: flex;
+  flex-direction: column;
+  border: solid #aaa 1px;
+  width: 40vw;
+  margin-left: 20vw;
+  margin-right: 30vw;
+  padding: 12px;
+}
+
+#tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+#reviews-tab {
+  width: 50%;
+  text-align: center;
+  height: 110px;
+  line-height: 110px;
+  background: #fff;
+  padding: 16px 12px;
+}
+
+#qa-tab {
+  width: 50%;
+  text-align: center;
+  height: 110px;
+  line-height: 110px;
+  background: #f9f9f9;
+  padding: 16px 12px;
+}
+
+#reviews-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 71px;
+  line-height: 71px;
+  background: #fff;
+  padding: 0px 24px;
+}
+
+#write-review {
+  background: #000;
+  color: #fff;
+}
+
+#filter-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 427px;
+  background: #fff;
+  padding: 0px 24px;
+}
+
+#all-reviews-filter {
+  border: 1px solid #111;
+  background: #111;
+  color: white;
 }
