@@ -1,12 +1,17 @@
 import React from 'react';
 
-const Header = ({ id, header, buttonLabel, subtitle, buttonId }) => {
-  return (
-    <div id={id}>
-      <span>{header}</span>
-      <button id={buttonId}>{buttonLabel}</button>
-    </div>
-  );
-};
+const Header = ({
+  id,
+  header,
+  buttonLabel,
+  subtitle,
+  buttonId,
+}) => (
+  <div id={id}>
+    <div>{header}</div>
+    <div>{subtitle}</div>
+    <button id={buttonId} type="button">{buttonLabel}</button>
+  </div>
+);
 
 export default Header;
