@@ -29,7 +29,8 @@ export default class App extends React.Component {
   }
 
   getCurrentView() {
-    if (this.state.view === 'Reviews') {
+    const { view } = this.state;
+    if (view === 'Reviews') {
       return <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" />;
     }
     return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle="See all # questions" buttonId="ask-question" />;
@@ -40,12 +41,13 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { numReviews, numQuestions, reviews } = this.state;
     return (
       <div className="container">
 
         <div id="tabs">
-          <Tab icon="icon" title="Reviews" records={this.state.numReviews} id="reviews-tab" />
-          <Tab icon="icon" title="Q&A" records={this.state.numQuestions} id="qa-tab" />
+          <Tab icon="icon" title="Reviews" records={numReviews} id="reviews-tab" />
+          <Tab icon="icon" title="Q&A" records={numQuestions} id="qa-tab" />
         </div>
 
         {this.getCurrentView()}
@@ -59,7 +61,7 @@ export default class App extends React.Component {
 
         <Mentions />
         <Search />
-        <ReviewPage reviews={this.state.reviews} />
+        <ReviewPage reviews={reviews} />
         <NavBar />
       </div>
     );
