@@ -1,4 +1,88 @@
-/* Testing css loader */
-div {
-  color: blue;
+.container {
+  display: flex;
+  flex-direction: column;
+  border: solid #aaa 1px;
+  width: 40vw;
+  margin-left: 20vw;
+  margin-right: 30vw;
+  padding: 12px;
+}
+
+#tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  width: 50%;
+  height: 110px;
+  background: #fff;
+  padding: 16px 12px;
+}
+
+.tab-line {
+  border: 1px solid gray;
+}
+
+#reviews-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 71px;
+  line-height: 71px;
+  background: #fff;
+  padding: 0px 24px;
+  border: 1px solid gray;
+}
+
+#write-review {
+  background: #000;
+  color: #fff;
+}
+
+#filter-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 200px;
+  background: #fff;
+  padding: 0px 24px;
+  border: 1px solid gray;
+}
+
+#all-reviews-filter {
+  border: 1px solid #111;
+  background: #111;
+  color: white;
+}
+
+.filter-header {
+  font-weight: bold;
+}
+
+.search {
+  border: 1px solid gray;
+}
+
+.filter {
+  border: 1px solid gray;
+}
+
+#popular-mentions {
+  border: 1px solid gray;
+}
+
+.page {
+  border: 1px solid gray;
+}
+
+.review {
+  border: 1px solid gray;
+}
+
+.nav-bar {
+  border: 1px solid gray;
 }
