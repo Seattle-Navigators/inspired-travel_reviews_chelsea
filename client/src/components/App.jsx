@@ -1,4 +1,6 @@
 import React from 'react';
+import { string } from 'prop-types';
+import axios from 'axios';
 import Tab from './Tab';
 import Header from './Header';
 import Ratings from './Ratings';
@@ -13,18 +15,32 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      attractionId: props.attractionId,
       numReviews: 0,
       numQuestions: 0,
       view: 'Reviews',
       reviews: [
-        { id: 0 },
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
+        { _id: 0 },
       ],
     };
     this.getCurrentView = this.getCurrentView.bind(this);
+  }
+
+  componentDidMount() {
+    const { attractionId, view } = this.state;
+    axios.get(`/${attractionId}/api/reviews`)
+      .then((res) => {
+        this.setState({
+          attractionId,
+          numReviews: res.data.length,
+          numQuestions: 0,
+          view,
+          reviews: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   getCurrentView() {
@@ -63,3 +79,7 @@ export default class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  attractionId: string.isRequired,
+};
