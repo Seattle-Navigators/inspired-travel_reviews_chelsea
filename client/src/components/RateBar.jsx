@@ -1,7 +1,12 @@
 import React from 'react';
+import { string } from 'prop-types';
 
-const rateBar = ({ name }) => (
+const RateBar = ({ name }) => (
   <div className="rate-bar">{name}</div>
 );
 
-export default rateBar;
+RateBar.propTypes = {
+  name: string.isRequired,
+};
+
+export default RateBar;

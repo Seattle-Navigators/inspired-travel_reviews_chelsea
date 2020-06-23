@@ -1,4 +1,5 @@
 import React from 'react';
+import { bool } from 'prop-types';
 
 export default class Review extends React.Component {
   constructor(props) {
@@ -14,3 +15,7 @@ export default class Review extends React.Component {
     );
   }
 }
+
+Review.propTypes = {
+  helpful: bool.isRequired,
+};

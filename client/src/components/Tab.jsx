@@ -1,4 +1,5 @@
 import React from 'react';
+import { string, number } from 'prop-types';
 
 const Tab = ({
   id,
@@ -12,5 +13,12 @@ const Tab = ({
     <div className="tab-line">{title}</div>
   </div>
 );
+
+Tab.propTypes = {
+  id: string.isRequired,
+  icon: string.isRequired,
+  title: string.isRequired,
+  records: number.isRequired,
+};
 
 export default Tab;

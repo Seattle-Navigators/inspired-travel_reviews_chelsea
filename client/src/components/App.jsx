@@ -25,7 +25,6 @@ export default class App extends React.Component {
       ],
     };
     this.getCurrentView = this.getCurrentView.bind(this);
-    this.switchView = this.switchView.bind(this);
   }
 
   getCurrentView() {
@@ -36,12 +35,9 @@ export default class App extends React.Component {
     return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle="See all # questions" buttonId="ask-question" />;
   }
 
-  switchView() {
-
-  }
-
   render() {
     const { numReviews, numQuestions, reviews } = this.state;
+    const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
     return (
       <div className="container">
 
@@ -53,7 +49,7 @@ export default class App extends React.Component {
         {this.getCurrentView()}
 
         <div id="filter-container">
-          <Ratings />
+          <Ratings names={names} />
           <Checklist title="Traveler type" />
           <Checklist title="Time of year" />
           <RadioList title="Language" />

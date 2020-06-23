@@ -1,4 +1,5 @@
 import React from 'react';
+import { arrayOf, object } from 'prop-types';
 import Review from './Review';
 
 const ReviewPage = ({ reviews }) => (
@@ -6,5 +7,9 @@ const ReviewPage = ({ reviews }) => (
     {reviews.map((review) => <Review key={review.id} />)}
   </div>
 );
+
+ReviewPage.propTypes = {
+  reviews: arrayOf(object).isRequired,
+};
 
 export default ReviewPage;
