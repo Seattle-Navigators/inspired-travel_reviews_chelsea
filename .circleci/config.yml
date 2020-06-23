@@ -18,6 +18,7 @@ jobs:
             - run: npm install
             - run: npm test
             - run: npx eslint ./
+            - run: npx eslint ./ --ext .jsx
 workflows:
     build-and-test:
       jobs:
