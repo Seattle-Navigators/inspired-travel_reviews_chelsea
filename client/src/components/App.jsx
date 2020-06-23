@@ -58,8 +58,8 @@ export default class App extends React.Component {
       <div className="container">
 
         <div id="tabs">
-          <Tab icon="icon" title="Reviews" records={numReviews} id="reviews-tab" />
-          <Tab icon="icon" title="Q&A" records={numQuestions} id="qa-tab" />
+          <Tab title="Reviews" records={numReviews} id="review-icon" />
+          <Tab title="Q&A" records={numQuestions} id="qa-icon" />
         </div>
 
         {this.getCurrentView()}
