@@ -14,11 +14,28 @@
     "verbose": true,
     "coverageDirectory": "specs/coverage",
     "collectCoverage": true,
-    "coveragePathIgnorePatterns": ["/node_modules/"],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/client/public/",
+      "<rootDir>/client/src/style.css",
+      "<rootDir>/images/",
+      "<rootDir>/specs/",
+      "<rootDir>/.circleci/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/.babelrc",
+      "<rootDir>/.eslintrc.js",
+      "<rootDir>/.gitignore",
+      "<rootDir>/package.json",
+      "<rootDir>/package-lock.json",
+      "<rootDir>/README.md",
+      "<rootDir>/webpack.config.js"
+    ],
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/node_modules/**",
-      "!**/vendor/**"
+      "!**/webpack/**",
+      "!**/lib/**",
+      "!**/public/**"
     ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
@@ -38,7 +55,8 @@
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
     },
-    "clearMocks": true
+    "clearMocks": true,
+    "testURL":"http://127.0.0.1:3004"
   },
   "repository": {
     "type": "git",

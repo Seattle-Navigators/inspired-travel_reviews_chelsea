@@ -1,6 +1,13 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment enzyme
  */
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({ adapter: new Adapter() });
+
+import React from 'react';
+
 import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
 import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
