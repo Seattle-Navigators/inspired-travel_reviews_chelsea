@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 const mongoose = require('mongoose');
 const { findForId, updateReview, updateImage } = require('../../server/routeHandlers.js');
 const Review = require('../../database/Reviews.js');
