@@ -18,8 +18,8 @@ const Header = ({
       <button id={buttonId} type="button" className="header-button" onClick={handleSelection} value={buttonLabel}>
         {buttonLabel}
       </button>
-      <select className="dropdown" onChange={handleSelection} >
-        <option hidden></option>
+      <select className="dropdown" onChange={handleSelection} multiple={false} value="hidden">
+        <option hidden value="hidden"></option>
         <option value="write-review">Write a review</option>
         <option value="post-photo">Post a photo</option>
         <option value="ask-question">Ask a question</option>

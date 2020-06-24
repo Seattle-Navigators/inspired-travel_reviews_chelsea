@@ -89,17 +89,17 @@ export default class App extends React.Component {
   }
 
   handleSelection(event) {
-    if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
-      const {
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popup,
-      } = this.state;
+    const {
+      attractionId,
+      attractionName,
+      numReviews,
+      numQuestions,
+      view,
+      reviews,
+      popup,
+    } = this.state;
 
+    if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
       this.setState({
         attractionId,
         attractionName,
@@ -110,6 +110,15 @@ export default class App extends React.Component {
         popup: true,
       });
     } else {
+      this.setState({
+        attractionId,
+        attractionName,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popup,
+      });
       alert('Off-page link');
     }
   }
