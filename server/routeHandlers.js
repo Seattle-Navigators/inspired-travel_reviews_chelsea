@@ -5,6 +5,9 @@ module.exports.findForId = (req, res, testCb = () => {}) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
+    } else if (!docs) {
+      res.sendStatus(404);
+      testCb('not found');
     } else {
       res.status(200);
       res.json(docs);
@@ -18,6 +21,9 @@ module.exports.updateReview = (req, res, testCb = () => {}) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
+    } else if (!doc) {
+      res.sendStatus(404);
+      testCb('not found');
     } else {
       doc.helpful = true; // eslint-disable-line no-param-reassign
       doc.save()
@@ -40,8 +46,13 @@ module.exports.updateImage = (req, res, testCb = () => {}) => {
     $set: { 'uploadImages.$.helpful': true },
   })
     .then((data) => {
-      res.sendStatus(200);
-      testCb(null, data);
+      if (!data) {
+        res.sendStatus(404);
+        testCb('not found');
+      } else {
+        res.sendStatus(200);
+        testCb(null, data);
+      }
     })
     .catch((err) => {
       res.sendStatus(500);
