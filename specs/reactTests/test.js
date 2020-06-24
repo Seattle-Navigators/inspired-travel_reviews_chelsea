@@ -11,10 +11,12 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
 import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
+import getAttractionId from '../../client/src/urlParser.js';
 
 describe('App component functionality', () => {
   test('App should update state with a 3-character attractionId prop', () => {
-    const wrapper = mount(<App attractionId="200" />);
+    const attractionId = getAttractionId('http://127.0.0.1:3004/200/');
+    const wrapper = mount(<App attractionId={attractionId} />);
     expect(wrapper).toHaveProp({ attractionId: '200' });
     expect(wrapper).toHaveState({ attractionId: '200' });
   });
