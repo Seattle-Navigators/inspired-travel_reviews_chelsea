@@ -25,18 +25,35 @@ describe('App component functionality', () => {
 
 describe('Tab component functionality', () => {
   test('Non-active tab should switch views when clicked', () => {
-
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#qa-tab').simulate('click');
+    expect(wrapper).toContainMatchingElement('#qa-header');
+    wrapper.find('#review-tab').simulate('click');
+    expect(wrapper).toContainMatchingElement('#reviews-header');
   });
+
   test('Active tab should not switch views when clicked', () => {
-
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#review-tab').simulate('click');
+    expect(wrapper).toContainMatchingElement('#reviews-header');
+    wrapper.find('#qa-tab').simulate('click');
+    wrapper.find('#qa-tab').simulate('click');
+    expect(wrapper).toContainMatchingElement('#qa-header');
   });
-  test('Review tab should show number of reviews based on attractionId', () => {
 
+  test('Review tab should show number of reviews based on state', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    const appInstance = wrapper.instance();
+    const numReviews = appInstance.state.numReviews;
+    expect(wrapper.find('#review-num')).toHaveText(`${numReviews}`);
   });
 });
 
 describe('ReviewPage component functionality', () => {
-  test('Review page should render number of review blocks based on attractionId', () => {
-
+  test('Review page should render number of review blocks based on state', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    const appInstance = wrapper.instance();
+    const reviewBlocks = appInstance.state.reviews;
+    expect(wrapper.find('#review-page')).toContainMatchingElements(reviewBlocks.length, '.review');
   });
 });
