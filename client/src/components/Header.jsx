@@ -8,10 +8,10 @@ const Header = ({
   subtitle,
   buttonId,
 }) => (
-  <div id={id}>
+  <div className="header" id={id}>
     <div>{header}</div>
     <div>{subtitle}</div>
-    <button id={buttonId} type="button">{buttonLabel}</button>
+    <button id={buttonId} type="button" className="header-button">{buttonLabel}</button>
   </div>
 );
 

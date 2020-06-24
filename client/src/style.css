@@ -40,18 +40,17 @@
   width: 25px;
 }
 
-#reviews-header {
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 71px;
-  line-height: 71px;
   background: #fff;
   padding: 0px 24px;
   border: 1px solid gray;
 }
 
-#write-review {
+.header-button {
   background: #000;
   color: #fff;
 }

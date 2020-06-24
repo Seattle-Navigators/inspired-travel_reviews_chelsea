@@ -24,6 +24,7 @@ export default class App extends React.Component {
       ],
     };
     this.getCurrentView = this.getCurrentView.bind(this);
+    this.handleViewSwitch = this.handleViewSwitch.bind(this);
   }
 
   componentDidMount() {
@@ -43,37 +44,66 @@ export default class App extends React.Component {
       });
   }
 
-  getCurrentView() {
-    const { view } = this.state;
-    if (view === 'Reviews') {
-      return <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" />;
+  handleViewSwitch(event) {
+    const { attractionId, numReviews, numQuestions, view, reviews } = this.state;
+    let newView;
+    const qualifierIndex = event.target.id.indexOf('-');
+    let id = event.target.id.slice(0, qualifierIndex);
+
+    if (id === 'review') {
+      newView = 'Reviews';
+    } else {
+      newView = 'Questions';
     }
-    return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle="See all # questions" buttonId="ask-question" />;
+
+    if (view !== newView) {
+      this.setState({
+        attractionId,
+        numReviews,
+        numQuestions,
+        view: newView,
+        reviews,
+      });
+    }
+  }
+
+  getCurrentView() {
+    const { view, numQuestions, reviews } = this.state;
+    const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
+
+    if (view === 'Reviews') {
+      return (
+        <div>
+          <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" />
+          <div id="filter-container">
+            <Ratings names={names} />
+            <Checklist title="Traveler type" />
+            <Checklist title="Time of year" />
+            <RadioList title="Language" />
+          </div>
+
+          <Mentions />
+          <Search />
+          <ReviewPage reviews={reviews} />
+        </div>
+      );
+    }
+    return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" />;
   }
 
   render() {
-    const { numReviews, numQuestions, reviews } = this.state;
-    const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
+    const { numReviews, numQuestions } = this.state;
     return (
       <div className="container">
 
         <div id="tabs">
-          <Tab title="Reviews" records={numReviews} id="review-icon" />
-          <Tab title="Q&A" records={numQuestions} id="qa-icon" />
+          <Tab baseId="review" title="Reviews" records={numReviews} handleViewSwitch={this.handleViewSwitch} />
+          <Tab baseId="qa" title="Q&A" records={numQuestions} handleViewSwitch={this.handleViewSwitch} />
         </div>
 
         {this.getCurrentView()}
 
-        <div id="filter-container">
-          <Ratings names={names} />
-          <Checklist title="Traveler type" />
-          <Checklist title="Time of year" />
-          <RadioList title="Language" />
-        </div>
 
-        <Mentions />
-        <Search />
-        <ReviewPage reviews={reviews} />
         <NavBar />
       </div>
     );
