@@ -20,7 +20,10 @@ export default class App extends React.Component {
       numQuestions: 0,
       view: 'Reviews',
       reviews: [
-        { _id: 0 },
+        {
+          _id: 0,
+          helpful: false,
+        },
       ],
     };
     this.getCurrentView = this.getCurrentView.bind(this);
@@ -44,31 +47,13 @@ export default class App extends React.Component {
       });
   }
 
-  handleViewSwitch(event) {
-    const { attractionId, numReviews, numQuestions, view, reviews } = this.state;
-    let newView;
-    const qualifierIndex = event.target.id.indexOf('-');
-    let id = event.target.id.slice(0, qualifierIndex);
-
-    if (id === 'review') {
-      newView = 'Reviews';
-    } else {
-      newView = 'Questions';
-    }
-
-    if (view !== newView) {
-      this.setState({
-        attractionId,
-        numReviews,
-        numQuestions,
-        view: newView,
-        reviews,
-      });
-    }
-  }
-
   getCurrentView() {
-    const { view, numQuestions, reviews } = this.state;
+    const {
+      view,
+      numQuestions,
+      reviews,
+    } = this.state;
+
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
 
     if (view === 'Reviews') {
@@ -91,6 +76,35 @@ export default class App extends React.Component {
     return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" />;
   }
 
+  handleViewSwitch(event) {
+    const {
+      attractionId,
+      numReviews,
+      numQuestions,
+      view,
+      reviews,
+    } = this.state;
+    let newView;
+    const qualifierIndex = event.target.id.indexOf('-');
+    const id = event.target.id.slice(0, qualifierIndex);
+
+    if (id === 'review') {
+      newView = 'Reviews';
+    } else {
+      newView = 'Questions';
+    }
+
+    if (view !== newView) {
+      this.setState({
+        attractionId,
+        numReviews,
+        numQuestions,
+        view: newView,
+        reviews,
+      });
+    }
+  }
+
   render() {
     const { numReviews, numQuestions } = this.state;
     return (
@@ -102,7 +116,6 @@ export default class App extends React.Component {
         </div>
 
         {this.getCurrentView()}
-
 
         <NavBar />
       </div>

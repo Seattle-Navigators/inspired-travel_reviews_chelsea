@@ -7,8 +7,8 @@ const Tab = ({
   records,
   handleViewSwitch,
 }) => (
-  <div className="tab" id={`${baseId}-tab`} onClick={handleViewSwitch}>
-    <div className="tab-line" id={`${baseId}-icon`}></div>
+  <div className="tab" id={`${baseId}-tab`} onClick={handleViewSwitch} onKeyDown={handleViewSwitch} role="button" tabIndex={0}>
+    <div className="tab-line" id={`${baseId}-icon`} />
     <div className="tab-line" id={`${baseId}-num`}>{records}</div>
     <div className="tab-line" id={`${baseId}-title`}>{title}</div>
   </div>

@@ -10,8 +10,12 @@ export default class Review extends React.Component {
   }
 
   render() {
+    const { helpful } = this.state;
     return (
-      <div className="review">REVIEW BLOCK</div>
+      <div className="review">
+        REVIEW BLOCK
+        <span>{`${helpful}`}</span>
+      </div>
     );
   }
 }
