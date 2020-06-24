@@ -14,7 +14,11 @@
     "projects": [
       "specs/reactTests/jest.config.js",
       "specs/nodeTests/jest.config.js"
-    ]
+    ],
+    "verbose": true,
+    "coverageDirectory": "specs/coverage",
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": ["/node_modules/"]
   },
   "repository": {
     "type": "git",

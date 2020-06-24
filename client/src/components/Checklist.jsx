@@ -2,7 +2,7 @@ import React from 'react';
 import { string } from 'prop-types';
 
 const Checklist = ({ title }) => (
-  <div className="filter">
+  <div className="filter" id={`checklist-${title}`}>
     <div className="filter-header">{title}</div>
   </div>
 );

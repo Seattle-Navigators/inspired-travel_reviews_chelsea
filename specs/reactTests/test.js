@@ -1,12 +1,25 @@
-import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
 import { shallow, mount } from 'enzyme';
+import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
+import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
 
 describe('App component functionality', () => {
-  test('App should receive a 3-character attractionId prop', () => {
-
+  test('App should update state with a 3-character attractionId prop', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    expect(wrapper).toHaveProp({ attractionId: '200' });
+    expect(wrapper).toHaveState({ attractionId: '200' });
   });
-  test('App should render all child components', () => {
 
+  test('App should render all child components', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    expect(wrapper).toContainMatchingElements(4, '.filter');
+    expect(wrapper).toContainMatchingElements(1, '.header');
+    expect(wrapper).toContainMatchingElements(1, '#popular-mentions');
+    expect(wrapper).toContainMatchingElements(1, '.nav-bar');
+    expect(wrapper).toContainMatchingElements(5, '.rate-bar');
+    expect(wrapper).toContainMatchingElements(1, '.review');
+    expect(wrapper).toContainMatchingElements(1, '#review-page');
+    expect(wrapper).toContainMatchingElements(1, '.search');
+    expect(wrapper).toContainMatchingElements(2, '.tab');
   });
 });
 
