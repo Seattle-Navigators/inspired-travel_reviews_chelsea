@@ -10,6 +10,7 @@ import Mentions from './Mentions';
 import Search from './Search';
 import ReviewPage from './ReviewPage';
 import NavBar from './NavBar';
+import AskQuestion from './AskQuestion';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
           helpful: false,
         },
       ],
+      popup: false,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -32,7 +34,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const { attractionId, view } = this.state;
+    const { attractionId, view, popup } = this.state;
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
         this.setState({
@@ -41,6 +43,7 @@ export default class App extends React.Component {
           numQuestions: 0,
           view,
           reviews: res.data,
+          popup,
         });
       })
       .catch((err) => {
@@ -53,6 +56,7 @@ export default class App extends React.Component {
       view,
       numQuestions,
       reviews,
+      popup,
     } = this.state;
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
@@ -60,6 +64,7 @@ export default class App extends React.Component {
     if (view === 'Reviews') {
       return (
         <div>
+          <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch} />
           <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
             <Ratings names={names} />
@@ -73,13 +78,35 @@ export default class App extends React.Component {
           <ReviewPage reviews={reviews} />
         </div>
       );
+    } else if (view === 'Questions') {
+      return (
+        <div>
+          <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch}/>
+          <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
+        </div>
+      )
     }
-    return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />;
   }
 
   handleSelection(event) {
     if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
-      alert('work in progress');
+      const {
+        attractionId,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popup,
+      } = this.state;
+
+      this.setState({
+        attractionId,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popup: true,
+      });
     } else {
       alert('Off-page link');
     }
@@ -92,6 +119,7 @@ export default class App extends React.Component {
       numQuestions,
       view,
       reviews,
+      popup,
     } = this.state;
     let newView;
     const qualifierIndex = event.target.id.indexOf('-');
@@ -99,17 +127,20 @@ export default class App extends React.Component {
 
     if (id === 'review') {
       newView = 'Reviews';
-    } else {
+    } else if (id === 'qa') {
       newView = 'Questions';
+    } else {
+      newView = view;
     }
 
-    if (view !== newView) {
+    if (view !== newView || popup) {
       this.setState({
         attractionId,
         numReviews,
         numQuestions,
         view: newView,
         reviews,
+        popup: false,
       });
     }
   }
