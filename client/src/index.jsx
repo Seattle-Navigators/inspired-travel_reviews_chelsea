@@ -1,7 +1,16 @@
 import './style.css';
-import App from './components/App.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
-// testing a component
-ReactDOM.render(<App />, document.getElementById('app'));
+const getAttractionId = (ref) => {
+  const url = new URL(ref);
+  const path = url.pathname;
+  const idSearch = /(\d{3})/;
+  const [attractionId] = path.match(idSearch);
+  return attractionId;
+};
+
+const attractionId = getAttractionId(window.location.href);
+
+ReactDOM.render(<App attractionId={attractionId} />, document.getElementById('app'));

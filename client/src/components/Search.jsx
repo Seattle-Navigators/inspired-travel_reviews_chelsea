@@ -9,8 +9,12 @@ export default class Search extends React.Component {
   }
 
   render() {
+    const { query } = this.state;
     return (
-      <div className="search">Search</div>
+      <div className="search">
+        Search
+        <span>{query}</span>
+      </div>
     );
   }
 }

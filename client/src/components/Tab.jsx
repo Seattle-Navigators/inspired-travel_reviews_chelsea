@@ -1,13 +1,24 @@
 import React from 'react';
+import { string, number, func } from 'prop-types';
 
-const Tab = ({ id, icon, title, records }) => {
-  return (
-    <div className="tab" id={id}>
-      <div className="tab-line">{icon}</div>
-      <div className="tab-line">{records}</div>
-      <div className="tab-line">{title}</div>
-    </div>
-  );
+const Tab = ({
+  baseId,
+  title,
+  records,
+  handleViewSwitch,
+}) => (
+  <div className="tab" id={`${baseId}-tab`} onClick={handleViewSwitch} onKeyDown={handleViewSwitch} role="button" tabIndex={0}>
+    <div className="tab-line" id={`${baseId}-icon`} />
+    <div className="tab-line" id={`${baseId}-num`}>{records}</div>
+    <div className="tab-line" id={`${baseId}-title`}>{title}</div>
+  </div>
+);
+
+Tab.propTypes = {
+  baseId: string.isRequired,
+  title: string.isRequired,
+  records: number.isRequired,
+  handleViewSwitch: func.isRequired,
 };
 
 export default Tab;

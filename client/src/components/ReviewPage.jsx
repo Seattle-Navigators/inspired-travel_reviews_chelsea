@@ -1,14 +1,15 @@
 import React from 'react';
-import Review from './Review.jsx';
+import { arrayOf, object } from 'prop-types';
+import Review from './Review';
 
-const ReviewPage = ({ reviews }) => {
-  return (
-    <div className="page" id="review-page">
-      {reviews.map((review, i) => {
-        return <Review key={`${i}-review`}/>;
-      })}
-    </div>
-  );
+const ReviewPage = ({ reviews }) => (
+  <div className="page" id="review-page">
+    {reviews.map((review) => <Review key={review._id} helpful={review.helpful} />)} {/*eslint-disable-line*/}
+  </div>
+);
+
+ReviewPage.propTypes = {
+  reviews: arrayOf(object).isRequired,
 };
 
 export default ReviewPage;
