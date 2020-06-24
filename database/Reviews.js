@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 
 const reviewSchema = mongoose.Schema({
   attractionId: String,
+  attractionName: String,
   rating: Number,
   travelType: String,
   expDate: Date,

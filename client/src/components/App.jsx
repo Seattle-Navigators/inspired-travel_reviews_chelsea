@@ -17,6 +17,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       attractionId: props.attractionId,
+      attractionName: '',
       numReviews: 0,
       numQuestions: 0,
       view: 'Reviews',
@@ -39,6 +40,7 @@ export default class App extends React.Component {
       .then((res) => {
         this.setState({
           attractionId,
+          attractionName: res.data[0].attractionName,
           numReviews: res.data.length,
           numQuestions: 0,
           view,
@@ -64,7 +66,6 @@ export default class App extends React.Component {
     if (view === 'Reviews') {
       return (
         <div>
-          <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch} />
           <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
             <Ratings names={names} />
@@ -81,7 +82,6 @@ export default class App extends React.Component {
     } else if (view === 'Questions') {
       return (
         <div>
-          <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch}/>
           <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
         </div>
       )
@@ -92,6 +92,7 @@ export default class App extends React.Component {
     if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
       const {
         attractionId,
+        attractionName,
         numReviews,
         numQuestions,
         view,
@@ -101,6 +102,7 @@ export default class App extends React.Component {
 
       this.setState({
         attractionId,
+        attractionName,
         numReviews,
         numQuestions,
         view,
@@ -115,6 +117,7 @@ export default class App extends React.Component {
   handleViewSwitch(event) {
     const {
       attractionId,
+      attractionName,
       numReviews,
       numQuestions,
       view,
@@ -136,6 +139,7 @@ export default class App extends React.Component {
     if (view !== newView || popup) {
       this.setState({
         attractionId,
+        attractionName,
         numReviews,
         numQuestions,
         view: newView,
@@ -146,10 +150,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { numReviews, numQuestions } = this.state;
+    const { attractionName, numReviews, numQuestions, popup } = this.state;
     return (
       <div className="container">
-
+        <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch} name={attractionName} />
         <div id="tabs">
           <Tab baseId="review" title="Reviews" records={numReviews} handleViewSwitch={this.handleViewSwitch} />
           <Tab baseId="qa" title="Q&A" records={numQuestions} handleViewSwitch={this.handleViewSwitch} />
