@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
 import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
