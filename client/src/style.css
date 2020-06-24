@@ -2,10 +2,8 @@
   display: flex;
   flex-direction: column;
   border: solid #aaa 1px;
-  width: 40vw;
-  margin-left: 20vw;
-  margin-right: 30vw;
-  padding: 12px;
+  padding-right: 40vw;
+  padding-left: 17vw;
 }
 
 #tabs {
@@ -101,4 +99,6 @@
 
 .dropdown {
   width: 20px;
+  background-color: #111;
+  color: #fff;
 }

@@ -9,15 +9,19 @@ const Header = ({
   buttonId,
 }) => (
   <div className="header" id={id}>
-    <div>{header}</div>
-    <div>{subtitle}</div>
-    <button id={buttonId} type="button" className="header-button">{buttonLabel}</button>
-    <select className="dropdown">
-      <option hidden></option>
-      <option value="write-review">Write a review</option>
-      <option value="post-photo">Post a photo</option>
-      <option value="ask-question">Ask a question</option>
-    </select>
+    <div>
+      <div>{header}</div>
+      <div>{subtitle}</div>
+    </div>
+    <div>
+      <button id={buttonId} type="button" className="header-button">{buttonLabel}</button>
+      <select className="dropdown">
+        <option hidden></option>
+        <option value="write-review">Write a review</option>
+        <option value="post-photo">Post a photo</option>
+        <option value="ask-question">Ask a question</option>
+      </select>
+    </div>
   </div>
 );
 
