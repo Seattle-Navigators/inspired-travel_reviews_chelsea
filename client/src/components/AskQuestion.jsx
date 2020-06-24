@@ -27,8 +27,8 @@ const AskQuestion = ({ hidden, handleViewSwitch, name }) => {
         reCAPTCHA
         Privacy - Terms
       </div>
-      <button onClick={handleViewSwitch} >Submit</button>
-      <button onClick={handleViewSwitch} >Cancel</button>
+      <button id="submit-q" onClick={handleViewSwitch} >Submit</button>
+      <button id="cancel-q" onClick={handleViewSwitch} >Cancel</button>
     </div>
   </div>
   );

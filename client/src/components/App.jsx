@@ -119,7 +119,7 @@ export default class App extends React.Component {
         reviews,
         popup,
       });
-      alert('Off-page link');
+      window.alert('Off-page link');
     }
   }
 

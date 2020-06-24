@@ -12,7 +12,7 @@ const Header = ({
   <div className="header" id={id}>
     <div>
       <div>{header}</div>
-      <div>{subtitle}</div>
+      <div id="subtitle">{subtitle}</div>
     </div>
     <div>
       <button id={buttonId} type="button" className="header-button" onClick={handleSelection} value={buttonLabel}>
@@ -20,9 +20,9 @@ const Header = ({
       </button>
       <select className="dropdown" onChange={handleSelection} multiple={false} value="hidden">
         <option hidden value="hidden"></option>
-        <option value="write-review">Write a review</option>
-        <option value="post-photo">Post a photo</option>
-        <option value="ask-question">Ask a question</option>
+        <option id="off-page-write" value="write-review">Write a review</option>
+        <option id="off-page-photo" value="post-photo">Post a photo</option>
+        <option id="ask-question-option" value="ask-question">Ask a question</option>
       </select>
     </div>
   </div>
