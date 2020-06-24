@@ -1,5 +1,5 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
 
 const Header = ({
   id,
@@ -7,6 +7,7 @@ const Header = ({
   buttonLabel,
   subtitle,
   buttonId,
+  handleSelection,
 }) => (
   <div className="header" id={id}>
     <div>
@@ -14,8 +15,10 @@ const Header = ({
       <div>{subtitle}</div>
     </div>
     <div>
-      <button id={buttonId} type="button" className="header-button">{buttonLabel}</button>
-      <select className="dropdown">
+      <button id={buttonId} type="button" className="header-button" onClick={handleSelection} value={buttonLabel}>
+        {buttonLabel}
+      </button>
+      <select className="dropdown" onChange={handleSelection} >
         <option hidden></option>
         <option value="write-review">Write a review</option>
         <option value="post-photo">Post a photo</option>
@@ -31,6 +34,7 @@ Header.propTypes = {
   subtitle: string.isRequired,
   buttonId: string.isRequired,
   buttonLabel: string.isRequired,
+  handleSelection: func.isRequired,
 };
 
 export default Header;

@@ -28,6 +28,7 @@ export default class App extends React.Component {
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
   }
 
   componentDidMount() {
@@ -59,7 +60,7 @@ export default class App extends React.Component {
     if (view === 'Reviews') {
       return (
         <div>
-          <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" />
+          <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
             <Ratings names={names} />
             <Checklist title="Traveler type" />
@@ -73,7 +74,15 @@ export default class App extends React.Component {
         </div>
       );
     }
-    return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" />;
+    return <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />;
+  }
+
+  handleSelection(event) {
+    if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
+      alert('work in progress');
+    } else {
+      alert('Off-page link');
+    }
   }
 
   handleViewSwitch(event) {
