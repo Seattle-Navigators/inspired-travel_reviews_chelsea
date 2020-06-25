@@ -194,6 +194,8 @@ export default class App extends React.Component {
     const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
     const langs = ['All languages', 'English', 'Spanish', 'Italian', 'French', 'Portuguese', 'German', 'Chinese', 'Japanese', 'Korean'];
 
+    const langsArray = this.getUniqueSortedLangs(reviews);
+
     if (view === 'Reviews') {
       return (
         <div>
@@ -209,7 +211,7 @@ export default class App extends React.Component {
 
             <Checklist title="Traveler type" labels={types} />
             <Checklist title="Time of year" labels={times} />
-            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} />
+            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} langs={langsArray} />
           </div>
 
           <Mentions />
@@ -372,15 +374,7 @@ export default class App extends React.Component {
       langActive,
     } = this.state;
 
-    const langs = reviews.map((review) => review.lang);
-    const uniqueifier = {'All languages': null};
-    langs.forEach((lang) => {
-      if (lang in uniqueifier) {
-        uniqueifier[lang] += 1;
-      } else {
-        uniqueifier[lang] = 1
-      }
-    });
+    const langsArray = this.getUniqueSortedLangs(reviews);
 
     return (
       <div className="container">
@@ -394,7 +388,7 @@ export default class App extends React.Component {
         <Languages
           hidden={!langActive}
           handleViewSwitch={this.handleViewSwitch}
-          langs={uniqueifier}
+          langs={langsArray}
         />
 
         <div id="tabs">
@@ -407,6 +401,40 @@ export default class App extends React.Component {
         <NavBar />
       </div>
     );
+  }
+
+  getUniqueSortedLangs(reviews) {
+    const allLangs = reviews.map((review) => review.lang);
+    const uniqueifier = {};
+
+    allLangs.forEach((lang) => {
+      if (lang in uniqueifier) {
+        uniqueifier[lang] += 1;
+      } else {
+        uniqueifier[lang] = 1;
+      }
+    });
+
+    const langsSummary = [];
+    for (const lang in uniqueifier) { // eslint-disable-line
+      const oneLang = [];
+      oneLang.push(lang, uniqueifier[lang]);
+      langsSummary.push(oneLang);
+    }
+
+    langsSummary.sort((langA, langB) => {
+      if (langA[1] > langB[1]) {
+        return -1;
+      } else if (langA[1] < langB[1]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    langsSummary.unshift(['All languages', null]);
+
+    return langsSummary;
   }
 }
 

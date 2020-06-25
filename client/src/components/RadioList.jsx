@@ -2,17 +2,19 @@ import React from 'react';
 import { string, arrayOf, func } from 'prop-types';
 import ListItem from './ListItem';
 
-const RadioList = ({ title, labels, handleSelection }) => {
-  const displayed = labels.slice(0, 4);
+const RadioList = ({ title, labels, handleSelection, langs }) => {
+  const displayed = langs.slice(0, 4);
   return (
     <div className="checklist-filter">
       <div className="filter-header">{title}</div>
-      {displayed.map((label) => <ListItem value={label} type="radio" key={`${label}-label`}/>)}
+
+      {displayed.map((lang) => <ListItem value={lang[0]} records={lang[1]} type="radio" key={`${lang}-label`} />)}
+
       <button id="lang-btn" type="button" onClick={handleSelection} value="more-langs">
         More
       </button>
     </div>
-  )
+  );
 };
 
 RadioList.propTypes = {
