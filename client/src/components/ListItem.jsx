@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, number, func, bool } from 'prop-types'; // eslint-disable-line
+import { string, number, func, bool, any } from 'prop-types'; // eslint-disable-line
 
 const ListItem = ({
   value,
@@ -41,8 +41,8 @@ export default ListItem;
 ListItem.propTypes = {
   value: string.isRequired,
   type: string.isRequired,
-  records: number.isRequired,
-  name: string.isRequired,
+  records: number,
+  name: string,
   handleFilter: func.isRequired,
   handleViewSwitch: func,
   selected: bool,
@@ -51,4 +51,6 @@ ListItem.propTypes = {
 ListItem.defaultProps = {
   handleViewSwitch: undefined,
   selected: undefined,
+  records: undefined,
+  name: undefined,
 };

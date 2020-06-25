@@ -1,7 +1,7 @@
-module.exports.generateTestData = (attractionId) => {
+module.exports.generateTestData = (attractionId, dummyIdNeeded) => {
   const testReviews = [];
   for (let i = 0; i < 5; i += 1) {
-    testReviews.push({
+    const review = {
       user: {
         originCountry: 'United States',
         originRegion: 'Oregon',
@@ -24,14 +24,18 @@ module.exports.generateTestData = (attractionId) => {
       attractionName: 'Hawaii',
       rating: i,
       travelType: 'Solo',
-      expDate: new Date(),
+      expDate: '2019-09-27T06:08:15.712Z',
       lang: 'English',
       body: 'Like I said, a great place',
       title: 'What a great place this was',
       votes: 999,
       createdAt: new Date(),
       helpful: false,
-    });
+    };
+    if (dummyIdNeeded) {
+      review._id = `test${i}`; // eslint-disable-line
+    }
+    testReviews.push(review);
   }
   return testReviews;
 };

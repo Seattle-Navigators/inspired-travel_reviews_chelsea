@@ -19,9 +19,12 @@ export default class App extends React.Component {
 
     const reviews = props.initialData || [{
       attractionName: '',
-      _id: '',
+      _id: 'zzz',
       helpful: false,
       rating: 4,
+      lang: 'English',
+      expDate: '2019-09-27T06:08:15.712Z',
+      travelType: 'Solo',
     }];
 
     this.state = {

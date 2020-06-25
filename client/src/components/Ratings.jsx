@@ -23,7 +23,7 @@ const Ratings = ({ names, reviews, numReviews, handleFilter }) => { // eslint-di
   };
 
   return (
-    <div className="filter">
+    <div className="ratings-filter">
       <div className="filter-header">Traveler Rating</div>
       {names.map((name) => {
         const ratings = ratingCounts[mappedNames[name]];
