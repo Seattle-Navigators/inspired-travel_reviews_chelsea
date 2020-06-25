@@ -117,10 +117,18 @@ describe('Header and AskQuestion component functionality', () => {
 describe('Ratings component functionality', () => {
   test('Total reviews should match total type ratings', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200')} />);
-    const excellents = Number(wrapper.find('#Excellent-ratings').text());
     const appInstance = wrapper.instance();
     const numReviews = appInstance.state.numReviews;
-    expect(excellents).toEqual(numReviews);
+
+    const excellents = Number(wrapper.find('#Excellent-ratings').text());
+    const veryGoods = Number(wrapper.find('#VeryGood-ratings').text());
+    const averages = Number(wrapper.find('#Average-ratings').text());
+    const poors = Number(wrapper.find('#Poor-ratings').text());
+    const terribles = Number(wrapper.find('#Terrible-ratings').text());
+
+    const totalTypeRatings = excellents + veryGoods + averages + poors + terribles;
+
+    expect(totalTypeRatings).toEqual(numReviews);
   });
   test('Rate bars should be proportionate to rating percentages', () => {
 

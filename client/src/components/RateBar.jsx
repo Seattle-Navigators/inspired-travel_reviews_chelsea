@@ -5,6 +5,10 @@ const RateBar = ({ name, percentage, ratings, handleFilter }) => {
   const backWidth = 100;
   const barWidth = backWidth * percentage;
 
+  if (name === 'Very Good') {
+    name = 'VeryGood';
+  }
+
   return (
     <div>
       <div className="rate-bar">
