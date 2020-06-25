@@ -54,7 +54,7 @@ export default class App extends React.Component {
         chinese: false,
         japanese: false,
         korean: false,
-      }
+      },
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -63,7 +63,13 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const { attractionId, view, popupActive, filters } = this.state;
+    const {
+      attractionId,
+      view,
+      popupActive,
+      filters,
+    } = this.state;
+
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
         this.setState({
@@ -80,48 +86,6 @@ export default class App extends React.Component {
       .catch((err) => {
         console.error(err);
       });
-  }
-
-  filterReviews(e) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      filters,
-    } = this.state;
-
-    const filter = e.target.id;
-    const isChecked = e.target.checked;
-
-    const mapToFilter = {
-      'Excellent-filter': 'excellent',
-      'Very Good-filter': 'veryGood',
-      'Average-filter': 'average',
-      'Poor-filter': 'poor',
-      'Terrible-filter': 'terrible',
-    };
-
-    if (isChecked !== undefined) {
-      if (isChecked) {
-        filters[mapToFilter[filter]] = true;
-      } else {
-        filters[mapToFilter[filter]] = false;
-      }
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        filters,
-      });
-    }
   }
 
   getCurrentView() {
@@ -143,7 +107,7 @@ export default class App extends React.Component {
     const timeFilters = ['decFeb', 'marMay', 'junAug', 'sepNov'];
     const langFilters = ['english', 'spanish', 'italian', 'french', 'portuguese', 'german', 'chinese', 'japanese', 'korean'];
 
-    for (const filter in filters) {
+    for (const filter in filters) { // eslint-disable-line
       if (rateFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
           statusRateFilters = true;
@@ -164,7 +128,7 @@ export default class App extends React.Component {
           statusLangFilters = true;
         }
       }
-    };
+    }
 
     const mapToFilter = {
       4: 'excellent',
@@ -201,17 +165,23 @@ export default class App extends React.Component {
     };
 
     const filteredReviews = reviews.filter((review) => {
-      const { rating, travelType, expDate, lang } = review;
+      const {
+        rating,
+        travelType,
+        expDate,
+        lang,
+      } = review;
 
       if (filters[mapToFilter[rating]] || !statusRateFilters) {
         if (filters[mapToFilter[travelType]] || !statusTypeFilters) {
           if (filters[mapToFilter[new Date(expDate).getMonth()]] || !statusTimeFilters) {
             if (filters[mapToFilter[lang]] || !statusLangFilters) {
-              return review;
+              return true;
             }
           }
         }
       }
+      return false;
     });
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
@@ -221,7 +191,14 @@ export default class App extends React.Component {
         <div>
           <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
-            <Ratings names={names} reviews={reviews} numReviews={numReviews} handleFilter={this.filterReviews} />
+
+            <Ratings
+              names={names}
+              reviews={reviews}
+              numReviews={numReviews}
+              handleFilter={this.filterReviews}
+            />
+
             <Checklist title="Traveler type" />
             <Checklist title="Time of year" />
             <RadioList title="Language" />
@@ -238,6 +215,48 @@ export default class App extends React.Component {
         <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
       </div>
     );
+  }
+
+  filterReviews(e) {
+    const {
+      attractionId,
+      attractionName,
+      numReviews,
+      numQuestions,
+      view,
+      reviews,
+      popupActive,
+      filters,
+    } = this.state;
+
+    const filter = e.target.id;
+    const isChecked = e.target.checked;
+
+    const mapToFilter = {
+      'Excellent-filter': 'excellent',
+      'VeryGood-filter': 'veryGood',
+      'Average-filter': 'average',
+      'Poor-filter': 'poor',
+      'Terrible-filter': 'terrible',
+    };
+
+    if (isChecked !== undefined) {
+      if (isChecked) {
+        filters[mapToFilter[filter]] = true;
+      } else {
+        filters[mapToFilter[filter]] = false;
+      }
+      this.setState({
+        attractionId,
+        attractionName,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popupActive,
+        filters,
+      });
+    }
   }
 
   handleSelection(e) {
@@ -348,5 +367,5 @@ export default class App extends React.Component {
 
 App.propTypes = {
   attractionId: string.isRequired,
-  initialData: arrayOf(object),
+  initialData: arrayOf(object), // eslint-disable-line react/require-default-props
 };

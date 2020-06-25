@@ -1,4 +1,3 @@
-
 module.exports.generateTestData = (attractionId) => {
   const testReviews = [];
   for (let i = 0; i < 5; i += 1) {
@@ -36,4 +35,3 @@ module.exports.generateTestData = (attractionId) => {
   }
   return testReviews;
 };
-

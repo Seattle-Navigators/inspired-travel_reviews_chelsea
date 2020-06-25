@@ -1,10 +1,10 @@
 import React from 'react';
-import { string, arrayOf, object, number, func } from 'prop-types';
+import { string, arrayOf, object, number, func } from 'prop-types'; // eslint-disable-line
 import RateBar from './RateBar';
 
-const Ratings = ({ names, reviews, numReviews, handleFilter }) => {
+const Ratings = ({ names, reviews, numReviews, handleFilter }) => { // eslint-disable-line
   const ratingCounts = reviews.reduce((obj, review) => {
-    obj[review.rating] += 1;
+    obj[review.rating] += 1; // eslint-disable-line
     return obj;
   }, {
     4: 0,
@@ -15,11 +15,11 @@ const Ratings = ({ names, reviews, numReviews, handleFilter }) => {
   });
 
   const mappedNames = {
-    'Excellent': '4',
+    Excellent: '4',
     'Very Good': '3',
-    'Average': '2',
-    'Poor': '1',
-    'Terrible': '0',
+    Average: '2',
+    Poor: '1',
+    Terrible: '0',
   };
 
   return (

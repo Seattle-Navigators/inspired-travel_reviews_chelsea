@@ -1,12 +1,17 @@
 import React from 'react';
 import { string, number, func } from 'prop-types';
 
-const RateBar = ({ name, percentage, ratings, handleFilter }) => {
+const RateBar = ({
+  name,
+  percentage,
+  ratings,
+  handleFilter,
+}) => {
   const backWidth = 100;
   const barWidth = backWidth * percentage;
 
   if (name === 'Very Good') {
-    name = 'VeryGood';
+    name = 'VeryGood'; // eslint-disable-line
   }
 
   return (
@@ -22,15 +27,15 @@ const RateBar = ({ name, percentage, ratings, handleFilter }) => {
           marginLeft: '15px',
           marginRight: '14px',
           width: `${backWidth}px`,
-          backgroundColor: '#eee'
-        }}>
+          backgroundColor: '#eee',
+        }}> {/*eslint-disable-line*/}
 
           <span style={{
             display: 'inline-block',
             height: '12px',
             width: `${barWidth}px`,
-            backgroundColor: '#222'
-          }} />
+            backgroundColor: '#222',
+          }} /> {/*eslint-disable-line*/}
 
         </span>
         <span id={`${name}-ratings`}>{ratings}</span>
