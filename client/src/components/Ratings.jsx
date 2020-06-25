@@ -7,7 +7,6 @@ const Ratings = ({ names, reviews, numReviews }) => {
     obj[review.rating] += 1;
     return obj;
   }, {
-    5: 0,
     4: 0,
     3: 0,
     2: 0,
@@ -15,12 +14,25 @@ const Ratings = ({ names, reviews, numReviews }) => {
     0: 0,
   });
 
-  console.log(ratingCounts);
+  const mappedNames = {
+    'Excellent': '4',
+    'Very Good': '3',
+    'Average': '2',
+    'Poor': '1',
+    'Terrible': '0',
+  };
 
   return (
     <div className="filter">
       <div className="filter-header">Traveler Rating</div>
-      {names.map((name) => <RateBar name={name} key={`${name}-bar`} />)}
+      {names.map((name) => (
+        <RateBar
+          name={name}
+          key={`${name}-bar`}
+          totalRatings={numReviews}
+          ratings={ratingCounts[mappedNames[name]]}
+        />
+      ))}
     </div>
   );
 };

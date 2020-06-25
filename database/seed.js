@@ -97,7 +97,7 @@ attractionIds.forEach((id) => {
     const numImages = pickBiased([0, 1, 2, 3]);
     const name = chance.name();
     const title = chance.sentence({ words: generateNumBetween(1, 4) });
-    const rating = generateNumBetween(0, 5);
+    const rating = generateNumBetween(0, 4);
 
     const review = {
       attractionId: id,
