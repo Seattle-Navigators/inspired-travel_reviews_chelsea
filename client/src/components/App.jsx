@@ -11,6 +11,7 @@ import Search from './Search';
 import ReviewPage from './ReviewPage';
 import NavBar from './NavBar';
 import AskQuestion from './AskQuestion';
+import Languages from './Languages';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export default class App extends React.Component {
       view: 'Reviews',
       reviews,
       popupActive: false,
+      langActive: false,
       filters: {
         excellent: false,
         veryGood: false,
@@ -68,6 +70,7 @@ export default class App extends React.Component {
       attractionId,
       view,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -81,6 +84,7 @@ export default class App extends React.Component {
           view,
           reviews: res.data,
           popupActive,
+          langActive,
           filters,
         });
       })
@@ -205,7 +209,7 @@ export default class App extends React.Component {
 
             <Checklist title="Traveler type" labels={types} />
             <Checklist title="Time of year" labels={times} />
-            <RadioList title="Language" labels={langs} />
+            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} />
           </div>
 
           <Mentions />
@@ -230,6 +234,7 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -258,6 +263,7 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive,
+        langActive,
         filters,
       });
     }
@@ -272,6 +278,7 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -284,6 +291,19 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive: true,
+        langActive,
+        filters,
+      });
+    } else if (e.target.value === 'more-langs') {
+      this.setState({
+        attractionId,
+        attractionName,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popupActive,
+        langActive: true,
         filters,
       });
     } else {
@@ -295,6 +315,7 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive,
+        langActive,
         filters,
       });
       window.alert('Off-page link');
@@ -310,6 +331,7 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -325,7 +347,7 @@ export default class App extends React.Component {
       newView = view;
     }
 
-    if (view !== newView || popupActive) {
+    if (view !== newView || popupActive || langActive) {
       this.setState({
         attractionId,
         attractionName,
@@ -334,6 +356,7 @@ export default class App extends React.Component {
         view: newView,
         reviews,
         popupActive: false,
+        langActive: false,
         filters,
       });
     }
@@ -342,10 +365,22 @@ export default class App extends React.Component {
   render() {
     const {
       attractionName,
+      reviews,
       numReviews,
       numQuestions,
       popupActive,
+      langActive,
     } = this.state;
+
+    const langs = reviews.map((review) => review.lang);
+    const uniqueifier = {'All languages': null};
+    langs.forEach((lang) => {
+      if (lang in uniqueifier) {
+        uniqueifier[lang] += 1;
+      } else {
+        uniqueifier[lang] = 1
+      }
+    });
 
     return (
       <div className="container">
@@ -354,6 +389,12 @@ export default class App extends React.Component {
           hidden={!popupActive}
           handleViewSwitch={this.handleViewSwitch}
           name={attractionName}
+        />
+
+        <Languages
+          hidden={!langActive}
+          handleViewSwitch={this.handleViewSwitch}
+          langs={uniqueifier}
         />
 
         <div id="tabs">
