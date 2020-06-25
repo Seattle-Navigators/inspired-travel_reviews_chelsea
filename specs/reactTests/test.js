@@ -3,11 +3,8 @@
  */
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-
 configure({ adapter: new Adapter() });
-
 import React from 'react';
-
 import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx';
 import Checklist from '../../client/src/components/Checklist.jsx';
@@ -146,6 +143,30 @@ describe('Ratings component functionality', () => {
     wrapper4.find('#Poor-filter').simulate('change');
     wrapper5.find('#Terrible-filter').simulate('change');
     expect(mockCallBack).toHaveBeenCalledTimes(5);
+  });
+});
+
+describe('Checklist component functionality', () => {
+  test('Five traveler types should be listed', () => {
+
+  });
+  test('Traveler types should allow user to filter reviews', () => {
+
+  });
+  test('Four seasons should be listed', () => {
+
+  });
+  test('Seasons should allow user to filter reviews', () => {
+
+  });
+});
+
+describe('RadioList component functionality', () => {
+  test('Four languages should be displayed sorted by number', () => {
+
+  });
+  test('Languages should allow user to filter reviews', () => {
+
   });
 });
 
