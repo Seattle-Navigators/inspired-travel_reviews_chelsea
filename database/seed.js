@@ -84,6 +84,7 @@ const seedData = [];
 
 attractionIds.forEach((id) => {
   const numReviews = generateNumBetween(1, 100);
+  const attractionName = chance.city();
 
   for (let i = 0; i < numReviews; i += 1) {
     const year = years[generateNumBetween(0, years.length - 1)];
@@ -100,6 +101,7 @@ attractionIds.forEach((id) => {
 
     const review = {
       attractionId: id,
+      attractionName,
       rating,
       travelType: travelTypes[generateNumBetween(0, travelTypes.length - 1)],
       expDate,

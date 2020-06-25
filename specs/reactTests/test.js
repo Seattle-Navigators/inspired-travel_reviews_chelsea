@@ -61,6 +61,57 @@ describe('Tab component functionality', () => {
   });
 });
 
+describe('Header and AskQuestion component functionality', () => {
+  test('Header component should show number of questions when Q&A tab selected', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    const appInstance = wrapper.instance();
+    const numQuestions = appInstance.state.numQuestions;
+    wrapper.find('#qa-tab').simulate('click');
+    expect(wrapper.find('#subtitle')).toHaveText(`See all ${numQuestions} questions`);
+  });
+  test('Header component should trigger an alert when off-page links selected', () => {
+    window.alert = jest.fn();
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#off-page-write').simulate('change');
+    wrapper.find('#off-page-photo').simulate('change');
+    wrapper.find('#write-review').simulate('click');
+    wrapper.find('#qa-tab').simulate('click');
+    wrapper.find('#off-page-write').simulate('change');
+    wrapper.find('#off-page-photo').simulate('change');
+    expect(window.alert).toHaveBeenCalledTimes(5);
+  });
+  test('Header component should trigger AskQuestion view when \'Ask a question\' selected', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    expect(wrapper.exists('.popup')).toEqual(false);
+    wrapper.find('#ask-question-option').simulate('change');
+    expect(wrapper.find('.popup')).toExist();
+  });
+  test('Header component should trigger AskQuestion view when \'Ask a question\' clicked', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#qa-tab').simulate('click');
+    expect(wrapper.exists('.popup')).toEqual(false);
+    wrapper.find('#ask-question').simulate('click');
+    expect(wrapper.find('.popup')).toExist();
+  });
+  test('User can click to exit AskQuestion component', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#ask-question-option').simulate('change');
+    wrapper.find('#exit-popup').simulate('click');
+    expect(wrapper.exists('.popup')).toEqual(false);
+  });
+  test('AskQuestion view should be removed upon submission', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    wrapper.find('#ask-question-option').simulate('change');
+    expect(wrapper.find('.popup')).toExist();
+    wrapper.find('#submit-q').simulate('click');
+    expect(wrapper.exists('.popup')).toEqual(false);
+    wrapper.find('#ask-question-option').simulate('change');
+    expect(wrapper.find('.popup')).toExist();
+    wrapper.find('#cancel-q').simulate('click');
+    expect(wrapper.exists('.popup')).toEqual(false);
+  });
+});
+
 describe('ReviewPage component functionality', () => {
   test('Review page should render number of review blocks based on state', () => {
     const wrapper = mount(<App attractionId="200" />);
