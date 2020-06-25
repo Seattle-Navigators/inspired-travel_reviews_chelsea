@@ -1,5 +1,5 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, arrayOf, object } from 'prop-types';
 import axios from 'axios';
 import Tab from './Tab';
 import Header from './Header';
@@ -15,19 +15,20 @@ import AskQuestion from './AskQuestion';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
+    const reviews = props.initialData || [{
+      attractionName: '',
+      _id: '',
+      helpful: false,
+    }];
+
     this.state = {
       attractionId: props.attractionId,
-      attractionName: '',
-      numReviews: 0,
+      attractionName: reviews[0].attractionName,
+      numReviews: reviews.length,
       numQuestions: 0,
       view: 'Reviews',
-      reviews: [
-        {
-          _id: 0,
-          helpful: false,
-          expDate: new Date(),
-        },
-      ],
+      reviews,
       popupActive: false,
       filters: {
         excellent: false,
@@ -347,4 +348,5 @@ export default class App extends React.Component {
 
 App.propTypes = {
   attractionId: string.isRequired,
+  initialData: arrayOf(object),
 };

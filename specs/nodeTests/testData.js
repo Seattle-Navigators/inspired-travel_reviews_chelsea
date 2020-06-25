@@ -23,7 +23,7 @@ module.exports.generateTestData = (attractionId) => {
       ],
       attractionId,
       attractionName: 'Hawaii',
-      rating: 3,
+      rating: i,
       travelType: 'Solo',
       expDate: new Date(),
       lang: 'English',

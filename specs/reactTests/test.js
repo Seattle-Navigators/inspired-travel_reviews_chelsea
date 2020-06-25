@@ -9,9 +9,11 @@ configure({ adapter: new Adapter() });
 import React from 'react';
 
 import { shallow, mount } from 'enzyme';
-import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
-import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
+import App from '../../client/src/components/App.jsx';
+import Checklist from '../../client/src/components/Checklist.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
+
+const { generateTestData } = require('../nodeTests/testData.js');
 
 describe('App component functionality', () => {
   test('App should update state with a 3-character attractionId prop', () => {
@@ -114,7 +116,7 @@ describe('Header and AskQuestion component functionality', () => {
 
 describe('Ratings component functionality', () => {
   test('Total reviews should match total type ratings', () => {
-    const wrapper = mount(<App attractionId="200" />);
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200')} />);
     const excellents = Number(wrapper.find('#Excellent-ratings').text());
     const appInstance = wrapper.instance();
     const numReviews = appInstance.state.numReviews;
