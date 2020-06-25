@@ -1,12 +1,20 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, number, func, bool } from 'prop-types'; // eslint-disable-line
 
-const ListItem = ({ value, type, records, name, handleFilter, handleViewSwitch, selected }) => {
+const ListItem = ({
+  value,
+  type,
+  records,
+  name,
+  handleFilter,
+  handleViewSwitch,
+  selected,
+}) => {
   let changeFunction;
   if (handleViewSwitch) {
     changeFunction = (event) => {
       event.persist();
-      handleFilter(event, () => { handleViewSwitch(event) });
+      handleFilter(event, () => { handleViewSwitch(event); });
     };
   } else {
     changeFunction = handleFilter;
@@ -33,4 +41,14 @@ export default ListItem;
 ListItem.propTypes = {
   value: string.isRequired,
   type: string.isRequired,
+  records: number.isRequired,
+  name: string.isRequired,
+  handleFilter: func.isRequired,
+  handleViewSwitch: func,
+  selected: bool,
+};
+
+ListItem.defaultProps = {
+  handleViewSwitch: undefined,
+  selected: undefined,
 };

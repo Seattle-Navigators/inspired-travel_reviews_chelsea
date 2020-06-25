@@ -1,8 +1,14 @@
 import React from 'react';
-import { string, arrayOf, func } from 'prop-types';
+import { string, func, arrayOf, array } from 'prop-types'; // eslint-disable-line
 import ListItem from './ListItem';
 
-const RadioList = ({ title, handleSelection, langs, handleFilter, selection }) => {
+const RadioList = ({
+  title,
+  handleSelection,
+  langs,
+  handleFilter,
+  selection,
+}) => {
   const displayed = langs.slice(0, 4);
   return (
     <div className="checklist-filter">
@@ -33,6 +39,9 @@ const RadioList = ({ title, handleSelection, langs, handleFilter, selection }) =
 RadioList.propTypes = {
   title: string.isRequired,
   handleSelection: func.isRequired,
+  langs: arrayOf(array).isRequired,
+  handleFilter: func.isRequired,
+  selection: string.isRequired,
 };
 
 export default RadioList;

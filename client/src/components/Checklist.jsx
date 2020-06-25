@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, arrayOf } from 'prop-types';
+import { string, arrayOf, func } from 'prop-types';
 import ListItem from './ListItem';
 
 const Checklist = ({ title, labels, handleFilter }) => (
@@ -12,6 +12,7 @@ const Checklist = ({ title, labels, handleFilter }) => (
 Checklist.propTypes = {
   title: string.isRequired,
   labels: arrayOf(string).isRequired,
+  handleFilter: func.isRequired,
 };
 
 export default Checklist;

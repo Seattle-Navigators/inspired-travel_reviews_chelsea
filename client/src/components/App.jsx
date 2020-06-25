@@ -237,7 +237,6 @@ export default class App extends React.Component {
 
     if (isChecked !== undefined) {
       if (target.indexOf('radio') > -1) {
-
         const firstLetter = target.indexOf('-') + 1;
         const langSelected = target.slice(firstLetter);
         if (langSelected === 'All languages') {
@@ -245,9 +244,7 @@ export default class App extends React.Component {
         } else {
           filters.language = langSelected;
         }
-
       } else {
-
         filters[mapToFilter[target]] = isChecked;
       }
 
@@ -401,7 +398,7 @@ export default class App extends React.Component {
     );
   }
 
-  getUniqueSortedLangs(reviews) {
+  getUniqueSortedLangs(reviews) { //eslint-disable-line
     const allLangs = reviews.map((review) => review.lang);
     const uniqueifier = {};
 
@@ -423,11 +420,11 @@ export default class App extends React.Component {
     langsSummary.sort((langA, langB) => {
       if (langA[1] > langB[1]) {
         return -1;
-      } else if (langA[1] < langB[1]) {
-        return 1;
-      } else {
-        return 0;
       }
+      if (langA[1] < langB[1]) {
+        return 1;
+      }
+      return 0;
     });
 
     langsSummary.unshift(['All languages', null]);
