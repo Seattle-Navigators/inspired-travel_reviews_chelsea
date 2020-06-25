@@ -367,6 +367,7 @@ export default class App extends React.Component {
       numQuestions,
       popupActive,
       langActive,
+      filters,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);
@@ -385,6 +386,7 @@ export default class App extends React.Component {
           handleViewSwitch={this.handleViewSwitch}
           langs={langsArray}
           handleFilter={this.filterReviews}
+          selection={filters.language}
         />
 
         <div id="tabs">
