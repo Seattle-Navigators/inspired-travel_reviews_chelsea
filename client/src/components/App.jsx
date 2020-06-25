@@ -58,7 +58,6 @@ export default class App extends React.Component {
       view,
       numQuestions,
       reviews,
-      popup,
     } = this.state;
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
@@ -79,13 +78,12 @@ export default class App extends React.Component {
           <ReviewPage reviews={reviews} />
         </div>
       );
-    } else if (view === 'Questions') {
-      return (
-        <div>
-          <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
-        </div>
-      )
     }
+    return (
+      <div>
+        <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
+      </div>
+    );
   }
 
   handleSelection(event) {
@@ -159,10 +157,22 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { attractionName, numReviews, numQuestions, popup } = this.state;
+    const {
+      attractionName,
+      numReviews,
+      numQuestions,
+      popup,
+    } = this.state;
+
     return (
       <div className="container">
-        <AskQuestion hidden={!popup} handleViewSwitch={this.handleViewSwitch} name={attractionName} />
+
+        <AskQuestion
+          hidden={!popup}
+          handleViewSwitch={this.handleViewSwitch}
+          name={attractionName}
+        />
+
         <div id="tabs">
           <Tab baseId="review" title="Reviews" records={numReviews} handleViewSwitch={this.handleViewSwitch} />
           <Tab baseId="qa" title="Q&A" records={numQuestions} handleViewSwitch={this.handleViewSwitch} />

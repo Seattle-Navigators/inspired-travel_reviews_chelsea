@@ -19,7 +19,7 @@ const Header = ({
         {buttonLabel}
       </button>
       <select className="dropdown" onChange={handleSelection} multiple={false} value="hidden">
-        <option hidden value="hidden"></option>
+        <option hidden value="hidden" aria-label="hidden" />
         <option id="off-page-write" value="write-review">Write a review</option>
         <option id="off-page-photo" value="post-photo">Post a photo</option>
         <option id="ask-question-option" value="ask-question">Ask a question</option>
