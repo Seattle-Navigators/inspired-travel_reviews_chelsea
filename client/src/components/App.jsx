@@ -27,7 +27,7 @@ export default class App extends React.Component {
           helpful: false,
         },
       ],
-      popup: false,
+      popupActive: false,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -35,7 +35,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const { attractionId, view, popup } = this.state;
+    const { attractionId, view, popupActive } = this.state;
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
         this.setState({
@@ -45,7 +45,7 @@ export default class App extends React.Component {
           numQuestions: 0,
           view,
           reviews: res.data,
-          popup,
+          popupActive,
         });
       })
       .catch((err) => {
@@ -56,6 +56,7 @@ export default class App extends React.Component {
   getCurrentView() {
     const {
       view,
+      numReviews,
       numQuestions,
       reviews,
     } = this.state;
@@ -67,7 +68,7 @@ export default class App extends React.Component {
         <div>
           <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
-            <Ratings names={names} />
+            <Ratings names={names} reviews={reviews} numReviews={numReviews} />
             <Checklist title="Traveler type" />
             <Checklist title="Time of year" />
             <RadioList title="Language" />
@@ -94,7 +95,7 @@ export default class App extends React.Component {
       numQuestions,
       view,
       reviews,
-      popup,
+      popupActive,
     } = this.state;
 
     if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
@@ -105,7 +106,7 @@ export default class App extends React.Component {
         numQuestions,
         view,
         reviews,
-        popup: true,
+        popupActive: true,
       });
     } else {
       this.setState({
@@ -115,7 +116,7 @@ export default class App extends React.Component {
         numQuestions,
         view,
         reviews,
-        popup,
+        popupActive,
       });
       window.alert('Off-page link');
     }
@@ -129,7 +130,7 @@ export default class App extends React.Component {
       numQuestions,
       view,
       reviews,
-      popup,
+      popupActive,
     } = this.state;
     let newView;
     const qualifierIndex = event.target.id.indexOf('-');
@@ -143,7 +144,7 @@ export default class App extends React.Component {
       newView = view;
     }
 
-    if (view !== newView || popup) {
+    if (view !== newView || popupActive) {
       this.setState({
         attractionId,
         attractionName,
@@ -151,7 +152,7 @@ export default class App extends React.Component {
         numQuestions,
         view: newView,
         reviews,
-        popup: false,
+        popupActive: false,
       });
     }
   }
@@ -161,14 +162,14 @@ export default class App extends React.Component {
       attractionName,
       numReviews,
       numQuestions,
-      popup,
+      popupActive,
     } = this.state;
 
     return (
       <div className="container">
 
         <AskQuestion
-          hidden={!popup}
+          hidden={!popupActive}
           handleViewSwitch={this.handleViewSwitch}
           name={attractionName}
         />
