@@ -1,14 +1,11 @@
 import React from 'react';
 import { string } from 'prop-types';
+import ListItem from './ListItem';
 
-const RadioList = ({ title }) => (
+const RadioList = ({ title, labels }) => (
   <div className="checklist-filter">
     <div className="filter-header">{title}</div>
-    <input type="radio" />
-    <input type="radio" />
-    <input type="radio" />
-    <input type="radio" />
-    <input type="radio" />
+    {labels.map((label) => <ListItem value={label} type="radio" key={`${label}-label`}/>)}
   </div>
 );
 

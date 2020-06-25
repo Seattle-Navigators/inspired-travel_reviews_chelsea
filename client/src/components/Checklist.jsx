@@ -5,7 +5,7 @@ import ListItem from './ListItem';
 const Checklist = ({ title, labels }) => (
   <div className="checklist-filter" id={`checklist-${title}`}>
     <div className="filter-header">{title}</div>
-    {labels.map((label) => <ListItem value={label} key={`${label}-label`}/>)}
+    {labels.map((label) => <ListItem value={label} type="checkbox" key={`${label}-label`}/>)}
   </div>
 );
 

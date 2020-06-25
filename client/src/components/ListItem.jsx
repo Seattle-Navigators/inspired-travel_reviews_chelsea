@@ -1,9 +1,9 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-const ListItem = ({ value }) => (
+const ListItem = ({ value, type }) => (
   <div>
-    <input type="checkbox" id={`checkbox-${value}`} value={`checkbox-${value}`} />{value}
+    <input type={type} id={`${type}-${value}`} value={`${type}-${value}`} />{value}
   </div>
 );
 
@@ -11,4 +11,5 @@ export default ListItem;
 
 ListItem.propTypes = {
   value: string.isRequired,
+  type: string.isRequired,
 };
