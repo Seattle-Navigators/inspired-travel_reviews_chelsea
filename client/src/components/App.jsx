@@ -20,6 +20,7 @@ export default class App extends React.Component {
       attractionName: '',
       _id: '',
       helpful: false,
+      rating: 4,
     }];
 
     this.state = {
