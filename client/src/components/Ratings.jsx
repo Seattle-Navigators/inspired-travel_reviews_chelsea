@@ -1,8 +1,8 @@
 import React from 'react';
-import { string, arrayOf, object, number } from 'prop-types';
+import { string, arrayOf, object, number, func } from 'prop-types';
 import RateBar from './RateBar';
 
-const Ratings = ({ names, reviews, numReviews }) => {
+const Ratings = ({ names, reviews, numReviews, handleFilter }) => {
   const ratingCounts = reviews.reduce((obj, review) => {
     obj[review.rating] += 1;
     return obj;
@@ -33,6 +33,7 @@ const Ratings = ({ names, reviews, numReviews }) => {
             key={`${name}-bar`}
             percentage={ratings / numReviews}
             ratings={ratings}
+            handleFilter={handleFilter}
           />
         );
       })}
@@ -44,6 +45,7 @@ Ratings.propTypes = {
   names: arrayOf(string).isRequired,
   reviews: arrayOf(object).isRequired,
   numReviews: number.isRequired,
+  handleFilter: func.isRequired,
 };
 
 export default Ratings;

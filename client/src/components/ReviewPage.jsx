@@ -4,7 +4,7 @@ import Review from './Review';
 
 const ReviewPage = ({ reviews }) => (
   <div className="page" id="review-page">
-    {reviews.map((review) => <Review key={review._id} helpful={review.helpful} />)} {/*eslint-disable-line*/}
+    {reviews.map((review) => <Review key={review._id} helpful={review.helpful} rating={review.rating} />)}
   </div>
 );
 

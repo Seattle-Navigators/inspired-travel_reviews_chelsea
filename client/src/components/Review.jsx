@@ -7,6 +7,7 @@ export default class Review extends React.Component {
     this.state = {
       helpful: props.helpful,
     };
+    this.rating = props.rating;
   }
 
   render() {
@@ -14,7 +15,7 @@ export default class Review extends React.Component {
     return (
       <div className="review">
         REVIEW BLOCK
-        <span>{`${helpful}`}</span>
+      <span>{`${helpful}`}, {`${this.rating}`}</span>
       </div>
     );
   }

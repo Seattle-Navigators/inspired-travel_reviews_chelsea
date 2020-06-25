@@ -28,14 +28,40 @@ export default class App extends React.Component {
         },
       ],
       popupActive: false,
+      filters: {
+        excellent: false,
+        veryGood: false,
+        average: false,
+        poor: false,
+        terrible: false,
+        family: false,
+        couple: false,
+        solo: false,
+        business: false,
+        friends: false,
+        marMay: false,
+        junAug: false,
+        sepNov: false,
+        decFeb: false,
+        english: false,
+        spanish: false,
+        italian: false,
+        french: false,
+        portuguese: false,
+        german: false,
+        chinese: false,
+        japanese: false,
+        korean: false,
+      }
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
+    this.filterReviews = this.filterReviews.bind(this);
   }
 
   componentDidMount() {
-    const { attractionId, view, popupActive } = this.state;
+    const { attractionId, view, popupActive, filters } = this.state;
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
         this.setState({
@@ -46,11 +72,63 @@ export default class App extends React.Component {
           view,
           reviews: res.data,
           popupActive,
+          filters,
         });
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  filterReviews(e) {
+    const {
+      attractionId,
+      attractionName,
+      numReviews,
+      numQuestions,
+      view,
+      reviews,
+      popupActive,
+      filters,
+    } = this.state;
+
+    const filter = e.target.id;
+    const isChecked = e.target.checked;
+
+    const rateMappings = {
+      'Excellent-filter': 4,
+      'Very Good-filter': 3,
+      'Average-filter': 2,
+      'Poor-filter': 1,
+      'Terrible-filter': 0,
+    };
+
+    const stateMappings = {
+      'Excellent-filter': 'excellent',
+      'Very Good-filter': 'veryGood',
+      'Average-filter': 'average',
+      'Poor-filter': 'poor',
+      'Terrible-filter': 'terrible',
+    };
+
+    if (isChecked !== undefined) {
+      if (isChecked) {
+        filters[stateMappings[filter]] = true;
+      } else {
+        filters[stateMappings[filter]] = false;
+      }
+      this.setState({
+        attractionId,
+        attractionName,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popupActive,
+        filters,
+      });
+
+    }
   }
 
   getCurrentView() {
@@ -59,7 +137,57 @@ export default class App extends React.Component {
       numReviews,
       numQuestions,
       reviews,
+      filters,
     } = this.state;
+
+    console.log(this.state.reviews);
+
+    const mapToFilter = {
+      4: 'excellent',
+      3: 'veryGood',
+      2: 'average',
+      1: 'poor',
+      0: 'terrible',
+      Family: 'family',
+      Couple: 'couple',
+      Solo: 'solo',
+      Business: 'business',
+      Friends: 'friends',
+      m1: 'decFeb',
+      m2: 'decFeb',
+      m3: 'marMay',
+      m4: 'marMay',
+      m5: 'marMay',
+      m6: 'junAug',
+      m7: 'junAug',
+      m8: 'junAug',
+      m9: 'sepNov',
+      m10: 'sepNov',
+      m11: 'sepNov',
+      m12: 'decFeb',
+      English: 'english',
+      Spanish: 'spanish',
+      Italian: 'italian',
+      French: 'french',
+      Portuguese: 'portuguese',
+      German: 'german',
+      Chinese: 'chinese',
+      Japanese: 'japanese',
+      Korean: 'korean',
+    };
+
+    const filteredReviews = reviews.filter((review) => {
+      const { rating, travelType, expDate, lang } = review;
+      if (filters[mapToFilter[rating]] === true) {
+        if (filters[mapToFilter[travelType]] === true) {
+          if (filters[mapToFilter[expDate.getMonth()]] === true) {
+            if (filters[mapToFilter[lang]] === true) {
+              return review;
+            }
+          }
+        }
+      }
+    });
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
 
@@ -68,7 +196,7 @@ export default class App extends React.Component {
         <div>
           <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
           <div id="filter-container">
-            <Ratings names={names} reviews={reviews} numReviews={numReviews} />
+            <Ratings names={names} reviews={reviews} numReviews={numReviews} handleFilter={this.filterReviews} />
             <Checklist title="Traveler type" />
             <Checklist title="Time of year" />
             <RadioList title="Language" />
@@ -76,7 +204,7 @@ export default class App extends React.Component {
 
           <Mentions />
           <Search />
-          <ReviewPage reviews={reviews} />
+          <ReviewPage reviews={filteredReviews} />
         </div>
       );
     }
@@ -87,7 +215,7 @@ export default class App extends React.Component {
     );
   }
 
-  handleSelection(event) {
+  handleSelection(e) {
     const {
       attractionId,
       attractionName,
@@ -96,9 +224,10 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      filters,
     } = this.state;
 
-    if (event.target.value === 'ask-question' || event.target.value === 'Ask a question') {
+    if (e.target.value === 'ask-question' || e.target.value === 'Ask a question') {
       this.setState({
         attractionId,
         attractionName,
@@ -107,6 +236,7 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive: true,
+        filters,
       });
     } else {
       this.setState({
@@ -117,12 +247,13 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive,
+        filters,
       });
       window.alert('Off-page link');
     }
   }
 
-  handleViewSwitch(event) {
+  handleViewSwitch(e) {
     const {
       attractionId,
       attractionName,
@@ -131,10 +262,12 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      filters,
     } = this.state;
+
     let newView;
-    const qualifierIndex = event.target.id.indexOf('-');
-    const id = event.target.id.slice(0, qualifierIndex);
+    const qualifierIndex = e.target.id.indexOf('-');
+    const id = e.target.id.slice(0, qualifierIndex);
 
     if (id === 'review') {
       newView = 'Reviews';
@@ -153,6 +286,7 @@ export default class App extends React.Component {
         view: newView,
         reviews,
         popupActive: false,
+        filters,
       });
     }
   }
