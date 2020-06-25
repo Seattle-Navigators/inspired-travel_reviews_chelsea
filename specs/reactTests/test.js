@@ -11,6 +11,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx';
 import Checklist from '../../client/src/components/Checklist.jsx';
+import RateBar from '../../client/src/components/RateBar.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
 const { generateTestData } = require('../nodeTests/testData.js');
@@ -130,11 +131,20 @@ describe('Ratings component functionality', () => {
 
     expect(totalTypeRatings).toEqual(numReviews);
   });
-  test('Rate bars should be proportionate to rating percentages', () => {
 
-  });
   test('Rating types should allow user to filter reviews', () => {
-
+    const mockCallBack = jest.fn();
+    const wrapper1 = mount(<RateBar name="Excellent" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper2 = mount(<RateBar name="Very Good" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper3 = mount(<RateBar name="Average" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper4 = mount(<RateBar name="Poor" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper5 = mount(<RateBar name="Terrible" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    wrapper1.find('#Excellent-filter').simulate('change');
+    wrapper2.find('#VeryGood-filter').simulate('change');
+    wrapper3.find('#Average-filter').simulate('change');
+    wrapper4.find('#Poor-filter').simulate('change');
+    wrapper5.find('#Terrible-filter').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(5);
   });
 });
 

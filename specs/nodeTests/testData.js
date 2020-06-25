@@ -18,7 +18,7 @@ module.exports.generateTestData = (attractionId) => {
           username: 'joeB',
           createdAt: new Date(),
           reviewTitle: 'What a great place this was',
-          reviewRating: 3,
+          reviewRating: i,
         },
       ],
       attractionId,
