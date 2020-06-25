@@ -179,7 +179,7 @@ export default class App extends React.Component {
 
       if (filters[mapToFilter[rating]] || !statusRateFilters) {
         if (filters[mapToFilter[travelType]] || !statusTypeFilters) {
-          if (filters[mapToFilter[new Date(expDate).getMonth()]] || !statusTimeFilters) {
+          if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !statusTimeFilters) {
             if (filters[mapToFilter[lang]] || !statusLangFilters) {
               return true;
             }
