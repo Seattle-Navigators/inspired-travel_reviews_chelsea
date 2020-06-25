@@ -209,9 +209,9 @@ export default class App extends React.Component {
               handleFilter={this.filterReviews}
             />
 
-            <Checklist title="Traveler type" labels={types} />
-            <Checklist title="Time of year" labels={times} />
-            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} langs={langsArray} />
+            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} />
+            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} />
+            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} />
           </div>
 
           <Mentions />
@@ -243,20 +243,29 @@ export default class App extends React.Component {
     const filter = e.target.id;
     const isChecked = e.target.checked;
 
+    console.log(filter, isChecked);
+
     const mapToFilter = {
       'Excellent-filter': 'excellent',
       'VeryGood-filter': 'veryGood',
       'Average-filter': 'average',
       'Poor-filter': 'poor',
       'Terrible-filter': 'terrible',
+      'checkbox-Families': 'family',
+      'checkbox-Couples': 'couple',
+      'checkbox-Solo': 'solo',
+      'checkbox-Business': 'business',
+      'checkbox-Friends': 'friends',
+      'checkbox-Dec-Feb': 'decFeb',
+      'checkbox-Mar-May': 'marMay',
+      'checkbox-Jun-Aug': 'junAug',
+      'checkbox-Sep-Nov': 'sepNov',
     };
 
     if (isChecked !== undefined) {
-      if (isChecked) {
-        filters[mapToFilter[filter]] = true;
-      } else {
-        filters[mapToFilter[filter]] = false;
-      }
+
+      filters[mapToFilter[filter]] = isChecked;
+
       this.setState({
         attractionId,
         attractionName,
@@ -389,6 +398,7 @@ export default class App extends React.Component {
           hidden={!langActive}
           handleViewSwitch={this.handleViewSwitch}
           langs={langsArray}
+          handleFilter={this.filterReviews}
         />
 
         <div id="tabs">
