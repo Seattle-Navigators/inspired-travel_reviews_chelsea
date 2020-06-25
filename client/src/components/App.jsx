@@ -96,15 +96,7 @@ export default class App extends React.Component {
     const filter = e.target.id;
     const isChecked = e.target.checked;
 
-    const rateMappings = {
-      'Excellent-filter': 4,
-      'Very Good-filter': 3,
-      'Average-filter': 2,
-      'Poor-filter': 1,
-      'Terrible-filter': 0,
-    };
-
-    const stateMappings = {
+    const mapToFilter = {
       'Excellent-filter': 'excellent',
       'Very Good-filter': 'veryGood',
       'Average-filter': 'average',
@@ -114,9 +106,9 @@ export default class App extends React.Component {
 
     if (isChecked !== undefined) {
       if (isChecked) {
-        filters[stateMappings[filter]] = true;
+        filters[mapToFilter[filter]] = true;
       } else {
-        filters[stateMappings[filter]] = false;
+        filters[mapToFilter[filter]] = false;
       }
       this.setState({
         attractionId,
