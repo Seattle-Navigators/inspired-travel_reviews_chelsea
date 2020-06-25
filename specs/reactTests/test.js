@@ -56,7 +56,7 @@ describe('Tab component functionality', () => {
   });
 
   test('Review tab should show number of reviews based on state', () => {
-    const wrapper = mount(<App attractionId="200" />);
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200')} />);
     const appInstance = wrapper.instance();
     const numReviews = appInstance.state.numReviews;
     expect(wrapper.find('#review-num')).toHaveText(`${numReviews}`);
