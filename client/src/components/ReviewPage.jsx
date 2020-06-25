@@ -10,6 +10,7 @@ const ReviewPage = ({ reviews }) => (
         helpful={review.helpful}
         rating={review.rating}
         travelType={review.travelType}
+        expDate={review.expDate}
       />
     ))}
   </div>

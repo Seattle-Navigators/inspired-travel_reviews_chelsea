@@ -102,10 +102,10 @@ export default class App extends React.Component {
       filters,
     } = this.state;
 
-    let statusRateFilters = false;
-    let statusTypeFilters = false;
-    let statusTimeFilters = false;
-    let statusLangFilters = false;
+    let rateFiltersAreOn = false;
+    let typeFiltersAreOn = false;
+    let timeFiltersAreOn = false;
+    let langFiltersAreOn = false;
 
     const rateFilters = ['excellent', 'veryGood', 'average', 'poor', 'terrible'];
     const typeFilters = ['family', 'couple', 'solo', 'business', 'friends'];
@@ -115,22 +115,22 @@ export default class App extends React.Component {
     for (const filter in filters) { // eslint-disable-line
       if (rateFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusRateFilters = true;
+          rateFiltersAreOn = true;
         }
       }
       if (typeFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusTypeFilters = true;
+          typeFiltersAreOn = true;
         }
       }
       if (timeFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusTimeFilters = true;
+          timeFiltersAreOn = true;
         }
       }
       if (langFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusLangFilters = true;
+          langFiltersAreOn = true;
         }
       }
     }
@@ -177,10 +177,10 @@ export default class App extends React.Component {
         lang,
       } = review;
 
-      if (filters[mapToFilter[rating]] || !statusRateFilters) {
-        if (filters[mapToFilter[travelType]] || !statusTypeFilters) {
-          if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !statusTimeFilters) {
-            if (filters[mapToFilter[lang]] || !statusLangFilters) {
+      if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
+        if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
+          if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
+            if (filters[mapToFilter[lang]] || !langFiltersAreOn) {
               return true;
             }
           }
