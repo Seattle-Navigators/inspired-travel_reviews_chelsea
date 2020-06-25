@@ -9,6 +9,7 @@ const ReviewPage = ({ reviews }) => (
         key={review._id} // eslint-disable-line
         helpful={review.helpful}
         rating={review.rating}
+        travelType={review.travelType}
       />
     ))}
   </div>

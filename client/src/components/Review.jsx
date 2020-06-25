@@ -8,6 +8,7 @@ export default class Review extends React.Component {
       helpful: props.helpful,
     };
     this.rating = props.rating;
+    this.travelType = props.travelType;
   }
 
   render() {
@@ -15,7 +16,7 @@ export default class Review extends React.Component {
     return (
       <div className="review">
         REVIEW BLOCK
-        <span>{`${helpful}, ${this.rating}`}</span>
+        <span>{`${helpful}, ${this.rating}, ${this.travelType}`}</span>
       </div>
     );
   }
