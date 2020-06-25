@@ -1,7 +1,7 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-const ListItem = ({ value, type, records, name, handleFilter, handleViewSwitch }) => {
+const ListItem = ({ value, type, records, name, handleFilter, handleViewSwitch, selected }) => {
   let changeFunction;
   if (handleViewSwitch) {
     changeFunction = (event) => {
@@ -11,9 +11,19 @@ const ListItem = ({ value, type, records, name, handleFilter, handleViewSwitch }
   } else {
     changeFunction = handleFilter;
   }
+
   return (
     <div>
-      <input type={type} name={name} id={`${type}-${value}`} value={`${type}-${value}`} onChange={changeFunction} />{value} {records}
+      <input
+        type={type}
+        name={name}
+        id={`${type}-${value}`}
+        value={`${type}-${value}`}
+        onChange={changeFunction}
+        checked={selected}
+      />
+      {value}
+      {records}
     </div>
   );
 };
