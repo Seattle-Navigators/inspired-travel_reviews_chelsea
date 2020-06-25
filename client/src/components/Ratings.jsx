@@ -25,14 +25,17 @@ const Ratings = ({ names, reviews, numReviews }) => {
   return (
     <div className="filter">
       <div className="filter-header">Traveler Rating</div>
-      {names.map((name) => (
-        <RateBar
-          name={name}
-          key={`${name}-bar`}
-          totalRatings={numReviews}
-          ratings={ratingCounts[mappedNames[name]]}
-        />
-      ))}
+      {names.map((name) => {
+        const ratings = ratingCounts[mappedNames[name]];
+        return (
+          <RateBar
+            name={name}
+            key={`${name}-bar`}
+            percentage={ratings / numReviews}
+            ratings={ratings}
+          />
+        );
+      })}
     </div>
   );
 };
