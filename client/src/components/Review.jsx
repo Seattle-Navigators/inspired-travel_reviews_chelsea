@@ -1,5 +1,5 @@
 import React from 'react';
-import { bool } from 'prop-types';
+import { bool, number } from 'prop-types';
 
 export default class Review extends React.Component {
   constructor(props) {
@@ -7,6 +7,7 @@ export default class Review extends React.Component {
     this.state = {
       helpful: props.helpful,
     };
+    this.rating = props.rating;
   }
 
   render() {
@@ -14,7 +15,7 @@ export default class Review extends React.Component {
     return (
       <div className="review">
         REVIEW BLOCK
-        <span>{`${helpful}`}</span>
+        <span>{`${helpful}, ${this.rating}`}</span>
       </div>
     );
   }
@@ -22,4 +23,5 @@ export default class Review extends React.Component {
 
 Review.propTypes = {
   helpful: bool.isRequired,
+  rating: number.isRequired,
 };

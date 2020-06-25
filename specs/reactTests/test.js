@@ -9,9 +9,12 @@ configure({ adapter: new Adapter() });
 import React from 'react';
 
 import { shallow, mount } from 'enzyme';
-import App from '../../client/src/components/App.jsx'; // eslint-disable-line import/extensions
-import Checklist from '../../client/src/components/Checklist.jsx'; // eslint-disable-line import/extensions
+import App from '../../client/src/components/App.jsx';
+import Checklist from '../../client/src/components/Checklist.jsx';
+import RateBar from '../../client/src/components/RateBar.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
+
+const { generateTestData } = require('../nodeTests/testData.js');
 
 describe('App component functionality', () => {
   test('App should update state with a 3-character attractionId prop', () => {
@@ -54,7 +57,7 @@ describe('Tab component functionality', () => {
   });
 
   test('Review tab should show number of reviews based on state', () => {
-    const wrapper = mount(<App attractionId="200" />);
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200')} />);
     const appInstance = wrapper.instance();
     const numReviews = appInstance.state.numReviews;
     expect(wrapper.find('#review-num')).toHaveText(`${numReviews}`);
@@ -109,6 +112,39 @@ describe('Header and AskQuestion component functionality', () => {
     expect(wrapper.find('.popup')).toExist();
     wrapper.find('#cancel-q').simulate('click');
     expect(wrapper.exists('.popup')).toEqual(false);
+  });
+});
+
+describe('Ratings component functionality', () => {
+  test('Total reviews should match total type ratings', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200')} />);
+    const appInstance = wrapper.instance();
+    const numReviews = appInstance.state.numReviews;
+
+    const excellents = Number(wrapper.find('#Excellent-ratings').text());
+    const veryGoods = Number(wrapper.find('#VeryGood-ratings').text());
+    const averages = Number(wrapper.find('#Average-ratings').text());
+    const poors = Number(wrapper.find('#Poor-ratings').text());
+    const terribles = Number(wrapper.find('#Terrible-ratings').text());
+
+    const totalTypeRatings = excellents + veryGoods + averages + poors + terribles;
+
+    expect(totalTypeRatings).toEqual(numReviews);
+  });
+
+  test('Rating types should allow user to filter reviews', () => {
+    const mockCallBack = jest.fn();
+    const wrapper1 = mount(<RateBar name="Excellent" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper2 = mount(<RateBar name="Very Good" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper3 = mount(<RateBar name="Average" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper4 = mount(<RateBar name="Poor" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    const wrapper5 = mount(<RateBar name="Terrible" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
+    wrapper1.find('#Excellent-filter').simulate('change');
+    wrapper2.find('#VeryGood-filter').simulate('change');
+    wrapper3.find('#Average-filter').simulate('change');
+    wrapper4.find('#Poor-filter').simulate('change');
+    wrapper5.find('#Terrible-filter').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(5);
   });
 });
 
