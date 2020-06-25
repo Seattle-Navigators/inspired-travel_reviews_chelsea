@@ -48,7 +48,7 @@ export default class App extends React.Component {
         junAug: false,
         sepNov: false,
         decFeb: false,
-        language: 'all',
+        language: 'All languages',
       },
     };
     this.getCurrentView = this.getCurrentView.bind(this);
@@ -156,7 +156,7 @@ export default class App extends React.Component {
       if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
         if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
           if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
-            if (filters.language === lang || filters.language === 'all') {
+            if (filters.language === lang || filters.language === 'All languages') {
               return true;
             }
           }
@@ -241,7 +241,7 @@ export default class App extends React.Component {
         const firstLetter = target.indexOf('-') + 1;
         const langSelected = target.slice(firstLetter);
         if (langSelected === 'All languages') {
-          filters.language = 'all';
+          filters.language = 'All languages';
         } else {
           filters.language = langSelected;
         }
