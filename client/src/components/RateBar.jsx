@@ -29,7 +29,7 @@ const RateBar = ({ name, percentage, ratings, handleFilter }) => {
           }} />
 
         </span>
-        <span>{ratings}</span>
+        <span id={`${name}-ratings`}>{ratings}</span>
       </div>
     </div>
   );

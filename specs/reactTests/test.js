@@ -112,6 +112,22 @@ describe('Header and AskQuestion component functionality', () => {
   });
 });
 
+describe('Ratings component functionality', () => {
+  test('Total reviews should match total type ratings', () => {
+    const wrapper = mount(<App attractionId="200" />);
+    const excellents = Number(wrapper.find('#Excellent-ratings').text());
+    const appInstance = wrapper.instance();
+    const numReviews = appInstance.state.numReviews;
+    expect(excellents).toEqual(numReviews);
+  });
+  test('Rate bars should be proportionate to rating percentages', () => {
+
+  });
+  test('Rating types should allow user to filter reviews', () => {
+
+  });
+});
+
 describe('ReviewPage component functionality', () => {
   test('Review page should render number of review blocks based on state', () => {
     const wrapper = mount(<App attractionId="200" />);
