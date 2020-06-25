@@ -1,14 +1,18 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, arrayOf, func } from 'prop-types';
+import ListItem from './ListItem';
 
-const Checklist = ({ title }) => (
-  <div className="filter" id={`checklist-${title}`}>
+const Checklist = ({ title, labels, handleFilter }) => (
+  <div className="checklist-filter" id={`checklist-${title}`}>
     <div className="filter-header">{title}</div>
+    {labels.map((label) => <ListItem value={label} type="checkbox" key={`${label}-label`} handleFilter={handleFilter} />)}
   </div>
 );
 
 Checklist.propTypes = {
   title: string.isRequired,
+  labels: arrayOf(string).isRequired,
+  handleFilter: func.isRequired,
 };
 
 export default Checklist;

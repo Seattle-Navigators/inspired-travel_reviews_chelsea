@@ -81,6 +81,12 @@
   border: 1px solid gray;
 }
 
+.checklist-filter {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
 #popular-mentions {
   border: 1px solid gray;
 }

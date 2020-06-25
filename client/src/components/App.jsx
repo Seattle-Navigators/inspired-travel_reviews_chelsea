@@ -11,6 +11,7 @@ import Search from './Search';
 import ReviewPage from './ReviewPage';
 import NavBar from './NavBar';
 import AskQuestion from './AskQuestion';
+import Languages from './Languages';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -18,9 +19,12 @@ export default class App extends React.Component {
 
     const reviews = props.initialData || [{
       attractionName: '',
-      _id: '',
+      _id: 'zzz',
       helpful: false,
       rating: 4,
+      lang: 'English',
+      expDate: '2019-09-27T06:08:15.712Z',
+      travelType: 'Solo',
     }];
 
     this.state = {
@@ -31,6 +35,7 @@ export default class App extends React.Component {
       view: 'Reviews',
       reviews,
       popupActive: false,
+      langActive: false,
       filters: {
         excellent: false,
         veryGood: false,
@@ -46,15 +51,7 @@ export default class App extends React.Component {
         junAug: false,
         sepNov: false,
         decFeb: false,
-        english: false,
-        spanish: false,
-        italian: false,
-        french: false,
-        portuguese: false,
-        german: false,
-        chinese: false,
-        japanese: false,
-        korean: false,
+        language: 'All languages',
       },
     };
     this.getCurrentView = this.getCurrentView.bind(this);
@@ -68,6 +65,7 @@ export default class App extends React.Component {
       attractionId,
       view,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -81,6 +79,7 @@ export default class App extends React.Component {
           view,
           reviews: res.data,
           popupActive,
+          langActive,
           filters,
         });
       })
@@ -98,35 +97,28 @@ export default class App extends React.Component {
       filters,
     } = this.state;
 
-    let statusRateFilters = false;
-    let statusTypeFilters = false;
-    let statusTimeFilters = false;
-    let statusLangFilters = false;
+    let rateFiltersAreOn = false;
+    let typeFiltersAreOn = false;
+    let timeFiltersAreOn = false;
 
     const rateFilters = ['excellent', 'veryGood', 'average', 'poor', 'terrible'];
     const typeFilters = ['family', 'couple', 'solo', 'business', 'friends'];
     const timeFilters = ['decFeb', 'marMay', 'junAug', 'sepNov'];
-    const langFilters = ['english', 'spanish', 'italian', 'french', 'portuguese', 'german', 'chinese', 'japanese', 'korean'];
 
     for (const filter in filters) { // eslint-disable-line
       if (rateFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusRateFilters = true;
+          rateFiltersAreOn = true;
         }
       }
       if (typeFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusTypeFilters = true;
+          typeFiltersAreOn = true;
         }
       }
       if (timeFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
-          statusTimeFilters = true;
-        }
-      }
-      if (langFilters.indexOf(filter) > -1) {
-        if (filters[filter]) {
-          statusLangFilters = true;
+          timeFiltersAreOn = true;
         }
       }
     }
@@ -142,27 +134,18 @@ export default class App extends React.Component {
       Solo: 'solo',
       Business: 'business',
       Friends: 'friends',
+      m0: 'decFeb',
       m1: 'decFeb',
-      m2: 'decFeb',
+      m2: 'marMay',
       m3: 'marMay',
       m4: 'marMay',
-      m5: 'marMay',
+      m5: 'junAug',
       m6: 'junAug',
       m7: 'junAug',
-      m8: 'junAug',
+      m8: 'sepNov',
       m9: 'sepNov',
       m10: 'sepNov',
-      m11: 'sepNov',
-      m12: 'decFeb',
-      English: 'english',
-      Spanish: 'spanish',
-      Italian: 'italian',
-      French: 'french',
-      Portuguese: 'portuguese',
-      German: 'german',
-      Chinese: 'chinese',
-      Japanese: 'japanese',
-      Korean: 'korean',
+      m11: 'decFeb',
     };
 
     const filteredReviews = reviews.filter((review) => {
@@ -173,10 +156,10 @@ export default class App extends React.Component {
         lang,
       } = review;
 
-      if (filters[mapToFilter[rating]] || !statusRateFilters) {
-        if (filters[mapToFilter[travelType]] || !statusTypeFilters) {
-          if (filters[mapToFilter[new Date(expDate).getMonth()]] || !statusTimeFilters) {
-            if (filters[mapToFilter[lang]] || !statusLangFilters) {
+      if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
+        if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
+          if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
+            if (filters.language === lang || filters.language === 'All languages') {
               return true;
             }
           }
@@ -186,6 +169,10 @@ export default class App extends React.Component {
     });
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
+    const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
+    const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
+
+    const langsArray = this.getUniqueSortedLangs(reviews);
 
     if (view === 'Reviews') {
       return (
@@ -200,9 +187,9 @@ export default class App extends React.Component {
               handleFilter={this.filterReviews}
             />
 
-            <Checklist title="Traveler type" />
-            <Checklist title="Time of year" />
-            <RadioList title="Language" />
+            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} />
+            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} />
+            <RadioList title="Language" handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} selection={filters.language} />
           </div>
 
           <Mentions />
@@ -218,7 +205,7 @@ export default class App extends React.Component {
     );
   }
 
-  filterReviews(e) {
+  filterReviews(e, exitView = () => {}) {
     const {
       attractionId,
       attractionName,
@@ -227,10 +214,11 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
-    const filter = e.target.id;
+    const target = e.target.id;
     const isChecked = e.target.checked;
 
     const mapToFilter = {
@@ -239,14 +227,30 @@ export default class App extends React.Component {
       'Average-filter': 'average',
       'Poor-filter': 'poor',
       'Terrible-filter': 'terrible',
+      'checkbox-Families': 'family',
+      'checkbox-Couples': 'couple',
+      'checkbox-Solo': 'solo',
+      'checkbox-Business': 'business',
+      'checkbox-Friends': 'friends',
+      'checkbox-Dec-Feb': 'decFeb',
+      'checkbox-Mar-May': 'marMay',
+      'checkbox-Jun-Aug': 'junAug',
+      'checkbox-Sep-Nov': 'sepNov',
     };
 
     if (isChecked !== undefined) {
-      if (isChecked) {
-        filters[mapToFilter[filter]] = true;
+      if (target.indexOf('radio') > -1) {
+        const firstLetter = target.indexOf('-') + 1;
+        const langSelected = target.slice(firstLetter);
+        if (langSelected === 'All languages') {
+          filters.language = 'All languages';
+        } else {
+          filters.language = langSelected;
+        }
       } else {
-        filters[mapToFilter[filter]] = false;
+        filters[mapToFilter[target]] = isChecked;
       }
+
       this.setState({
         attractionId,
         attractionName,
@@ -255,9 +259,11 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive,
+        langActive,
         filters,
       });
     }
+    setTimeout(exitView, 200);
   }
 
   handleSelection(e) {
@@ -269,6 +275,7 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -281,6 +288,19 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive: true,
+        langActive,
+        filters,
+      });
+    } else if (e.target.value === 'more-langs') {
+      this.setState({
+        attractionId,
+        attractionName,
+        numReviews,
+        numQuestions,
+        view,
+        reviews,
+        popupActive,
+        langActive: true,
         filters,
       });
     } else {
@@ -292,6 +312,7 @@ export default class App extends React.Component {
         view,
         reviews,
         popupActive,
+        langActive,
         filters,
       });
       window.alert('Off-page link');
@@ -307,6 +328,7 @@ export default class App extends React.Component {
       view,
       reviews,
       popupActive,
+      langActive,
       filters,
     } = this.state;
 
@@ -322,7 +344,7 @@ export default class App extends React.Component {
       newView = view;
     }
 
-    if (view !== newView || popupActive) {
+    if (view !== newView || popupActive || langActive) {
       this.setState({
         attractionId,
         attractionName,
@@ -331,6 +353,7 @@ export default class App extends React.Component {
         view: newView,
         reviews,
         popupActive: false,
+        langActive: false,
         filters,
       });
     }
@@ -339,10 +362,15 @@ export default class App extends React.Component {
   render() {
     const {
       attractionName,
+      reviews,
       numReviews,
       numQuestions,
       popupActive,
+      langActive,
+      filters,
     } = this.state;
+
+    const langsArray = this.getUniqueSortedLangs(reviews);
 
     return (
       <div className="container">
@@ -351,6 +379,14 @@ export default class App extends React.Component {
           hidden={!popupActive}
           handleViewSwitch={this.handleViewSwitch}
           name={attractionName}
+        />
+
+        <Languages
+          hidden={!langActive}
+          handleViewSwitch={this.handleViewSwitch}
+          langs={langsArray}
+          handleFilter={this.filterReviews}
+          selection={filters.language}
         />
 
         <div id="tabs">
@@ -363,6 +399,40 @@ export default class App extends React.Component {
         <NavBar />
       </div>
     );
+  }
+
+  getUniqueSortedLangs(reviews) { //eslint-disable-line
+    const allLangs = reviews.map((review) => review.lang);
+    const uniqueifier = {};
+
+    allLangs.forEach((lang) => {
+      if (lang in uniqueifier) {
+        uniqueifier[lang] += 1;
+      } else {
+        uniqueifier[lang] = 1;
+      }
+    });
+
+    const langsSummary = [];
+    for (const lang in uniqueifier) { // eslint-disable-line
+      const oneLang = [];
+      oneLang.push(lang, uniqueifier[lang]);
+      langsSummary.push(oneLang);
+    }
+
+    langsSummary.sort((langA, langB) => {
+      if (langA[1] > langB[1]) {
+        return -1;
+      }
+      if (langA[1] < langB[1]) {
+        return 1;
+      }
+      return 0;
+    });
+
+    langsSummary.unshift(['All languages', null]);
+
+    return langsSummary;
   }
 }
 
