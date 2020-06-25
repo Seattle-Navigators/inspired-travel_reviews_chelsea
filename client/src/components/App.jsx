@@ -186,6 +186,8 @@ export default class App extends React.Component {
     });
 
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
+    const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
+    const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
 
     if (view === 'Reviews') {
       return (
@@ -200,8 +202,8 @@ export default class App extends React.Component {
               handleFilter={this.filterReviews}
             />
 
-            <Checklist title="Traveler type" />
-            <Checklist title="Time of year" />
+            <Checklist title="Traveler type" labels={types} />
+            <Checklist title="Time of year" labels={times} />
             <RadioList title="Language" />
           </div>
 
