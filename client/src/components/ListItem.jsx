@@ -1,9 +1,9 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-const ListItem = ({ value, type, records }) => (
+const ListItem = ({ value, type, records, name }) => (
   <div>
-    <input type={type} id={`${type}-${value}`} value={`${type}-${value}`} />{value} {records}
+    <input type={type} name={name} id={`${type}-${value}`} value={`${type}-${value}`} />{value} {records}
   </div>
 );
 

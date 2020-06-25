@@ -8,7 +8,7 @@ const RadioList = ({ title, labels, handleSelection, langs }) => {
     <div className="checklist-filter">
       <div className="filter-header">{title}</div>
 
-      {displayed.map((lang) => <ListItem value={lang[0]} records={lang[1]} type="radio" key={`${lang}-label`} />)}
+      {displayed.map((lang) => <ListItem value={lang[0]} name="small-langs" records={lang[1]} type="radio" key={`${lang}-label`} />)}
 
       <button id="lang-btn" type="button" onClick={handleSelection} value="more-langs">
         More
