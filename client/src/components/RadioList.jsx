@@ -2,7 +2,7 @@ import React from 'react';
 import { string, arrayOf, func } from 'prop-types';
 import ListItem from './ListItem';
 
-const RadioList = ({ title, labels, handleSelection, langs, handleFilter }) => {
+const RadioList = ({ title, handleSelection, langs, handleFilter }) => {
   const displayed = langs.slice(0, 4);
   return (
     <div className="checklist-filter">
@@ -19,7 +19,6 @@ const RadioList = ({ title, labels, handleSelection, langs, handleFilter }) => {
 
 RadioList.propTypes = {
   title: string.isRequired,
-  labels: arrayOf(string).isRequired,
   handleSelection: func.isRequired,
 };
 

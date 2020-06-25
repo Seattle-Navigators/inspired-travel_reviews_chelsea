@@ -48,15 +48,7 @@ export default class App extends React.Component {
         junAug: false,
         sepNov: false,
         decFeb: false,
-        english: false,
-        spanish: false,
-        italian: false,
-        french: false,
-        portuguese: false,
-        german: false,
-        chinese: false,
-        japanese: false,
-        korean: false,
+        language: 'all',
       },
     };
     this.getCurrentView = this.getCurrentView.bind(this);
@@ -105,12 +97,10 @@ export default class App extends React.Component {
     let rateFiltersAreOn = false;
     let typeFiltersAreOn = false;
     let timeFiltersAreOn = false;
-    let langFiltersAreOn = false;
 
     const rateFilters = ['excellent', 'veryGood', 'average', 'poor', 'terrible'];
     const typeFilters = ['family', 'couple', 'solo', 'business', 'friends'];
     const timeFilters = ['decFeb', 'marMay', 'junAug', 'sepNov'];
-    const langFilters = ['english', 'spanish', 'italian', 'french', 'portuguese', 'german', 'chinese', 'japanese', 'korean'];
 
     for (const filter in filters) { // eslint-disable-line
       if (rateFilters.indexOf(filter) > -1) {
@@ -126,11 +116,6 @@ export default class App extends React.Component {
       if (timeFilters.indexOf(filter) > -1) {
         if (filters[filter]) {
           timeFiltersAreOn = true;
-        }
-      }
-      if (langFilters.indexOf(filter) > -1) {
-        if (filters[filter]) {
-          langFiltersAreOn = true;
         }
       }
     }
@@ -158,15 +143,6 @@ export default class App extends React.Component {
       m9: 'sepNov',
       m10: 'sepNov',
       m11: 'decFeb',
-      English: 'english',
-      Spanish: 'spanish',
-      Italian: 'italian',
-      French: 'french',
-      Portuguese: 'portuguese',
-      German: 'german',
-      Chinese: 'chinese',
-      Japanese: 'japanese',
-      Korean: 'korean',
     };
 
     const filteredReviews = reviews.filter((review) => {
@@ -180,7 +156,8 @@ export default class App extends React.Component {
       if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
         if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
           if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
-            if (filters[mapToFilter[lang]] || !langFiltersAreOn) {
+            if (filters.language === lang || filters.language === 'all') {
+              console.log(filters.language, lang);
               return true;
             }
           }
@@ -192,7 +169,6 @@ export default class App extends React.Component {
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
     const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
     const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
-    const langs = ['All languages', 'English', 'Spanish', 'Italian', 'French', 'Portuguese', 'German', 'Chinese', 'Japanese', 'Korean'];
 
     const langsArray = this.getUniqueSortedLangs(reviews);
 
@@ -211,7 +187,7 @@ export default class App extends React.Component {
 
             <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} />
             <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} />
-            <RadioList title="Language" labels={langs} handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} />
+            <RadioList title="Language" handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} />
           </div>
 
           <Mentions />
@@ -240,10 +216,8 @@ export default class App extends React.Component {
       filters,
     } = this.state;
 
-    const filter = e.target.id;
+    const target = e.target.id;
     const isChecked = e.target.checked;
-
-    console.log(filter, isChecked);
 
     const mapToFilter = {
       'Excellent-filter': 'excellent',
@@ -263,8 +237,20 @@ export default class App extends React.Component {
     };
 
     if (isChecked !== undefined) {
+      if (target.indexOf('radio') > -1) {
 
-      filters[mapToFilter[filter]] = isChecked;
+        const firstLetter = target.indexOf('-') + 1;
+        const langSelected = target.slice(firstLetter);
+        if (langSelected === 'All languages') {
+          filters.language = 'all';
+        } else {
+          filters.language = langSelected;
+        }
+
+      } else {
+
+        filters[mapToFilter[target]] = isChecked;
+      }
 
       this.setState({
         attractionId,
