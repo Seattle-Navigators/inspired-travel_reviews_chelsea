@@ -1,11 +1,22 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-const ListItem = ({ value, type, records, name, handleFilter }) => (
-  <div>
-    <input type={type} name={name} id={`${type}-${value}`} value={`${type}-${value}`} onChange={handleFilter} />{value} {records}
-  </div>
-);
+const ListItem = ({ value, type, records, name, handleFilter, handleViewSwitch }) => {
+  let changeFunction;
+  if (handleViewSwitch) {
+    changeFunction = (event) => {
+      event.persist();
+      handleFilter(event, () => { handleViewSwitch(event) });
+    };
+  } else {
+    changeFunction = handleFilter;
+  }
+  return (
+    <div>
+      <input type={type} name={name} id={`${type}-${value}`} value={`${type}-${value}`} onChange={changeFunction} />{value} {records}
+    </div>
+  );
+};
 
 export default ListItem;
 

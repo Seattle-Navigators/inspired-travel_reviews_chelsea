@@ -202,7 +202,7 @@ export default class App extends React.Component {
     );
   }
 
-  filterReviews(e) {
+  filterReviews(e, cb = () => {}) {
     const {
       attractionId,
       attractionName,
@@ -263,6 +263,7 @@ export default class App extends React.Component {
         filters,
       });
     }
+    setTimeout(cb, 200);
   }
 
   handleSelection(e) {

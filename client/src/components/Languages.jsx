@@ -18,7 +18,7 @@ const Languages = ({ hidden, handleViewSwitch, langs, handleFilter }) => {
       <div className="popup-lang-background" id="exit-lang-popup" onClick={handleViewSwitch} role="button" aria-label="Exit popup" onKeyDown={handleViewSwitch} tabIndex={-1} />
       <div className="popup-lang">
         <button onClick={handleViewSwitch}>X</button>
-        {langs.map((lang) => <ListItem value={lang[0]} records={lang[1]} type="radio" key={`${lang}-label`} name="expand-langs" handleFilter={handleFilter} />)}
+        {langs.map((lang) => <ListItem value={lang[0]} records={lang[1]} type="radio" key={`${lang}-label`} name="expand-langs" handleFilter={handleFilter} handleViewSwitch={handleViewSwitch} />)}
       </div>
     </div>
   );
