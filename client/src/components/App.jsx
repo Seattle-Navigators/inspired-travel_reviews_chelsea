@@ -25,6 +25,7 @@ export default class App extends React.Component {
         {
           _id: 0,
           helpful: false,
+          expDate: new Date(),
         },
       ],
       popupActive: false,
@@ -140,7 +141,38 @@ export default class App extends React.Component {
       filters,
     } = this.state;
 
-    console.log(this.state.reviews);
+    let statusRateFilters = false;
+    let statusTypeFilters = false;
+    let statusTimeFilters = false;
+    let statusLangFilters = false;
+
+    const rateFilters = ['excellent', 'veryGood', 'average', 'poor', 'terrible'];
+    const typeFilters = ['family', 'couple', 'solo', 'business', 'friends'];
+    const timeFilters = ['decFeb', 'marMay', 'junAug', 'sepNov'];
+    const langFilters = ['english', 'spanish', 'italian', 'french', 'portuguese', 'german', 'chinese', 'japanese', 'korean'];
+
+    for (const filter in filters) {
+      if (rateFilters.indexOf(filter) > -1) {
+        if (filters[filter]) {
+          statusRateFilters = true;
+        }
+      }
+      if (typeFilters.indexOf(filter) > -1) {
+        if (filters[filter]) {
+          statusTypeFilters = true;
+        }
+      }
+      if (timeFilters.indexOf(filter) > -1) {
+        if (filters[filter]) {
+          statusTimeFilters = true;
+        }
+      }
+      if (langFilters.indexOf(filter) > -1) {
+        if (filters[filter]) {
+          statusLangFilters = true;
+        }
+      }
+    };
 
     const mapToFilter = {
       4: 'excellent',
@@ -178,10 +210,11 @@ export default class App extends React.Component {
 
     const filteredReviews = reviews.filter((review) => {
       const { rating, travelType, expDate, lang } = review;
-      if (filters[mapToFilter[rating]] === true) {
-        if (filters[mapToFilter[travelType]] === true) {
-          if (filters[mapToFilter[expDate.getMonth()]] === true) {
-            if (filters[mapToFilter[lang]] === true) {
+
+      if (filters[mapToFilter[rating]] || !statusRateFilters) {
+        if (filters[mapToFilter[travelType]] || !statusTypeFilters) {
+          if (filters[mapToFilter[new Date(expDate).getMonth()]] || !statusTimeFilters) {
+            if (filters[mapToFilter[lang]] || !statusLangFilters) {
               return review;
             }
           }
