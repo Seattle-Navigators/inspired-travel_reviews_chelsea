@@ -11,6 +11,7 @@ const ReviewPage = ({ reviews }) => (
         rating={review.rating}
         travelType={review.travelType}
         expDate={review.expDate}
+        lang={review.lang}
       />
     ))}
   </div>

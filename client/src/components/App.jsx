@@ -157,7 +157,6 @@ export default class App extends React.Component {
         if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
           if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
             if (filters.language === lang || filters.language === 'all') {
-              console.log(filters.language, lang);
               return true;
             }
           }
