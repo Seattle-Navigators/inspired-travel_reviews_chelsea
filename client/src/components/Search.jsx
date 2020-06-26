@@ -3,7 +3,7 @@ import { func, string } from 'prop-types';
 
 const Search = ({ handleChange, search }) => {
   if (search === 'All reviews') {
-    search = '';
+    search = ''; // eslint-disable-line
   }
   return (
     <div className="search">
@@ -16,7 +16,6 @@ const Search = ({ handleChange, search }) => {
 Search.propTypes = {
   handleChange: func.isRequired,
   search: string.isRequired,
-}
+};
 
 export default Search;
-

@@ -113,10 +113,10 @@ attractionIds.forEach((id) => {
     const rating = generateNumBetween(0, 4);
 
     let body = chance.paragraph().split(' ');
-    body.splice(3, 0, commonWords[generateNumBetween(0, commonWords.length -1)]);
-    body.splice(5, 0, commonWords[generateNumBetween(0, commonWords.length -1)]);
-    body.splice(8, 0, commonWords[generateNumBetween(0, commonWords.length -1)]);
-    body.splice(12, 0, commonWords[generateNumBetween(0, commonWords.length -1)]);
+    body.splice(3, 0, commonWords[generateNumBetween(0, commonWords.length - 1)]);
+    body.splice(5, 0, commonWords[generateNumBetween(0, commonWords.length - 1)]);
+    body.splice(8, 0, commonWords[generateNumBetween(0, commonWords.length - 1)]);
+    body.splice(12, 0, commonWords[generateNumBetween(0, commonWords.length - 1)]);
     body = body.join(' ');
 
     const review = {

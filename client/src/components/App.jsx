@@ -1,7 +1,6 @@
 import React from 'react';
 import { string, arrayOf, object } from 'prop-types';
 import axios from 'axios';
-import { contains } from 'underscore';
 import Tab from './Tab';
 import Header from './Header';
 import Ratings from './Ratings';
@@ -169,12 +168,12 @@ export default class App extends React.Component {
     const words = combinedText.split(' ');
 
     const wordCounts = words.reduce((counts, word) => {
-      word in counts ? ++counts[word] : counts[word] = 1;
+      word in counts ? counts[word] += 1 : counts[word] = 1; // eslint-disable-line
       return counts;
     }, {});
 
     const popularMentions = [];
-    for (const word in wordCounts) {
+    for (const word in wordCounts) { // eslint-disable-line
       if (wordCounts[word] > reviews.length * 0.15) {
         popularMentions.push(word);
       }
@@ -319,7 +318,7 @@ export default class App extends React.Component {
     }
 
     if (target === '') {
-      stateCopy.search = 'All reviews'
+      stateCopy.search = 'All reviews';
     } else {
       stateCopy.search = target;
     }
@@ -328,7 +327,6 @@ export default class App extends React.Component {
   }
 
   handleMention(e) {
-
     const stateCopy = this.state;
     const { search } = this.state;
 
