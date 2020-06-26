@@ -175,7 +175,7 @@ export default class App extends React.Component {
     // add words above a certain threshold to array
     const popularMentions = [];
     for (const word in wordCounts) {
-      if (wordCounts[word] > numWords * 0.01) {
+      if (wordCounts[word] > 10) {
         popularMentions.push(word);
       }
     }
