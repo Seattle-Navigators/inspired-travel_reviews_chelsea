@@ -66,7 +66,7 @@ export default class Review extends React.Component {
       togglePlural = '';
     }
     return (
-      <div className="review">
+      <div className={`review ${this.lang}`}>
         <div className="review-header">
           <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
           <div className="header-text">

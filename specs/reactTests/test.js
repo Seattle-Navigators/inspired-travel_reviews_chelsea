@@ -262,18 +262,15 @@ describe('RadioList component functionality', () => {
 
     wrapper.find('#radio-English').simulate('change', {target: {id: 'radio-English', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    let foundIndex = wrapper.find('.review').text().indexOf('English');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('English')).toEqual(true);
 
     wrapper.find('#radio-Spanish').simulate('change', {target: {id: 'radio-Spanish', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('Spanish');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('Spanish')).toEqual(true);
 
     wrapper.find('#radio-Chinese').simulate('change', {target: {id: 'radio-Chinese', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('Chinese');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('Chinese')).toEqual(true);
 
     wrapper.find('#radio-AllLanguages').simulate('change', {target: {id: 'radio-AllLanguages', checked: true}});
     expect(wrapper).toContainMatchingElements(5, '.review');
@@ -288,7 +285,7 @@ describe('RadioList component functionality', () => {
 });
 
 describe('Languages expanded view functionality', () => {
-  test('All languages should be displayed', () => {
+  test('All languages should be displayed including default \'All languages\'', () => {
     const testReviews = generateTestData('200', true);
     const testLangs = ['English', 'Spanish', 'Chinese', 'German', 'Italian'];
     const langTestData = testReviews.map((review, i) => {
@@ -298,7 +295,6 @@ describe('Languages expanded view functionality', () => {
     const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
     wrapper.find('#lang-btn').simulate('click');
     expect(wrapper.find('.popup-lang')).toContainMatchingElements(6, '.radio');
-    // 1 extra above is for default 'All languages'
   });
 
   test('Languages expanded view should allow user to filter reviews by one language', () => {
@@ -314,28 +310,23 @@ describe('Languages expanded view functionality', () => {
 
     wrapper.find('.popup-lang').find('#radio-English').simulate('change', {target: {id: 'radio-English', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    let foundIndex = wrapper.find('.review').text().indexOf('English');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('English')).toEqual(true);
 
     wrapper.find('.popup-lang').find('#radio-Spanish').simulate('change', {target: {id: 'radio-Spanish', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('Spanish');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('Spanish')).toEqual(true);
 
     wrapper.find('.popup-lang').find('#radio-Chinese').simulate('change', {target: {id: 'radio-Chinese', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('Chinese');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('Chinese')).toEqual(true);
 
     wrapper.find('.popup-lang').find('#radio-German').simulate('change', {target: {id: 'radio-German', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('German');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('German')).toEqual(true);
 
     wrapper.find('.popup-lang').find('#radio-Italian').simulate('change', {target: {id: 'radio-Italian', checked: true}});
     expect(wrapper).toContainMatchingElements(1, '.review');
-    foundIndex = wrapper.find('.review').text().indexOf('Italian');
-    expect(foundIndex).toBeGreaterThan(-1);
+    expect(wrapper.find('.review').hasClass('Italian')).toEqual(true);
 
     wrapper.find('.popup-lang').find('#radio-AllLanguages').simulate('change', {target: {id: 'radio-AllLanguages', checked: true}});
     expect(wrapper).toContainMatchingElements(5, '.review');
