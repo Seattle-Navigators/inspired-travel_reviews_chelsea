@@ -20,6 +20,10 @@ const ListItem = ({
     changeFunction = handleFilter;
   }
 
+  if (value === 'All languages') {
+    value = 'AllLanguages';
+  }
+
   return (
     <div>
       <input
@@ -29,6 +33,7 @@ const ListItem = ({
         value={`${type}-${value}`}
         onChange={changeFunction}
         checked={selected}
+        className={`${type}`}
       />
       {value}
       {records}

@@ -9,6 +9,9 @@ import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx';
 import Checklist from '../../client/src/components/Checklist.jsx';
 import RateBar from '../../client/src/components/RateBar.jsx';
+import ListItem from '../../client/src/components/ListItem.jsx';
+import RadioList from '../../client/src/components/RadioList.jsx';
+import Languages from '../../client/src/components/Languages.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
 const { generateTestData } = require('../nodeTests/testData.js');
@@ -130,44 +133,165 @@ describe('Ratings component functionality', () => {
     expect(totalTypeRatings).toEqual(numReviews);
   });
 
-  test('Rating types should allow user to filter reviews', () => {
-    const mockCallBack = jest.fn();
-    const wrapper1 = mount(<RateBar name="Excellent" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
-    const wrapper2 = mount(<RateBar name="Very Good" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
-    const wrapper3 = mount(<RateBar name="Average" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
-    const wrapper4 = mount(<RateBar name="Poor" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
-    const wrapper5 = mount(<RateBar name="Terrible" percentage={0.4} ratings={15} handleFilter={mockCallBack} />);
-    wrapper1.find('#Excellent-filter').simulate('change');
-    wrapper2.find('#VeryGood-filter').simulate('change');
-    wrapper3.find('#Average-filter').simulate('change');
-    wrapper4.find('#Poor-filter').simulate('change');
-    wrapper5.find('#Terrible-filter').simulate('change');
-    expect(mockCallBack).toHaveBeenCalledTimes(5);
+  test('Rating types should allow user to filter and unfilter reviews', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper).toContainMatchingElements(5, '.review');
+
+    wrapper.find('#Excellent-filter').simulate('change', {target: {id: 'Excellent-filter', checked: true} });
+    expect(wrapper).toContainMatchingElements(1, '.review');
+    wrapper.find('#VeryGood-filter').simulate('change', {target: {id: 'VeryGood-filter', checked: true} });
+    expect(wrapper).toContainMatchingElements(2, '.review');
+    wrapper.find('#Average-filter').simulate('change', {target: {id: 'Average-filter', checked: true} });
+    expect(wrapper).toContainMatchingElements(3, '.review');
+    wrapper.find('#Poor-filter').simulate('change', {target: {id: 'Poor-filter', checked: true} });
+    expect(wrapper).toContainMatchingElements(4, '.review');
+    wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: true} });
+    expect(wrapper).toContainMatchingElements(5, '.review');
+
+    wrapper.find('#Excellent-filter').simulate('change', {target: {id: 'Excellent-filter', checked: false} });
+    expect(wrapper).toContainMatchingElements(4, '.review');
+
+    wrapper.find('#VeryGood-filter').simulate('change', {target: {id: 'VeryGood-filter', checked: false} });
+    wrapper.find('#Average-filter').simulate('change', {target: {id: 'Average-filter', checked: false} });
+    wrapper.find('#Poor-filter').simulate('change', {target: {id: 'Poor-filter', checked: false} });
+    wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: false} });
+
+    expect(wrapper).toContainMatchingElements(5, '.review');
   });
 });
 
 describe('Checklist component functionality', () => {
   test('Five traveler types should be listed', () => {
-
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper.find('#checkbox-Families')).toExist();
+    expect(wrapper.find('#checkbox-Couples')).toExist();
+    expect(wrapper.find('#checkbox-Solo')).toExist();
+    expect(wrapper.find('#checkbox-Business')).toExist();
+    expect(wrapper.find('#checkbox-Friends')).toExist();
   });
+
   test('Traveler types should allow user to filter reviews', () => {
-
+    const mockCallBack = jest.fn();
+    const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
+    const wrapper = mount(<Checklist title="Traveler type" labels={types} handleFilter={mockCallBack} />);
+    wrapper.find('#checkbox-Families').simulate('change');
+    wrapper.find('#checkbox-Couples').simulate('change');
+    wrapper.find('#checkbox-Solo').simulate('change');
+    wrapper.find('#checkbox-Business').simulate('change');
+    wrapper.find('#checkbox-Friends').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(5);
   });
+
   test('Four seasons should be listed', () => {
-
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper.find('#checkbox-Dec-Feb')).toExist();
+    expect(wrapper.find('#checkbox-Mar-May')).toExist();
+    expect(wrapper.find('#checkbox-Jun-Aug')).toExist();
+    expect(wrapper.find('#checkbox-Sep-Nov')).toExist();
   });
+
   test('Seasons should allow user to filter reviews', () => {
-
+    const mockCallBack = jest.fn();
+    const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
+    const wrapper = mount(<Checklist title="Time of year" labels={times} handleFilter={mockCallBack} />);
+    wrapper.find('#checkbox-Dec-Feb').simulate('change');
+    wrapper.find('#checkbox-Mar-May').simulate('change');
+    wrapper.find('#checkbox-Jun-Aug').simulate('change');
+    wrapper.find('#checkbox-Sep-Nov').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(4);
   });
+
 });
 
 describe('RadioList component functionality', () => {
-  test('Four languages should be displayed sorted by number', () => {
-
+  test('Four first languages should be displayed', () => {
+    const mockCallBack = jest.fn();
+    const wrapper = mount(
+      <RadioList
+        title="Language"
+        handleSelection={mockCallBack}
+        langs={[['All languages', null], ['English', 10], ['Spanish', 9], ['Chinese', 8], ['German', 7]]}
+        handleFilter={mockCallBack}
+        selection={'All languages'}
+      />
+    );
+    expect(wrapper).toContainMatchingElements(4, '.radio');
   });
+
   test('Languages should allow user to filter reviews', () => {
-
+    const mockCallBack = jest.fn();
+    const wrapper = mount(
+      <RadioList
+        title="Language"
+        handleSelection={mockCallBack}
+        langs={[['All languages', null], ['English', 10], ['Spanish', 9], ['Chinese', 8], ['German', 7]]}
+        handleFilter={mockCallBack}
+        selection={'All languages'}
+      />
+    );
+    wrapper.find('#radio-AllLanguages').simulate('change');
+    wrapper.find('#radio-English').simulate('change');
+    wrapper.find('#radio-Spanish').simulate('change');
+    wrapper.find('#radio-Chinese').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(4);
   });
+
+  test('User should be able to access expanded view by selecting \'More\'', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper.exists('.popup-lang')).toEqual(false);
+    wrapper.find('#lang-btn').simulate('click');
+    expect(wrapper.find('.popup-lang')).toExist();
+  });
+
+});
+
+describe('Languages expanded view functionality', () => {
+  test('All languages should be displayed', () => {
+    const testReviews = generateTestData('200', true);
+    const testLangs = ['English', 'Spanish', 'Chinese', 'German', 'Italian'];
+    const langTestData = testReviews.map((review, i) => {
+      review.lang = testLangs[i];
+      return review;
+    });
+    const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
+    wrapper.find('#lang-btn').simulate('click');
+    expect(wrapper.find('.popup-lang')).toContainMatchingElements(6, '.radio');
+    // 1 extra above is for default 'All languages'
+  });
+
+  test('Languages expanded view should allow user to filter reviews', () => {
+    const mockCallBack = jest.fn();
+    const wrapper = mount(
+      <Languages
+        hidden={false}
+        handleViewSwitch={() => {}}
+        langs={[['All languages', null], ['English', 10], ['Spanish', 9], ['Chinese', 8], ['German', 7]]}
+        handleFilter={mockCallBack}
+        selection={'All languages'}
+      />
+    );
+    wrapper.find('#radio-AllLanguages').simulate('change');
+    wrapper.find('#radio-English').simulate('change');
+    wrapper.find('#radio-Spanish').simulate('change');
+    wrapper.find('#radio-Chinese').simulate('change');
+    wrapper.find('#radio-German').simulate('change');
+    expect(mockCallBack).toHaveBeenCalledTimes(5);
+  });
+
+  test('User can click \'X\' to exit expanded view', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    wrapper.find('#lang-btn').simulate('click');
+    wrapper.find('.popup-lang').find('button').simulate('click');
+    expect(wrapper.exists('.popup-lang')).toEqual(false);
+  });
+
+  test('User can click outside popup to exit expanded view', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    wrapper.find('#lang-btn').simulate('click');
+    wrapper.find('.popup-lang-background').simulate('click');
+    expect(wrapper.exists('.popup-lang')).toEqual(false);
+  });
+
 });
 
 describe('ReviewPage component functionality', () => {
