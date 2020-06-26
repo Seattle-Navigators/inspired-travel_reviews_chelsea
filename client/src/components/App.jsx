@@ -58,7 +58,7 @@ export default class App extends React.Component {
         language: 'All languages',
       },
       search: 'All reviews',
-      page: 1,
+      currentPage: 1,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -92,6 +92,7 @@ export default class App extends React.Component {
       reviews,
       filters,
       search,
+      currentPage,
     } = this.state;
 
     // ===================Apply filters to reviews=============================
@@ -268,7 +269,7 @@ export default class App extends React.Component {
             search={search}
           />
 
-          <ReviewPage reviews={filteredReviews} />
+          <ReviewPage reviews={filteredReviews} currentPage={currentPage} />
         </div>
       );
     }
@@ -420,7 +421,7 @@ export default class App extends React.Component {
       popupActive,
       langActive,
       filters,
-      page,
+      currentPage,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);
@@ -459,7 +460,7 @@ export default class App extends React.Component {
 
         {this.getCurrentView()}
 
-        <NavBar page={page} numReviews={numReviews} />
+        <NavBar currentPage={currentPage} numReviews={numReviews} />
       </div>
     );
   }
