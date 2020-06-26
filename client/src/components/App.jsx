@@ -61,27 +61,15 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      attractionId,
-      view,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
+    const { attractionId } = this.state;
 
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
-        this.setState({
-          attractionId,
-          attractionName: res.data[0].attractionName,
-          numReviews: res.data.length,
-          numQuestions: 0,
-          view,
-          reviews: res.data,
-          popupActive,
-          langActive,
-          filters,
-        });
+        stateCopy.attractionName = res.data[0].attractionName;
+        stateCopy.numReviews = res.data.length;
+        stateCopy.reviews = res.data;
+        this.setState(stateCopy);
       })
       .catch((err) => {
         console.error(err);
@@ -177,19 +165,43 @@ export default class App extends React.Component {
     if (view === 'Reviews') {
       return (
         <div>
-          <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
-          <div id="filter-container">
+          <Header
+            id="reviews-header"
+            header="Reviews"
+            buttonLabel="Write a review"
+            subtitle=""
+            buttonId="write-review"
+            handleSelection={this.handleSelection}
+          />
 
+          <div id="filter-container">
             <Ratings
               names={names}
               reviews={reviews}
               numReviews={numReviews}
               handleFilter={this.filterReviews}
+              selections={filters}
             />
 
-            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} />
-            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} />
-            <RadioList title="Language" handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} selection={filters.language} />
+            <Checklist
+              title="Traveler type"
+              labels={types}
+              handleFilter={this.filterReviews}
+              selections={filters}
+            />
+            <Checklist
+              title="Time of year"
+              labels={times}
+              handleFilter={this.filterReviews}
+              selections={filters}
+            />
+            <RadioList
+              title="Language"
+              handleSelection={this.handleSelection}
+              langs={langsArray}
+              handleFilter={this.filterReviews}
+              selection={filters.language}
+            />
           </div>
 
           <Mentions />
@@ -200,24 +212,20 @@ export default class App extends React.Component {
     }
     return (
       <div>
-        <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
+        <Header
+          id="qa-header"
+          header="Questions & Answers"
+          buttonLabel="Ask a question"
+          subtitle={`See all ${numQuestions} questions`}
+          buttonId="ask-question"
+          handleSelection={this.handleSelection}
+        />
       </div>
     );
   }
 
   filterReviews(e, exitView = () => {}) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
-
+    const stateCopy = this.state;
     const target = e.target.id;
     const isChecked = e.target.checked;
 
@@ -242,95 +250,37 @@ export default class App extends React.Component {
       if (target.indexOf('radio') > -1) {
         const firstLetter = target.indexOf('-') + 1;
         const langSelected = target.slice(firstLetter);
-        if (langSelected === 'All languages') {
-          filters.language = 'All languages';
+        if (langSelected === 'AllLanguages') {
+          stateCopy.filters.language = 'All languages';
         } else {
-          filters.language = langSelected;
+          stateCopy.filters.language = langSelected;
         }
       } else {
-        filters[mapToFilter[target]] = isChecked;
+        stateCopy.filters[mapToFilter[target]] = isChecked;
       }
 
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive,
-        filters,
-      });
+      this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
   }
 
   handleSelection(e) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
 
     if (e.target.value === 'ask-question' || e.target.value === 'Ask a question') {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive: true,
-        langActive,
-        filters,
-      });
+      stateCopy.popupActive = true;
     } else if (e.target.value === 'more-langs') {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive: true,
-        filters,
-      });
+      stateCopy.langActive = true;
     } else {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive,
-        filters,
-      });
       window.alert('Off-page link');
     }
+
+    this.setState(stateCopy);
   }
 
   handleViewSwitch(e) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
+    const { view, popupActive, langActive } = this.state;
 
     let newView;
     const qualifierIndex = e.target.id.indexOf('-');
@@ -345,17 +295,10 @@ export default class App extends React.Component {
     }
 
     if (view !== newView || popupActive || langActive) {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view: newView,
-        reviews,
-        popupActive: false,
-        langActive: false,
-        filters,
-      });
+      stateCopy.view = newView;
+      stateCopy.popupActive = false;
+      stateCopy.langActive = false;
+      this.setState(stateCopy);
     }
   }
 
@@ -390,8 +333,18 @@ export default class App extends React.Component {
         />
 
         <div id="tabs">
-          <Tab baseId="review" title="Reviews" records={numReviews} handleViewSwitch={this.handleViewSwitch} />
-          <Tab baseId="qa" title="Q&A" records={numQuestions} handleViewSwitch={this.handleViewSwitch} />
+          <Tab
+            baseId="review"
+            title="Reviews"
+            records={numReviews}
+            handleViewSwitch={this.handleViewSwitch}
+          />
+          <Tab
+            baseId="qa"
+            title="Q&A"
+            records={numQuestions}
+            handleViewSwitch={this.handleViewSwitch}
+          />
         </div>
 
         {this.getCurrentView()}

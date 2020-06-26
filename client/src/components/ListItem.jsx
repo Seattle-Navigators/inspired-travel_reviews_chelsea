@@ -20,6 +20,10 @@ const ListItem = ({
     changeFunction = handleFilter;
   }
 
+  if (value === 'All languages') {
+    value = 'AllLanguages'; // eslint-disable-line
+  }
+
   return (
     <div>
       <input
@@ -29,6 +33,7 @@ const ListItem = ({
         value={`${type}-${value}`}
         onChange={changeFunction}
         checked={selected}
+        className={`${type}`}
       />
       {value}
       {records}
@@ -45,12 +50,11 @@ ListItem.propTypes = {
   name: string,
   handleFilter: func.isRequired,
   handleViewSwitch: func,
-  selected: bool,
+  selected: bool.isRequired,
 };
 
 ListItem.defaultProps = {
   handleViewSwitch: undefined,
-  selected: undefined,
   records: undefined,
   name: undefined,
 };
