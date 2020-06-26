@@ -166,7 +166,7 @@ export default class App extends React.Component {
     const reviewBodies = reviews.map((review) => review.body);
     const combinedText = reviewBodies.join(' ');
     const words = combinedText.split(' ');
-    const numWords = words.length;
+
     // add all words to a counts object
     const wordCounts = words.reduce((counts, word) => {
       word in counts ? ++counts[word] : counts[word] = 1;
@@ -175,10 +175,20 @@ export default class App extends React.Component {
     // add words above a certain threshold to array
     const popularMentions = [];
     for (const word in wordCounts) {
-      if (wordCounts[word] > 10) {
+      if (wordCounts[word] > reviews.length * 0.15) {
         popularMentions.push(word);
       }
     }
+    //sort mentions by most common occurrence
+    popularMentions.sort((wordA, wordB) => {
+      if (wordA[1] > wordB[1]) {
+        return -1;
+      }
+      if (wordA[1] < wordB[1]) {
+        return 1;
+      }
+      return 0;
+    });
     // add default 'All reviews'
     popularMentions.unshift('All reviews');
 
