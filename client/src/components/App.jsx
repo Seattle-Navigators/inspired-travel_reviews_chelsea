@@ -270,7 +270,18 @@ export default class App extends React.Component {
             search={search}
           />
 
-          <ReviewPage reviews={filteredReviews} currentPage={currentPage} />
+          <ReviewPage
+            reviews={filteredReviews}
+            currentPage={currentPage}
+          />
+
+          <NavBar
+            currentPage={currentPage}
+            numReviews={filteredReviews.length}
+            handlePageChange={this.handlePageChange}
+            view={view}
+          />
+
         </div>
       );
     }
@@ -283,6 +294,13 @@ export default class App extends React.Component {
           subtitle={`See all ${numQuestions} questions`}
           buttonId="ask-question"
           handleSelection={this.handleSelection}
+        />
+
+        <NavBar
+          currentPage={currentPage}
+          numReviews={filteredReviews.length}
+          handlePageChange={this.handlePageChange}
+          view={view}
         />
       </div>
     );
@@ -375,14 +393,24 @@ export default class App extends React.Component {
     this.setState(stateCopy);
   }
 
-  handlePageChange(e) {
+  handlePageChange(e, max) {
+
     const stateCopy = this.state;
     const { currentPage } = this.state;
     const newPage = e.target.value;
-    if (currentPage !== newPage) {
+
+    if (newPage === 'next-page' && currentPage + 1 <= max) {
+      stateCopy.currentPage += 1;
+    } else if (newPage === 'prev-page' && currentPage - 1 >=1) {
+      stateCopy.currentPage -= 1;
+    } else if (Number(newPage)) {
       stateCopy.currentPage = Number(newPage);
+    }
+
+    if (stateCopy.currentPage !== currentPage) {
       this.setState(stateCopy);
     }
+
   }
 
   handleSelection(e) {
@@ -471,11 +499,6 @@ export default class App extends React.Component {
 
         {this.getCurrentView()}
 
-        <NavBar
-          currentPage={currentPage}
-          numReviews={numReviews}
-          handlePageChange={this.handlePageChange}
-        />
       </div>
     );
   }
