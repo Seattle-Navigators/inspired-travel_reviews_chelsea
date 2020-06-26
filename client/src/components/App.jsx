@@ -28,6 +28,7 @@ export default class App extends React.Component {
       travelType: 'Solo',
       body: '',
       title: '',
+      user: '',
     }];
 
     this.state = {

@@ -7,13 +7,7 @@ const ReviewPage = ({ reviews }) => (
     {reviews.map((review) => (
       <Review
         key={review._id} // eslint-disable-line
-        helpful={review.helpful}
-        rating={review.rating}
-        travelType={review.travelType}
-        expDate={review.expDate}
-        lang={review.lang}
-        body={review.body}
-        title={review.title}
+        review={review}
       />
     ))}
   </div>

@@ -1,25 +1,34 @@
 import React from 'react';
-import { bool, number, string } from 'prop-types';
+import { objectOf, oneOfType, object, array, string, number, bool } from 'prop-types'; // eslint-disable-line
 
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      helpful: props.helpful,
+      helpful: props.review.helpful,
     };
-    this.rating = props.rating;
-    this.travelType = props.travelType;
-    this.expDate = props.expDate;
-    this.lang = props.lang;
-    this.body = props.body;
-    this.title = props.title;
+
+    const { rating, travelType, expDate, lang, body, title, user } = props.review;
+
+    this.rating = rating;
+    this.travelType = travelType;
+    this.expDate = expDate;
+    this.lang = lang;
+    this.body = body;
+    this.title = title;
+    this.username = user.name;
+    this.profileImage = user.profileImage;
   }
 
   render() {
     const { helpful } = this.state;
     return (
       <div className="review">
-        REVIEW BLOCK
+        <div>
+          <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
+          <div>{this.username}</div>
+        </div>
+
         <div>{`${this.title}`}</div>
         <span>{`${helpful}, ${this.rating}, ${this.travelType}, ${this.expDate}, ${this.lang}`}</span>
         <div>{`${this.body}`}</div>
@@ -29,11 +38,11 @@ export default class Review extends React.Component {
 }
 
 Review.propTypes = {
-  helpful: bool.isRequired,
-  rating: number.isRequired,
-  travelType: string.isRequired,
-  expDate: string.isRequired,
-  lang: string.isRequired,
-  body: string.isRequired,
-  title: string.isRequired,
+  review: objectOf(oneOfType([
+    object,
+    array,
+    string,
+    number,
+    bool,
+  ])),
 };
