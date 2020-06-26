@@ -2,16 +2,21 @@ import React from 'react';
 import { string, arrayOf, func, objectOf, bool, oneOfType } from 'prop-types'; // eslint-disable-line
 import ListItem from './ListItem';
 
-const Checklist = ({ title, labels, handleFilter, selections }) => (
+const Checklist = ({
+  title,
+  labels,
+  handleFilter,
+  selections,
+}) => (
   <div className="checklist-filter" id={`checklist-${title}`}>
     <div className="filter-header">{title}</div>
     {labels.map((label) => {
       const mapToFilter = {
-        'Families': 'family',
-        'Couples': 'couple',
-        'Solo': 'solo',
-        'Business': 'business',
-        'Friends': 'friends',
+        Families: 'family',
+        Couples: 'couple',
+        Solo: 'solo',
+        Business: 'business',
+        Friends: 'friends',
         'Dec-Feb': 'decFeb',
         'Mar-May': 'marMay',
         'Jun-Aug': 'junAug',

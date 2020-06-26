@@ -1,17 +1,12 @@
 /**
  * @jest-environment enzyme
  */
-import { configure } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 import React from 'react';
-import { shallow, mount } from 'enzyme';
 import App from '../../client/src/components/App.jsx';
-import Checklist from '../../client/src/components/Checklist.jsx';
-import RateBar from '../../client/src/components/RateBar.jsx';
-import ListItem from '../../client/src/components/ListItem.jsx';
 import RadioList from '../../client/src/components/RadioList.jsx';
-import Languages from '../../client/src/components/Languages.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
 const { generateTestData } = require('../nodeTests/testData.js');
@@ -60,7 +55,7 @@ describe('Tab component functionality', () => {
   test('Review tab should show number of reviews based on state', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
-    const numReviews = appInstance.state.numReviews;
+    const { numReviews } = appInstance.state;
     expect(wrapper.find('#review-num')).toHaveText(`${numReviews}`);
   });
 });
@@ -69,7 +64,7 @@ describe('Header and AskQuestion component functionality', () => {
   test('Header component should show number of questions when Q&A tab selected', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
-    const numQuestions = appInstance.state.numQuestions;
+    const { numQuestions } = appInstance.state;
     wrapper.find('#qa-tab').simulate('click');
     expect(wrapper.find('#subtitle')).toHaveText(`See all ${numQuestions} questions`);
   });
@@ -120,7 +115,7 @@ describe('Ratings component functionality', () => {
   test('Total reviews should match total type ratings', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
-    const numReviews = appInstance.state.numReviews;
+    const { numReviews } = appInstance.state;
 
     const excellents = Number(wrapper.find('#Excellent-ratings').text());
     const veryGoods = Number(wrapper.find('#VeryGood-ratings').text());
@@ -147,15 +142,12 @@ describe('Ratings component functionality', () => {
     expect(wrapper).toContainMatchingElements(4, '.review');
     wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: true} });
     expect(wrapper).toContainMatchingElements(5, '.review');
-
     wrapper.find('#Excellent-filter').simulate('change', {target: {id: 'Excellent-filter', checked: false} });
     expect(wrapper).toContainMatchingElements(4, '.review');
-
     wrapper.find('#VeryGood-filter').simulate('change', {target: {id: 'VeryGood-filter', checked: false} });
     wrapper.find('#Average-filter').simulate('change', {target: {id: 'Average-filter', checked: false} });
     wrapper.find('#Poor-filter').simulate('change', {target: {id: 'Poor-filter', checked: false} });
     wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: false} });
-
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
 });
@@ -215,7 +207,7 @@ describe('Checklist component functionality', () => {
       '2019-03-27T06:08:15.712Z',
       '2019-07-27T06:08:15.712Z',
       '2019-10-27T06:08:15.712Z',
-      '2019-12-27T06:08:15.712Z'
+      '2019-12-27T06:08:15.712Z',
     ];
     const timeTestData = testReviews.map((review, i) => {
       review.expDate = testTimes[i];
@@ -241,7 +233,6 @@ describe('Checklist component functionality', () => {
     wrapper.find('#checkbox-Jun-Aug').simulate('change', {target: {id: 'checkbox-Jun-Aug', checked: false}});
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
-
 });
 
 describe('RadioList component functionality', () => {
@@ -253,7 +244,7 @@ describe('RadioList component functionality', () => {
         handleSelection={mockCallBack}
         langs={[['All languages', null], ['English', 10], ['Spanish', 9], ['Chinese', 8], ['German', 7]]}
         handleFilter={mockCallBack}
-        selection={'All languages'}
+        selection="All languages"
       />
     );
     expect(wrapper).toContainMatchingElements(4, '.radio');
@@ -294,7 +285,6 @@ describe('RadioList component functionality', () => {
     wrapper.find('#lang-btn').simulate('click');
     expect(wrapper.find('.popup-lang')).toExist();
   });
-
 });
 
 describe('Languages expanded view functionality', () => {
@@ -364,7 +354,6 @@ describe('Languages expanded view functionality', () => {
     wrapper.find('.popup-lang-background').simulate('click');
     expect(wrapper.exists('.popup-lang')).toEqual(false);
   });
-
 });
 
 describe('ReviewPage component functionality', () => {

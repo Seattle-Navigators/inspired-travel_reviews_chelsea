@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, number, func, bool } from 'prop-types';
+import { string, number, func, bool } from 'prop-types'; // eslint-disable-line
 
 const RateBar = ({
   name,

@@ -21,7 +21,7 @@ const ListItem = ({
   }
 
   if (value === 'All languages') {
-    value = 'AllLanguages';
+    value = 'AllLanguages'; // eslint-disable-line
   }
 
   return (
