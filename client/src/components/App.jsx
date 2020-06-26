@@ -20,12 +20,12 @@ export default class App extends React.Component {
 
     const reviews = props.initialData || [{
       attractionName: '',
-      _id: 'zzz',
+      _id: '',
       helpful: false,
       rating: 4,
-      lang: 'English',
-      expDate: '2019-09-27T06:08:15.712Z',
-      travelType: 'Solo',
+      lang: '',
+      expDate: '',
+      travelType: '',
       body: '',
       title: '',
       user: '',
