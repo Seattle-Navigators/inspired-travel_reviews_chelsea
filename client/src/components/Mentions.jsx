@@ -9,11 +9,13 @@ const Mentions = ({ keywords }) => {
 
       {keywords.map((keyword) => {
         let id = keyword;
+        let className = "mention-off";
         if (keyword === 'All reviews') {
           id = 'allReviews';
+          className = "mention-on"
         }
         return (
-          <MentionBtn id={`${id}-filter`} label={keyword} key={id} />
+          <MentionBtn id={`${id}-filter`} label={keyword} key={id} className={className} />
         );
       })}
 

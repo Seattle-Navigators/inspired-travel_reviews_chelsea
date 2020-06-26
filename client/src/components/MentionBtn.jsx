@@ -1,9 +1,9 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-const MentionBtn = ({ id, label }) => {
+const MentionBtn = ({ id, label, className }) => {
   return (
-    <button id={id} type="button">
+    <button id={id} type="button" className={className}>
       {label}
     </button>
   );
@@ -12,6 +12,7 @@ const MentionBtn = ({ id, label }) => {
 MentionBtn.propTypes = {
   id: string.isRequired,
   label: string.isRequired,
+  className: string.isRequired,
 };
 
 export default MentionBtn;
