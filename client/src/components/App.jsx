@@ -61,27 +61,15 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      attractionId,
-      view,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
+    const { attractionId } = this.state;
 
     axios.get(`/${attractionId}/api/reviews`)
       .then((res) => {
-        this.setState({
-          attractionId,
-          attractionName: res.data[0].attractionName,
-          numReviews: res.data.length,
-          numQuestions: 0,
-          view,
-          reviews: res.data,
-          popupActive,
-          langActive,
-          filters,
-        });
+        stateCopy.attractionName = res.data[0].attractionName;
+        stateCopy.numReviews = res.data.length;
+        stateCopy.reviews = res.data;
+        this.setState(stateCopy);
       })
       .catch((err) => {
         console.error(err);
@@ -236,18 +224,7 @@ export default class App extends React.Component {
   }
 
   filterReviews(e, exitView = () => {}) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
-
+    const stateCopy = this.state;
     const target = e.target.id;
     const isChecked = e.target.checked;
 
@@ -273,94 +250,36 @@ export default class App extends React.Component {
         const firstLetter = target.indexOf('-') + 1;
         const langSelected = target.slice(firstLetter);
         if (langSelected === 'AllLanguages') {
-          filters.language = 'All languages';
+          stateCopy.filters.language = 'All languages';
         } else {
-          filters.language = langSelected;
+          stateCopy.filters.language = langSelected;
         }
       } else {
-        filters[mapToFilter[target]] = isChecked;
+        stateCopy.filters[mapToFilter[target]] = isChecked;
       }
 
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive,
-        filters,
-      });
+      this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
   }
 
   handleSelection(e) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
 
     if (e.target.value === 'ask-question' || e.target.value === 'Ask a question') {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive: true,
-        langActive,
-        filters,
-      });
+      stateCopy.popupActive = true;
     } else if (e.target.value === 'more-langs') {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive: true,
-        filters,
-      });
+      stateCopy.langActive = true;
     } else {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view,
-        reviews,
-        popupActive,
-        langActive,
-        filters,
-      });
       window.alert('Off-page link');
     }
+
+    this.setState(stateCopy);
   }
 
   handleViewSwitch(e) {
-    const {
-      attractionId,
-      attractionName,
-      numReviews,
-      numQuestions,
-      view,
-      reviews,
-      popupActive,
-      langActive,
-      filters,
-    } = this.state;
+    const stateCopy = this.state;
+    const { view, popupActive, langActive } = this.state;
 
     let newView;
     const qualifierIndex = e.target.id.indexOf('-');
@@ -375,17 +294,10 @@ export default class App extends React.Component {
     }
 
     if (view !== newView || popupActive || langActive) {
-      this.setState({
-        attractionId,
-        attractionName,
-        numReviews,
-        numQuestions,
-        view: newView,
-        reviews,
-        popupActive: false,
-        langActive: false,
-        filters,
-      });
+      stateCopy.view = newView;
+      stateCopy.popupActive = false;
+      stateCopy.langActive = false;
+      this.setState(stateCopy);
     }
   }
 
