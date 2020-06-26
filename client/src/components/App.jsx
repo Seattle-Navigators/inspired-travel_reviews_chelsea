@@ -154,14 +154,20 @@ export default class App extends React.Component {
         body,
       } = review;
 
-      const bodyWords = body.split(' ');
-      const titleWords = title.split(' ');
+      const reviewWords = body.toLowerCase().split(' ').concat(title.toLowerCase().split(' '));
+      const trimEndSpaces = /\s+$/;
+      const trimStartSpaces = /^\s+/;
+      const trimExtraSpaces = /\s{2,}/g;
+      const trimmedEnd = search.replace(trimEndSpaces, '');
+      const trimmedStart = trimmedEnd.replace(trimStartSpaces, '');
+      const trimmedExtra = trimmedStart.replace(trimExtraSpaces, ' ');
+      const cleanedSearch = trimmedExtra.toLowerCase().split(' ');
 
       if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
         if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
           if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
             if (filters.language === lang || filters.language === 'All languages') {
-              if (contains(bodyWords, search) || contains(titleWords, search) || search === 'All reviews') {
+              if (this.textHasAllSearchWords(reviewWords, cleanedSearch) || search === 'All reviews') {
                 return true;
               }
             }
@@ -334,25 +340,29 @@ export default class App extends React.Component {
 
   handleMention(e) {
     const stateCopy = this.state;
-    const { search } = this.state;
+    const target = e.target.value;
 
-    if (search === 'All reviews') {
+    if (stateCopy.search === 'All reviews') {
       stateCopy.search = '';
     }
 
-    const searchWords = stateCopy.search.split(' ');
-    const target = e.target.value;
+    const priorSearchWords = stateCopy.search.split(' ');
 
     if (target === 'All reviews') {
       stateCopy.search = 'All reviews';
     } else {
-      const filtered = searchWords.filter((word) => !(word === target));
+      const untargetedWords = priorSearchWords.filter((word) => !(word === target));
 
-      if (filtered.length === searchWords.length) {
-        stateCopy.search = `${stateCopy.search} ${target}`;
+      if (untargetedWords.length === priorSearchWords.length) {
+        if (stateCopy.search === '') {
+          stateCopy.search = target;
+        } else {
+          stateCopy.search = `${stateCopy.search} ${target}`;
+        }
       } else {
-        stateCopy.search = filtered.join(' ');
+        stateCopy.search = untargetedWords.join(' ');
       }
+
       if (stateCopy.search.length === 0) {
         stateCopy.search = 'All reviews';
       }
@@ -483,6 +493,16 @@ export default class App extends React.Component {
     langsSummary.unshift(['All languages', null]);
 
     return langsSummary;
+  }
+
+  textHasAllSearchWords(textWords, searchWords) {
+    let containsSearch = true;
+    searchWords.forEach((searchWord) => {
+      if (!contains(textWords, searchWord)) {
+        containsSearch = false;
+      }
+    });
+    return containsSearch;
   }
 }
 
