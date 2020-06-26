@@ -66,6 +66,7 @@ export default class App extends React.Component {
     this.filterReviews = this.filterReviews.bind(this);
     this.handleMention = this.handleMention.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
@@ -374,6 +375,16 @@ export default class App extends React.Component {
     this.setState(stateCopy);
   }
 
+  handlePageChange(e) {
+    const stateCopy = this.state;
+    const { currentPage } = this.state;
+    const newPage = e.target.value;
+    if (currentPage !== newPage) {
+      stateCopy.currentPage = Number(newPage);
+      this.setState(stateCopy);
+    }
+  }
+
   handleSelection(e) {
     const stateCopy = this.state;
 
@@ -460,7 +471,11 @@ export default class App extends React.Component {
 
         {this.getCurrentView()}
 
-        <NavBar currentPage={currentPage} numReviews={numReviews} />
+        <NavBar
+          currentPage={currentPage}
+          numReviews={numReviews}
+          handlePageChange={this.handlePageChange}
+        />
       </div>
     );
   }

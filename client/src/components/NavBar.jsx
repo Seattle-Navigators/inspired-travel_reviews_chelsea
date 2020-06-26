@@ -1,8 +1,8 @@
 import React from 'react';
-import { number } from 'prop-types';
+import { number, func } from 'prop-types';
 import PageButton from './PageButton';
 
-const NavBar = ({ currentPage, numReviews }) => {
+const NavBar = ({ currentPage, numReviews, handlePageChange }) => {
   const pageNums = [];
   let thisPage = 1;
   for (let i = 0; i < numReviews; i += 5) {
@@ -12,7 +12,14 @@ const NavBar = ({ currentPage, numReviews }) => {
   return (
     <div className="nav-bar">
       <button>Previous</button>
-        {pageNums.map((pageNum) => <PageButton currentPage={currentPage} key={`page-${pageNum}`} pageNumber={pageNum} />)}
+        {pageNums.map((pageNum) => (
+          <PageButton
+            currentPage={currentPage}
+            key={`page-${pageNum}`}
+            pageNumber={pageNum}
+            handlePageChange={handlePageChange}
+          />
+        ))}
       <button>Next</button>
     </div>
   );
@@ -21,6 +28,7 @@ const NavBar = ({ currentPage, numReviews }) => {
 NavBar.propTypes = {
   currentPage: number.isRequired,
   numReviews: number.isRequired,
+  handlePageChange: func.isRequired,
 }
 
 export default NavBar;
