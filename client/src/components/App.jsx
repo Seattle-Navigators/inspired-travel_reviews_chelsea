@@ -180,6 +180,7 @@ export default class App extends React.Component {
               reviews={reviews}
               numReviews={numReviews}
               handleFilter={this.filterReviews}
+              selections={filters}
             />
 
             <Checklist

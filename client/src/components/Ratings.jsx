@@ -1,8 +1,8 @@
 import React from 'react';
-import { string, arrayOf, object, number, func } from 'prop-types'; // eslint-disable-line
+import { string, arrayOf, object, number, func, objectOf, oneOfType, bool } from 'prop-types'; // eslint-disable-line
 import RateBar from './RateBar';
 
-const Ratings = ({ names, reviews, numReviews, handleFilter }) => { // eslint-disable-line
+const Ratings = ({ names, reviews, numReviews, handleFilter, selections }) => { // eslint-disable-line
   const ratingCounts = reviews.reduce((obj, review) => {
     obj[review.rating] += 1; // eslint-disable-line
     return obj;
@@ -22,6 +22,14 @@ const Ratings = ({ names, reviews, numReviews, handleFilter }) => { // eslint-di
     Terrible: '0',
   };
 
+  const mapToFilter = {
+    Excellent: 'excellent',
+    'Very Good': 'veryGood',
+    Average: 'average',
+    Poor: 'poor',
+    Terrible: 'terrible',
+  };
+
   return (
     <div className="ratings-filter">
       <div className="filter-header">Traveler Rating</div>
@@ -34,6 +42,7 @@ const Ratings = ({ names, reviews, numReviews, handleFilter }) => { // eslint-di
             percentage={ratings / numReviews}
             ratings={ratings}
             handleFilter={handleFilter}
+            selected={selections[mapToFilter[name]]}
           />
         );
       })}
@@ -46,6 +55,7 @@ Ratings.propTypes = {
   reviews: arrayOf(object).isRequired,
   numReviews: number.isRequired,
   handleFilter: func.isRequired,
+  selections: objectOf(oneOfType([bool, string])).isRequired,
 };
 
 export default Ratings;

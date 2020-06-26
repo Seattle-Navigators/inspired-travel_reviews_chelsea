@@ -1,11 +1,12 @@
 import React from 'react';
-import { string, number, func } from 'prop-types';
+import { string, number, func, bool } from 'prop-types';
 
 const RateBar = ({
   name,
   percentage,
   ratings,
   handleFilter,
+  selected,
 }) => {
   const backWidth = 100;
   const barWidth = backWidth * percentage;
@@ -17,7 +18,7 @@ const RateBar = ({
   return (
     <div>
       <div className="rate-bar">
-        <input id={`${name}-filter`} type="checkbox" onChange={handleFilter} />
+        <input id={`${name}-filter`} type="checkbox" onChange={handleFilter} checked={selected} />
 
         {name}
 
@@ -49,6 +50,7 @@ RateBar.propTypes = {
   percentage: number.isRequired,
   ratings: number.isRequired,
   handleFilter: func.isRequired,
+  selected: bool.isRequired,
 };
 
 export default RateBar;
