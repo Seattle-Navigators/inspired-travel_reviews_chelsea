@@ -1,10 +1,38 @@
 import React from 'react';
+import { arrayOf, string, func } from 'prop-types';
+import MentionBtn from './MentionBtn';
 
-const Mentions = () => (
+const Mentions = ({ keywords, handleMention, search }) => (
   <div id="popular-mentions">
     <div>Popular Mentions</div>
-    <button id="all-reviews-filter" type="button">All reviews</button>
+
+    {keywords.map((keyword) => {
+      let id;
+      keyword === 'All reviews' ? id = 'allReviews' : id = keyword; // eslint-disable-line
+
+      let className = 'mention-off';
+
+      if (search.indexOf(keyword) > -1) {
+        className = 'mention-on';
+      }
+      return (
+        <MentionBtn
+          id={`${id}-filter`}
+          label={keyword}
+          key={id}
+          className={className}
+          handleMention={handleMention}
+        />
+      );
+    })}
+
   </div>
 );
+
+Mentions.propTypes = {
+  keywords: arrayOf(string).isRequired,
+  handleMention: func.isRequired,
+  search: string.isRequired,
+};
 
 export default Mentions;

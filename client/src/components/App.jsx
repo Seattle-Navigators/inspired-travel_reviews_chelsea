@@ -53,11 +53,14 @@ export default class App extends React.Component {
         decFeb: false,
         language: 'All languages',
       },
+      search: 'All reviews',
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
+    this.handleMention = this.handleMention.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -83,8 +86,10 @@ export default class App extends React.Component {
       numQuestions,
       reviews,
       filters,
+      search,
     } = this.state;
 
+    // ===================Apply filters to reviews=============================
     let rateFiltersAreOn = false;
     let typeFiltersAreOn = false;
     let timeFiltersAreOn = false;
@@ -156,6 +161,37 @@ export default class App extends React.Component {
       return false;
     });
 
+    // ========================Retrieve popular mentions=======================
+
+    const reviewBodies = reviews.map((review) => review.body);
+    const combinedText = reviewBodies.join(' ');
+    const words = combinedText.split(' ');
+
+    const wordCounts = words.reduce((counts, word) => {
+      word in counts ? counts[word] += 1 : counts[word] = 1; // eslint-disable-line
+      return counts;
+    }, {});
+
+    const popularMentions = [];
+    for (const word in wordCounts) { // eslint-disable-line
+      if (wordCounts[word] > reviews.length * 0.15) {
+        popularMentions.push(word);
+      }
+    }
+
+    popularMentions.sort((wordA, wordB) => {
+      if (wordA[1] > wordB[1]) {
+        return -1;
+      }
+      if (wordA[1] < wordB[1]) {
+        return 1;
+      }
+      return 0;
+    });
+
+    popularMentions.unshift('All reviews');
+
+    // ============Provide either Reviews or Questions as the view=============
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
     const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
     const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
@@ -204,8 +240,16 @@ export default class App extends React.Component {
             />
           </div>
 
-          <Mentions />
-          <Search />
+          <Mentions
+            keywords={popularMentions}
+            handleMention={this.handleMention}
+            search={search}
+          />
+          <Search
+            handleChange={this.handleChange}
+            search={search}
+          />
+
           <ReviewPage reviews={filteredReviews} />
         </div>
       );
@@ -262,6 +306,53 @@ export default class App extends React.Component {
       this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
+  }
+
+  handleChange(e) {
+    const stateCopy = this.state;
+    const { search } = this.state;
+    const target = e.target.value;
+
+    if (search === 'All reviews') {
+      stateCopy.search = '';
+    }
+
+    if (target === '') {
+      stateCopy.search = 'All reviews';
+    } else {
+      stateCopy.search = target;
+    }
+
+    this.setState(stateCopy);
+  }
+
+  handleMention(e) {
+    const stateCopy = this.state;
+    const { search } = this.state;
+
+    if (search === 'All reviews') {
+      stateCopy.search = '';
+    }
+
+    const searchWords = stateCopy.search.split(' ');
+    const target = e.target.value;
+
+    if (target === 'All reviews') {
+      stateCopy.search = 'All reviews';
+    } else {
+      const filtered = searchWords.filter((word) => !(word === target));
+
+      if (filtered.length === searchWords.length) {
+        stateCopy.search = `${stateCopy.search} ${target}`;
+      } else {
+        stateCopy.search = filtered.join(' ');
+      }
+      if (stateCopy.search.length === 0) {
+        stateCopy.search = 'All reviews';
+      }
+    }
+
+    this.setState(stateCopy);
   }
 
   handleSelection(e) {

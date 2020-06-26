@@ -63,10 +63,17 @@
   border: 1px solid gray;
 }
 
-#all-reviews-filter {
+.mention-off {
   border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  margin: 2.5px;
+}
+
+.mention-on {
   background: #111;
-  color: white;
+  color: #fff;
+  margin: 2.5px;
 }
 
 .filter-header {
@@ -89,6 +96,7 @@
 
 #popular-mentions {
   border: 1px solid gray;
+  padding: 5px;
 }
 
 .page {
