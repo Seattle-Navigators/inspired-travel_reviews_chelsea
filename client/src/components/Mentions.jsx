@@ -8,12 +8,11 @@ const Mentions = ({ keywords, handleSearch, search }) => {
       <div>Popular Mentions</div>
 
       {keywords.map((keyword) => {
-        let id = keyword;
+        let id;
+        keyword === 'All reviews' ? id = 'allReviews' : id = keyword;
+
         let className = "mention-off";
-        if (keyword === 'All reviews') {
-          id = 'allReviews';
-          className = "mention-on"
-        }
+
         if (search.indexOf(keyword) > -1) {
           className = "mention-on"
         }

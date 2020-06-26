@@ -54,7 +54,7 @@ export default class App extends React.Component {
         decFeb: false,
         language: 'All languages',
       },
-      search: '',
+      search: 'All reviews',
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -311,17 +311,24 @@ export default class App extends React.Component {
   handleSearch(e) {
     const stateCopy = this.state;
     const { search } = this.state;
-    const searchWords = search.split(' ');
+
+    if (search === 'All reviews') {
+      stateCopy.search = '';
+    }
+
+    const searchWords = stateCopy.search.split(' ');
     const target = e.target.value;
 
     const filtered = searchWords.filter((word) => !(word === target));
 
     if (filtered.length === searchWords.length) {
-      stateCopy.search = `${search} ${target}`;
+      stateCopy.search = `${stateCopy.search} ${target}`;
     } else {
       stateCopy.search = filtered.join(' ');
     }
-
+    if (stateCopy.search.length === 0) {
+      stateCopy.search = 'All reviews';
+    }
     this.setState(stateCopy);
   }
 
