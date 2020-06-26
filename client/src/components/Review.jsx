@@ -34,7 +34,6 @@ export default class Review extends React.Component {
   renderImages(index) {
     if (this.uploadImages) {
       if (this.uploadImages[index]) {
-        console.log(this.uploadImages[index].url);
         return <div className="upload-image" style={{ backgroundImage: `url(${this.uploadImages[index].url})` }} />;
       }
     }
@@ -72,7 +71,10 @@ export default class Review extends React.Component {
           <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
           <div className="header-text">
             <div>{this.username} wrote a review {moment(this.createdAt).format('MMM YYYY')}</div>
-            <div>{`${this.region}, ${this.country} ${this.contributions} contributions ${this.votes} helpful vote${togglePlural}`}</div>
+            <div>
+              <span className="map-icon" style={{ backgroundImage: `url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png')` }} />
+              <span>{`${this.region}, ${this.country} ${this.contributions} contributions ${this.votes} helpful vote${togglePlural}`}</span>
+            </div>
           </div>
         </div>
 
