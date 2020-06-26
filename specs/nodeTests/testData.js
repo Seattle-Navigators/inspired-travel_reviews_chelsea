@@ -26,7 +26,7 @@ module.exports.generateTestData = (attractionId, dummyIdNeeded) => {
       travelType: 'Solo',
       expDate: '2019-09-27T06:08:15.712Z',
       lang: 'English',
-      body: 'Like I said, a great place',
+      body: 'Like I said a great place',
       title: 'What a great place this was',
       votes: 999,
       createdAt: new Date(),

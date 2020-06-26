@@ -356,6 +356,47 @@ describe('Languages expanded view functionality', () => {
   });
 });
 
+describe('Popular Mentions component functionality', () => {
+  test('The default \'All reviews\' as well as words that recur in > 15% of reviews should be shown', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    const expectedWords = ['allReviews', 'Like', 'I', 'said', 'a', 'great', 'place'];
+    expectedWords.forEach((word) => {
+      expect(wrapper.find(`#${word}-filter`)).toExist();
+    });
+  });
+
+  test('A popular mention should change color when clicked', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    const expectedWords = ['Like', 'I', 'said', 'a', 'great', 'place'];
+    expectedWords.forEach((word) => {
+      wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}});
+      expect(wrapper.find(`#${word}-filter`).find('.mention-on')).toExist();
+    });
+    wrapper.find('#allReviews-filter').hostNodes().simulate('click', {target: {value: 'All reviews'}});
+    expect(wrapper.find('#allReviews-filter').find('.mention-on')).toExist();
+  });
+
+  test('A popular mention should change state property \'search\' when clicked and unclicked', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    const expectedWords = ['Like', 'I', 'said', 'a', 'great', 'place'];
+    expectedWords.forEach((word) => {
+      wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // click
+      expect(wrapper.state('search')).toEqual(` ${word}`);
+      wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // unclick
+      // next iteration of forEach should fail if unclick fails as words will stack
+    });
+  });
+
+  test('State \'search\' property should reflect \'All reviews\' when nothing selected', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper.find('#allReviews-filter').find('.mention-on')).toExist();
+    expect(wrapper.state('search')).toEqual('All reviews');
+    wrapper.find(`#Like-filter`).hostNodes().simulate('click', {target: {value: 'Like'}}); // click
+    wrapper.find(`#Like-filter`).hostNodes().simulate('click', {target: {value: 'Like'}}); // unclick
+    expect(wrapper.state('search')).toEqual('All reviews');
+  });
+});
+
 describe('ReviewPage component functionality', () => {
   test('Review page should render number of review blocks based on state', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);

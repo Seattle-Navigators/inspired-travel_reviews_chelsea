@@ -328,6 +328,7 @@ export default class App extends React.Component {
   }
 
   handleMention(e) {
+
     const stateCopy = this.state;
     const { search } = this.state;
 

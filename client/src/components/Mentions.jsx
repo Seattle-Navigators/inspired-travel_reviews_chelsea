@@ -3,6 +3,7 @@ import { arrayOf, string, func } from 'prop-types';
 import MentionBtn from './MentionBtn.jsx';
 
 const Mentions = ({ keywords, handleMention, search }) => {
+
   return (
     <div id="popular-mentions">
       <div>Popular Mentions</div>
