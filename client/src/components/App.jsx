@@ -242,7 +242,7 @@ export default class App extends React.Component {
       if (target.indexOf('radio') > -1) {
         const firstLetter = target.indexOf('-') + 1;
         const langSelected = target.slice(firstLetter);
-        if (langSelected === 'All languages') {
+        if (langSelected === 'AllLanguages') {
           filters.language = 'All languages';
         } else {
           filters.language = langSelected;
