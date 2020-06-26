@@ -60,7 +60,8 @@ export default class App extends React.Component {
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
+    this.handleMention = this.handleMention.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -242,11 +243,11 @@ export default class App extends React.Component {
 
           <Mentions
             keywords={popularMentions}
-            handleSearch={this.handleSearch}
+            handleMention={this.handleMention}
             search={search}
           />
           <Search
-            handleSearch={this.handleSearch}
+            handleChange={this.handleChange}
             search={search}
           />
 
@@ -308,7 +309,25 @@ export default class App extends React.Component {
     setTimeout(exitView, 200);
   }
 
-  handleSearch(e) {
+  handleChange(e) {
+    const stateCopy = this.state;
+    const { search } = this.state;
+    const target = e.target.value;
+
+    if (search === 'All reviews') {
+      stateCopy.search = '';
+    }
+
+    if (target === '') {
+      stateCopy.search = 'All reviews'
+    } else {
+      stateCopy.search = target;
+    }
+
+    this.setState(stateCopy);
+  }
+
+  handleMention(e) {
     const stateCopy = this.state;
     const { search } = this.state;
 

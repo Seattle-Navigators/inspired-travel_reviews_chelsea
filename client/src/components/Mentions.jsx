@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayOf, string, func } from 'prop-types';
 import MentionBtn from './MentionBtn.jsx';
 
-const Mentions = ({ keywords, handleSearch, search }) => {
+const Mentions = ({ keywords, handleMention, search }) => {
   return (
     <div id="popular-mentions">
       <div>Popular Mentions</div>
@@ -22,7 +22,7 @@ const Mentions = ({ keywords, handleSearch, search }) => {
             label={keyword}
             key={id}
             className={className}
-            handleSearch={handleSearch}
+            handleMention={handleMention}
           />
         );
       })}
@@ -33,7 +33,7 @@ const Mentions = ({ keywords, handleSearch, search }) => {
 
 Mentions.propTypes = {
   keywords: arrayOf(string),
-  handleSearch: func.isRequired,
+  handleMention: func.isRequired,
   search: string.isRequired,
 }
 
