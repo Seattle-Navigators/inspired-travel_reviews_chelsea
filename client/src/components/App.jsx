@@ -177,9 +177,16 @@ export default class App extends React.Component {
     if (view === 'Reviews') {
       return (
         <div>
-          <Header id="reviews-header" header="Reviews" buttonLabel="Write a review" subtitle="" buttonId="write-review" handleSelection={this.handleSelection} />
-          <div id="filter-container">
+          <Header
+            id="reviews-header"
+            header="Reviews"
+            buttonLabel="Write a review"
+            subtitle=""
+            buttonId="write-review"
+            handleSelection={this.handleSelection}
+          />
 
+          <div id="filter-container">
             <Ratings
               names={names}
               reviews={reviews}
@@ -187,9 +194,25 @@ export default class App extends React.Component {
               handleFilter={this.filterReviews}
             />
 
-            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} selections={filters} />
-            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} selections={filters} />
-            <RadioList title="Language" handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} selection={filters.language} />
+            <Checklist
+              title="Traveler type"
+              labels={types}
+              handleFilter={this.filterReviews}
+              selections={filters}
+            />
+            <Checklist
+              title="Time of year"
+              labels={times}
+              handleFilter={this.filterReviews}
+              selections={filters}
+            />
+            <RadioList
+              title="Language"
+              handleSelection={this.handleSelection}
+              langs={langsArray}
+              handleFilter={this.filterReviews}
+              selection={filters.language}
+            />
           </div>
 
           <Mentions />
@@ -200,7 +223,14 @@ export default class App extends React.Component {
     }
     return (
       <div>
-        <Header id="qa-header" header="Questions & Answers" buttonLabel="Ask a question" subtitle={`See all ${numQuestions} questions`} buttonId="ask-question" handleSelection={this.handleSelection} />
+        <Header
+          id="qa-header"
+          header="Questions & Answers"
+          buttonLabel="Ask a question"
+          subtitle={`See all ${numQuestions} questions`}
+          buttonId="ask-question"
+          handleSelection={this.handleSelection}
+        />
       </div>
     );
   }
@@ -390,8 +420,18 @@ export default class App extends React.Component {
         />
 
         <div id="tabs">
-          <Tab baseId="review" title="Reviews" records={numReviews} handleViewSwitch={this.handleViewSwitch} />
-          <Tab baseId="qa" title="Q&A" records={numQuestions} handleViewSwitch={this.handleViewSwitch} />
+          <Tab
+            baseId="review"
+            title="Reviews"
+            records={numReviews}
+            handleViewSwitch={this.handleViewSwitch}
+          />
+          <Tab
+            baseId="qa"
+            title="Q&A"
+            records={numQuestions}
+            handleViewSwitch={this.handleViewSwitch}
+          />
         </div>
 
         {this.getCurrentView()}
