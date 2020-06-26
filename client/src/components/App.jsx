@@ -187,8 +187,8 @@ export default class App extends React.Component {
               handleFilter={this.filterReviews}
             />
 
-            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} />
-            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} />
+            <Checklist title="Traveler type" labels={types} handleFilter={this.filterReviews} selections={filters} />
+            <Checklist title="Time of year" labels={times} handleFilter={this.filterReviews} selections={filters} />
             <RadioList title="Language" handleSelection={this.handleSelection} langs={langsArray} handleFilter={this.filterReviews} selection={filters.language} />
           </div>
 

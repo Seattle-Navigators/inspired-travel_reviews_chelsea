@@ -50,12 +50,11 @@ ListItem.propTypes = {
   name: string,
   handleFilter: func.isRequired,
   handleViewSwitch: func,
-  selected: bool,
+  selected: bool.isRequired,
 };
 
 ListItem.defaultProps = {
   handleViewSwitch: undefined,
-  selected: undefined,
   records: undefined,
   name: undefined,
 };
