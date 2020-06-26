@@ -101,6 +101,11 @@
 
 .page {
   border: 1px solid gray;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .review {
@@ -154,6 +159,7 @@
   height: 20px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
 .inactive-page-button {

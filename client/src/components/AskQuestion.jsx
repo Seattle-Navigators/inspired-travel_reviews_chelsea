@@ -20,7 +20,7 @@ const AskQuestion = ({ hidden, handleViewSwitch, name }) => {
         <div>
           {`Get quick answers from ${name} staff and past guests.`}
         </div>
-        <textarea />
+        <textarea placeholder="Hi, what would you like to know about this attraction?" />
         <div>Note: your question will be posted publicly on the Questions & Answers page.</div>
         <div>Posting guidelines</div>
         <div>

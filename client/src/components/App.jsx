@@ -296,6 +296,10 @@ export default class App extends React.Component {
           handleSelection={this.handleSelection}
         />
 
+        <div className="page" id="qa-page">
+          <div>Question & Answer Page Placeholder</div>
+        </div>
+
         <NavBar
           currentPage={currentPage}
           numReviews={filteredReviews.length}
