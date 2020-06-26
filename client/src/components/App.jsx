@@ -77,6 +77,7 @@ export default class App extends React.Component {
   }
 
   getCurrentView() {
+    //===================Apply filters to reviews==============================
     const {
       view,
       numReviews,
@@ -156,6 +157,7 @@ export default class App extends React.Component {
       return false;
     });
 
+    //============Provide either Reviews or Questions as the view==============
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
     const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
     const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
