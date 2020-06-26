@@ -1,5 +1,6 @@
 import React from 'react';
 import { string, arrayOf, object } from 'prop-types';
+import { contains } from 'underscore';
 import axios from 'axios';
 import Tab from './Tab';
 import Header from './Header';
@@ -25,6 +26,8 @@ export default class App extends React.Component {
       lang: 'English',
       expDate: '2019-09-27T06:08:15.712Z',
       travelType: 'Solo',
+      body: '',
+      title: '',
     }];
 
     this.state = {
@@ -147,13 +150,20 @@ export default class App extends React.Component {
         travelType,
         expDate,
         lang,
+        title,
+        body,
       } = review;
+
+      const bodyWords = body.split(' ');
+      const titleWords = title.split(' ');
 
       if (filters[mapToFilter[rating]] || !rateFiltersAreOn) {
         if (filters[mapToFilter[travelType]] || !typeFiltersAreOn) {
           if (filters[mapToFilter[`m${new Date(expDate).getMonth()}`]] || !timeFiltersAreOn) {
             if (filters.language === lang || filters.language === 'All languages') {
-              return true;
+              if (contains(bodyWords, search) || contains(titleWords, search) || search === 'All reviews') {
+                return true;
+              }
             }
           }
         }
@@ -317,11 +327,7 @@ export default class App extends React.Component {
       stateCopy.search = '';
     }
 
-    if (target === '') {
-      stateCopy.search = 'All reviews';
-    } else {
-      stateCopy.search = target;
-    }
+    target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target;
 
     this.setState(stateCopy);
   }
