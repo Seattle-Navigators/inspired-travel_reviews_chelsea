@@ -8,7 +8,7 @@ const PageButton = ({ currentPage, pageNumber, handlePageChange }) => {
   }
   return (
     <div className={className}>
-      <button className={`${className}-button`} onClick={handlePageChange} value={pageNumber}>{pageNumber}</button>
+      <button className={`${className}-button`} onClick={handlePageChange} value={pageNumber} type="button">{pageNumber}</button>
     </div>
   );
 };

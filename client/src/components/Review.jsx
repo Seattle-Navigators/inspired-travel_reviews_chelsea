@@ -10,7 +10,18 @@ export default class Review extends React.Component {
       helpful: props.review.helpful,
     };
 
-    const { rating, travelType, expDate, lang, body, title, user, createdAt, votes, uploadImages } = props.review;
+    const {
+      rating,
+      travelType,
+      expDate,
+      lang,
+      body,
+      title,
+      user,
+      createdAt,
+      votes,
+      uploadImages,
+    } = props.review;
 
     this.rating = rating;
     this.travelType = travelType;
@@ -37,6 +48,7 @@ export default class Review extends React.Component {
         return <div className="upload-image" style={{ backgroundImage: `url(${this.uploadImages[index].url})` }} />;
       }
     }
+    return <div />;
   }
 
   renderImageSpace() {
@@ -49,7 +61,7 @@ export default class Review extends React.Component {
             </div>
             <div className="image-container">
               {this.renderImages(1)}
-            </div >
+            </div>
             <div className="image-container">
               {this.renderImages(2)}
             </div>
@@ -57,10 +69,11 @@ export default class Review extends React.Component {
         );
       }
     }
+    return <div />;
   }
 
   render() {
-    const { helpful } = this.state;
+    const { helpful } = this.state; // eslint-disable-line
     let togglePlural = 's';
     if (this.votes <= 2) {
       togglePlural = '';
@@ -70,9 +83,14 @@ export default class Review extends React.Component {
         <div className="review-header">
           <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
           <div className="header-text">
-            <div>{this.username} wrote a review {moment(this.createdAt).format('MMM YYYY')}</div>
+            <div>{`${this.username} wrote a review ${moment(this.createdAt).format('MMM YYYY')}`}</div>
             <div>
-              <span className="map-icon" style={{ backgroundImage: `url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png')` }} />
+              <span
+                className="map-icon"
+                style={{
+                  backgroundImage: "url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png')",
+                }}
+              />
               <span>{`${this.region}, ${this.country} ${this.contributions} contributions ${this.votes} helpful vote${togglePlural}`}</span>
             </div>
           </div>
@@ -84,13 +102,13 @@ export default class Review extends React.Component {
           <div>{this.rating}</div>
           <div>{`${this.title}`}</div>
           <div>{`${this.body}`}</div>
-          <div><a href="#">Read more</a></div>
-          <div>Date of experience: {moment(this.expDate).format('MMM YYYY')}</div>
+          <div><a href="#">Read more</a></div> {/* eslint-disable-line */}
+          <div>{`Date of experience: ${moment(this.expDate).format('MMM YYYY')}`}</div>
         </div>
         <div className="review-footer">
           <div className="button-area">
-            <button>Helpful</button>
-            <button>Share</button>
+            <button type="button">Helpful</button>
+            <button type="button">Share</button>
           </div>
         </div>
       </div>
@@ -105,5 +123,5 @@ Review.propTypes = {
     string,
     number,
     bool,
-  ])),
+  ])).isRequired,
 };

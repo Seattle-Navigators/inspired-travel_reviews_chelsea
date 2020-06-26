@@ -396,14 +396,13 @@ export default class App extends React.Component {
   }
 
   handlePageChange(e, max) {
-
     const stateCopy = this.state;
     const { currentPage } = this.state;
     const newPage = e.target.value;
 
     if (newPage === 'next-page' && currentPage + 1 <= max) {
       stateCopy.currentPage += 1;
-    } else if (newPage === 'prev-page' && currentPage - 1 >=1) {
+    } else if (newPage === 'prev-page' && currentPage - 1 >= 1) {
       stateCopy.currentPage -= 1;
     } else if (Number(newPage)) {
       stateCopy.currentPage = Number(newPage);
@@ -412,7 +411,6 @@ export default class App extends React.Component {
     if (stateCopy.currentPage !== currentPage) {
       this.setState(stateCopy);
     }
-
   }
 
   handleSelection(e) {
@@ -462,7 +460,6 @@ export default class App extends React.Component {
       popupActive,
       langActive,
       filters,
-      currentPage,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);

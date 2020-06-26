@@ -1,7 +1,7 @@
 const Review = require('../database/Reviews.js');
 
 module.exports.findForId = (req, res, testCb = () => {}) => {
-  Review.find({ attractionId: req.params.productId }, null, { sort: '-createdAt'}, (err, docs) => {
+  Review.find({ attractionId: req.params.productId }, null, { sort: '-createdAt' }, (err, docs) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
