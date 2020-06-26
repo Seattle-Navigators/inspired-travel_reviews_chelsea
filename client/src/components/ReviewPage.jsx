@@ -12,6 +12,8 @@ const ReviewPage = ({ reviews }) => (
         travelType={review.travelType}
         expDate={review.expDate}
         lang={review.lang}
+        body={review.body}
+        title={review.title}
       />
     ))}
   </div>
