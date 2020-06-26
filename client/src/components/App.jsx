@@ -20,14 +20,15 @@ export default class App extends React.Component {
 
     const reviews = props.initialData || [{
       attractionName: '',
-      _id: 'zzz',
+      _id: '',
       helpful: false,
       rating: 4,
-      lang: 'English',
-      expDate: '2019-09-27T06:08:15.712Z',
-      travelType: 'Solo',
+      lang: '',
+      expDate: '',
+      travelType: '',
       body: '',
       title: '',
+      user: '',
     }];
 
     this.state = {
@@ -57,6 +58,7 @@ export default class App extends React.Component {
         language: 'All languages',
       },
       search: 'All reviews',
+      currentPage: 1,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -64,6 +66,7 @@ export default class App extends React.Component {
     this.filterReviews = this.filterReviews.bind(this);
     this.handleMention = this.handleMention.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
@@ -90,6 +93,7 @@ export default class App extends React.Component {
       reviews,
       filters,
       search,
+      currentPage,
     } = this.state;
 
     // ===================Apply filters to reviews=============================
@@ -266,7 +270,18 @@ export default class App extends React.Component {
             search={search}
           />
 
-          <ReviewPage reviews={filteredReviews} />
+          <ReviewPage
+            reviews={filteredReviews}
+            currentPage={currentPage}
+          />
+
+          <NavBar
+            currentPage={currentPage}
+            numReviews={filteredReviews.length}
+            handlePageChange={this.handlePageChange}
+            view={view}
+          />
+
         </div>
       );
     }
@@ -279,6 +294,13 @@ export default class App extends React.Component {
           subtitle={`See all ${numQuestions} questions`}
           buttonId="ask-question"
           handleSelection={this.handleSelection}
+        />
+
+        <NavBar
+          currentPage={currentPage}
+          numReviews={filteredReviews.length}
+          handlePageChange={this.handlePageChange}
+          view={view}
         />
       </div>
     );
@@ -318,7 +340,7 @@ export default class App extends React.Component {
       } else {
         stateCopy.filters[mapToFilter[target]] = isChecked;
       }
-
+      stateCopy.currentPage = 1;
       this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
@@ -335,6 +357,7 @@ export default class App extends React.Component {
 
     target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
 
+    stateCopy.currentPage = 1;
     this.setState(stateCopy);
   }
 
@@ -368,7 +391,26 @@ export default class App extends React.Component {
       }
     }
 
+    stateCopy.currentPage = 1;
     this.setState(stateCopy);
+  }
+
+  handlePageChange(e, max) {
+    const stateCopy = this.state;
+    const { currentPage } = this.state;
+    const newPage = e.target.value;
+
+    if (newPage === 'next-page' && currentPage + 1 <= max) {
+      stateCopy.currentPage += 1;
+    } else if (newPage === 'prev-page' && currentPage - 1 >= 1) {
+      stateCopy.currentPage -= 1;
+    } else if (Number(newPage)) {
+      stateCopy.currentPage = Number(newPage);
+    }
+
+    if (stateCopy.currentPage !== currentPage) {
+      this.setState(stateCopy);
+    }
   }
 
   handleSelection(e) {
@@ -456,7 +498,6 @@ export default class App extends React.Component {
 
         {this.getCurrentView()}
 
-        <NavBar />
       </div>
     );
   }

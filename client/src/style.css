@@ -107,12 +107,67 @@
   border: 1px solid gray;
 }
 
-.nav-bar {
-  border: 1px solid gray;
-}
-
 .dropdown {
   width: 20px;
   background-color: #111;
   color: #fff;
+}
+
+.review-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.button-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.review-images {
+  display: flex;
+  flex-direction: row;
+}
+
+.image-container {
+  height: 100px;
+  flex-grow: 1;
+}
+
+.upload-image {
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.map-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.inactive-page-button {
+  background-color: #fff;
+  border: none;
+}
+
+.active-page-button {
+  background-color: #eee;
+  border: none;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid gray;
 }
