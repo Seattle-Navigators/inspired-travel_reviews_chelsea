@@ -59,6 +59,7 @@ export default class App extends React.Component {
       },
       search: 'All reviews',
       currentPage: 1,
+      guideActive: false,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -67,6 +68,7 @@ export default class App extends React.Component {
     this.handleMention = this.handleMention.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleReadMore = this.handleReadMore.bind(this);
   }
 
   componentDidMount() {
@@ -455,6 +457,17 @@ export default class App extends React.Component {
     }
   }
 
+  handleReadMore(e) {
+    const stateCopy = this.state;
+    const { guideActive } = this.state;
+    const target = e.target.id;
+    const guidelineIds = ['guideline-area', 'posting-guidelines-link', 'posting-guidelines-arrow'];
+    if (contains(guidelineIds, target)) {
+      stateCopy.guideActive = !guideActive;
+      this.setState(stateCopy);
+    }
+  }
+
   render() {
     const {
       attractionName,
@@ -464,6 +477,7 @@ export default class App extends React.Component {
       popupActive,
       langActive,
       filters,
+      guideActive
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);
@@ -475,6 +489,8 @@ export default class App extends React.Component {
           hidden={!popupActive}
           handleViewSwitch={this.handleViewSwitch}
           name={attractionName}
+          guideActive={guideActive}
+          handleReadMore={this.handleReadMore}
         />
 
         <Languages

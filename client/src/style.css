@@ -177,3 +177,34 @@
   flex-direction: row;
   border: 1px solid gray;
 }
+
+#recaptcha {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Screen+Shot+2020-06-26+at+2.58.23+PM.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 275px;
+  height: 70px;
+}
+
+.my-profile-image {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/profiles/img0.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+#guideline-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#posting-guidelines-arrow {
+  margin-left: 2px;
+  background-color: #111;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+}
