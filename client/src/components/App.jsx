@@ -77,7 +77,7 @@ export default class App extends React.Component {
   }
 
   getCurrentView() {
-    //===================Apply filters to reviews==============================
+    // ===================Apply filters to reviews=============================
     const {
       view,
       numReviews,
@@ -157,7 +157,32 @@ export default class App extends React.Component {
       return false;
     });
 
-    //============Provide either Reviews or Questions as the view==============
+    // ========================Retrieve popular mentions=======================
+
+    // input: reviews
+    // output: array of popular mentions
+
+    // get all words out of all review bodies
+    const reviewBodies = reviews.map((review) => review.body);
+    const combinedText = reviewBodies.join(' ');
+    const words = combinedText.split(' ');
+    const numWords = words.length;
+    // add all words to a counts object
+    const wordCounts = words.reduce((counts, word) => {
+      word in counts ? ++counts[word] : counts[word] = 1;
+      return counts;
+    }, {});
+    // add words above a certain threshold to array
+    const popularMentions = [];
+    for (const word in wordCounts) {
+      if (wordCounts[word] > numWords * 0.01) {
+        popularMentions.push(word);
+      }
+    }
+    // add default 'All reviews'
+    popularMentions.unshift('All reviews');
+
+    // ============Provide either Reviews or Questions as the view=============
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
     const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
     const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
@@ -206,7 +231,7 @@ export default class App extends React.Component {
             />
           </div>
 
-          <Mentions />
+          <Mentions keywords={popularMentions} />
           <Search />
           <ReviewPage reviews={filteredReviews} />
         </div>
