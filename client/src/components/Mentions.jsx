@@ -1,8 +1,8 @@
 import React from 'react';
-import { arrayOf, string } from 'prop-types';
+import { arrayOf, string, func } from 'prop-types';
 import MentionBtn from './MentionBtn.jsx';
 
-const Mentions = ({ keywords }) => {
+const Mentions = ({ keywords, handleSearch, search }) => {
   return (
     <div id="popular-mentions">
       <div>Popular Mentions</div>
@@ -14,8 +14,17 @@ const Mentions = ({ keywords }) => {
           id = 'allReviews';
           className = "mention-on"
         }
+        if (search.indexOf(keyword) > -1) {
+          className = "mention-on"
+        }
         return (
-          <MentionBtn id={`${id}-filter`} label={keyword} key={id} className={className} />
+          <MentionBtn
+            id={`${id}-filter`}
+            label={keyword}
+            key={id}
+            className={className}
+            handleSearch={handleSearch}
+          />
         );
       })}
 
@@ -25,6 +34,8 @@ const Mentions = ({ keywords }) => {
 
 Mentions.propTypes = {
   keywords: arrayOf(string),
+  handleSearch: func.isRequired,
+  search: string.isRequired,
 }
 
 export default Mentions;

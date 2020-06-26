@@ -1,6 +1,7 @@
 import React from 'react';
 import { string, arrayOf, object } from 'prop-types';
 import axios from 'axios';
+import { contains } from 'underscore';
 import Tab from './Tab';
 import Header from './Header';
 import Ratings from './Ratings';
@@ -53,11 +54,13 @@ export default class App extends React.Component {
         decFeb: false,
         language: 'All languages',
       },
+      search: '',
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -77,15 +80,16 @@ export default class App extends React.Component {
   }
 
   getCurrentView() {
-    // ===================Apply filters to reviews=============================
     const {
       view,
       numReviews,
       numQuestions,
       reviews,
       filters,
+      search,
     } = this.state;
 
+    // ===================Apply filters to reviews=============================
     let rateFiltersAreOn = false;
     let typeFiltersAreOn = false;
     let timeFiltersAreOn = false;
@@ -159,27 +163,22 @@ export default class App extends React.Component {
 
     // ========================Retrieve popular mentions=======================
 
-    // input: reviews
-    // output: array of popular mentions
-
-    // get all words out of all review bodies
     const reviewBodies = reviews.map((review) => review.body);
     const combinedText = reviewBodies.join(' ');
     const words = combinedText.split(' ');
 
-    // add all words to a counts object
     const wordCounts = words.reduce((counts, word) => {
       word in counts ? ++counts[word] : counts[word] = 1;
       return counts;
     }, {});
-    // add words above a certain threshold to array
+
     const popularMentions = [];
     for (const word in wordCounts) {
       if (wordCounts[word] > reviews.length * 0.15) {
         popularMentions.push(word);
       }
     }
-    //sort mentions by most common occurrence
+
     popularMentions.sort((wordA, wordB) => {
       if (wordA[1] > wordB[1]) {
         return -1;
@@ -189,7 +188,7 @@ export default class App extends React.Component {
       }
       return 0;
     });
-    // add default 'All reviews'
+
     popularMentions.unshift('All reviews');
 
     // ============Provide either Reviews or Questions as the view=============
@@ -241,8 +240,16 @@ export default class App extends React.Component {
             />
           </div>
 
-          <Mentions keywords={popularMentions} />
-          <Search />
+          <Mentions
+            keywords={popularMentions}
+            handleSearch={this.handleSearch}
+            search={search}
+          />
+          <Search
+            handleSearch={this.handleSearch}
+            search={search}
+          />
+
           <ReviewPage reviews={filteredReviews} />
         </div>
       );
@@ -299,6 +306,23 @@ export default class App extends React.Component {
       this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
+  }
+
+  handleSearch(e) {
+    const stateCopy = this.state;
+    const { search } = this.state;
+    const searchWords = search.split(' ');
+    const target = e.target.value;
+
+    const filtered = searchWords.filter((word) => !(word === target));
+
+    if (filtered.length === searchWords.length) {
+      stateCopy.search = `${search} ${target}`;
+    } else {
+      stateCopy.search = filtered.join(' ');
+    }
+
+    this.setState(stateCopy);
   }
 
   handleSelection(e) {
