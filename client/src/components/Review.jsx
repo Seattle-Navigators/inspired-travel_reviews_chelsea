@@ -11,6 +11,8 @@ export default class Review extends React.Component {
     this.travelType = props.travelType;
     this.expDate = props.expDate;
     this.lang = props.lang;
+    this.body = props.body;
+    this.title = props.title;
   }
 
   render() {
@@ -18,7 +20,9 @@ export default class Review extends React.Component {
     return (
       <div className="review">
         REVIEW BLOCK
+        <div>{`${this.title}`}</div>
         <span>{`${helpful}, ${this.rating}, ${this.travelType}, ${this.expDate}, ${this.lang}`}</span>
+        <div>{`${this.body}`}</div>
       </div>
     );
   }
@@ -30,4 +34,6 @@ Review.propTypes = {
   travelType: string.isRequired,
   expDate: string.isRequired,
   lang: string.isRequired,
+  body: string.isRequired,
+  title: string.isRequired,
 };

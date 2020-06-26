@@ -381,7 +381,7 @@ describe('Popular Mentions component functionality', () => {
     const expectedWords = ['Like', 'I', 'said', 'a', 'great', 'place'];
     expectedWords.forEach((word) => {
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // click
-      expect(wrapper.state('search')).toEqual(` ${word}`);
+      expect(wrapper.state('search')).toEqual(word);
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // unclick
       // next iteration of forEach should fail if unclick fails as words will stack
     });
@@ -394,6 +394,43 @@ describe('Popular Mentions component functionality', () => {
     wrapper.find(`#Like-filter`).hostNodes().simulate('click', {target: {value: 'Like'}}); // click
     wrapper.find(`#Like-filter`).hostNodes().simulate('click', {target: {value: 'Like'}}); // unclick
     expect(wrapper.state('search')).toEqual('All reviews');
+  });
+});
+
+describe('Search component functionality', () => {
+  test('Search should filter reviews based on words in body and title', () => {
+    const testReviews = generateTestData('200', true);
+    const testBodies = ['zzz aa bb', 'amazing HI there', 'test Me out', 'words and things', 'out of ideas'];
+    const testTitles = ['Amazing title', 'Vacation', 'hello', 'This was a great vacation', 'Test'];
+    const bodyTestData = testReviews.map((review, i) => {
+      review.body = testBodies[i];
+      return review;
+    });
+    const testData = bodyTestData.map((review, i) => {
+      review.title = testTitles[i];
+      return review;
+    });
+    const wrapper = mount(<App attractionId="200" initialData={testData} />);
+    expect(wrapper).toContainMatchingElements(5, '.review');
+    wrapper.find('#search-input').simulate('change', {target: {value: 'ZZZ'}});
+    expect(wrapper).toContainMatchingElements(1, '.review');
+    wrapper.find('#search-input').simulate('change', {target: {value: 'amazing'}});
+    expect(wrapper).toContainMatchingElements(2, '.review');
+  });
+
+  test('Search should show no reviews if no matches found', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper).toContainMatchingElements(5, '.review');
+    wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
+    expect(wrapper).toContainMatchingElements(0, '.review');
+  });
+
+  test('All reviews should be shown if Search is empty', () => {
+    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+    expect(wrapper).toContainMatchingElements(5, '.review');
+    wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
+    wrapper.find('#search-input').simulate('change', {target: {value: ''}});
+    expect(wrapper).toContainMatchingElements(5, '.review');
   });
 });
 

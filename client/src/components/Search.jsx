@@ -8,7 +8,7 @@ const Search = ({ handleChange, search }) => {
   return (
     <div className="search">
       Search
-      <input type="text" onChange={handleChange} value={search} placeholder="Search reviews" />
+      <input id="search-input" type="text" onChange={handleChange} value={search} placeholder="Search reviews" />
     </div>
   );
 };
