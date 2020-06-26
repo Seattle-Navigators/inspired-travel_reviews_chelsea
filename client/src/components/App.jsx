@@ -340,7 +340,7 @@ export default class App extends React.Component {
       } else {
         stateCopy.filters[mapToFilter[target]] = isChecked;
       }
-
+      stateCopy.currentPage = 1;
       this.setState(stateCopy);
     }
     setTimeout(exitView, 200);
@@ -357,6 +357,7 @@ export default class App extends React.Component {
 
     target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
 
+    stateCopy.currentPage = 1;
     this.setState(stateCopy);
   }
 
@@ -390,6 +391,7 @@ export default class App extends React.Component {
       }
     }
 
+    stateCopy.currentPage = 1;
     this.setState(stateCopy);
   }
 
