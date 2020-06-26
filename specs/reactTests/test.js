@@ -383,7 +383,6 @@ describe('Popular Mentions component functionality', () => {
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // click
       expect(wrapper.state('search')).toEqual(word);
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // unclick
-      // next iteration of forEach should fail if unclick fails as words will stack
     });
   });
 

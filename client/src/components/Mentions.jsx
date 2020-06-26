@@ -7,8 +7,8 @@ const Mentions = ({ keywords, handleMention, search }) => (
     <div>Popular Mentions</div>
 
     {keywords.map((keyword) => {
-      let id;
-      keyword === 'All reviews' ? id = 'allReviews' : id = keyword; // eslint-disable-line
+      let mentionId;
+      keyword === 'All reviews' ? mentionId = 'allReviews' : mentionId = keyword; // eslint-disable-line
 
       let className = 'mention-off';
 
@@ -17,9 +17,9 @@ const Mentions = ({ keywords, handleMention, search }) => (
       }
       return (
         <MentionBtn
-          id={`${id}-filter`}
+          id={`${mentionId}-filter`}
           label={keyword}
-          key={id}
+          key={mentionId}
           className={className}
           handleMention={handleMention}
         />
