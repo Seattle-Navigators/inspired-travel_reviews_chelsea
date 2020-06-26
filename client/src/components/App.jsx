@@ -319,16 +319,21 @@ export default class App extends React.Component {
     const searchWords = stateCopy.search.split(' ');
     const target = e.target.value;
 
-    const filtered = searchWords.filter((word) => !(word === target));
-
-    if (filtered.length === searchWords.length) {
-      stateCopy.search = `${stateCopy.search} ${target}`;
-    } else {
-      stateCopy.search = filtered.join(' ');
-    }
-    if (stateCopy.search.length === 0) {
+    if (target === 'All reviews') {
       stateCopy.search = 'All reviews';
+    } else {
+      const filtered = searchWords.filter((word) => !(word === target));
+
+      if (filtered.length === searchWords.length) {
+        stateCopy.search = `${stateCopy.search} ${target}`;
+      } else {
+        stateCopy.search = filtered.join(' ');
+      }
+      if (stateCopy.search.length === 0) {
+        stateCopy.search = 'All reviews';
+      }
     }
+
     this.setState(stateCopy);
   }
 

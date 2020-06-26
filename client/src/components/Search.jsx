@@ -1,20 +1,22 @@
 import React from 'react';
+import { func, string } from 'prop-types';
 
-export default class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: null,
-    };
+const Search = ({ handleSearch, search }) => {
+  if (search === 'All reviews') {
+    search = 'Search reviews';
   }
+  return (
+    <div className="search">
+      Search
+      <input type="text" onChange={handleSearch} value={search} />
+    </div>
+  );
+};
 
-  render() {
-    const { query } = this.state;
-    return (
-      <div className="search">
-        Search
-        <span>{query}</span>
-      </div>
-    );
-  }
+Search.propTypes = {
+  handleSearch: func.isRequired,
+  search: string.isRequired,
 }
+
+export default Search;
+
