@@ -284,7 +284,7 @@ export default class App extends React.Component {
     );
   }
 
-  filterReviews(e, exitView = () => {}) {
+  filterReviews(e, exitView = () => {}) { // eslint-disable-line
     const stateCopy = this.state;
     const target = e.target.id;
     const isChecked = e.target.checked;
@@ -333,7 +333,7 @@ export default class App extends React.Component {
       stateCopy.search = '';
     }
 
-    target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target;
+    target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
 
     this.setState(stateCopy);
   }
@@ -495,7 +495,7 @@ export default class App extends React.Component {
     return langsSummary;
   }
 
-  textHasAllSearchWords(textWords, searchWords) {
+  textHasAllSearchWords(textWords, searchWords) { // eslint-disable-line
     let containsSearch = true;
     searchWords.forEach((searchWord) => {
       if (!contains(textWords, searchWord)) {

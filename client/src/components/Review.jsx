@@ -34,4 +34,6 @@ Review.propTypes = {
   travelType: string.isRequired,
   expDate: string.isRequired,
   lang: string.isRequired,
+  body: string.isRequired,
+  title: string.isRequired,
 };
