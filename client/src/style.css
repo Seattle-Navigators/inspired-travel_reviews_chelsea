@@ -107,10 +107,6 @@
   border: 1px solid gray;
 }
 
-.nav-bar {
-  border: 1px solid gray;
-}
-
 .dropdown {
   width: 20px;
   background-color: #111;
@@ -158,4 +154,20 @@
   height: 20px;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.inactive-page-button {
+  background-color: #fff;
+  border: none;
+}
+
+.active-page-button {
+  background-color: #eee;
+  border: none;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid gray;
 }
