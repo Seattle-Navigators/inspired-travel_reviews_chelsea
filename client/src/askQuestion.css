@@ -7,6 +7,114 @@
   background-color: #fff;
   font-size: 13px;
 }
+
+.qa-header-popup {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  background-color: #eee;
+  padding-top: 5px;
+}
+
+.qa-header-title-popup {
+  margin: 12px;
+  margin-left: 0;
+  font-weight: 600;
+}
+
+#qa-icon-popup {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Chatting_4200467.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 20px;
+  width: 20px;
+  margin: 10px;
+}
+
+#exit-q {
+  margin-left: auto;
+  background: none;
+  border: none;
+  padding: 15px;
+  font-weight: bold;
+  color: #555;
+}
+
+.qa-input-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.qa-textarea {
+  width: 80%;
+  height: 100px;
+  margin-left: 4px;
+}
+
+.get-quick-answers {
+  margin-top: 40px;
+  margin-left: 20px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.qa-popup-footer {
+  margin-top: 5px;
+  margin-left: 43px;
+}
+
+.qa-note {
+  font-size: 11x;
+}
+
+#guideline-area {
+  background-color: #fff;
+  color: #888;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+  text-decoration: underline dotted;
+  margin-top: 15px;
+}
+
+#submit-q, #cancel-q {
+  border: 1px solid #111;
+  border-radius: 5px;
+  margin: 3px;
+  text-align: center;
+  height: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 15px;
+}
+
+#submit-q:hover {
+  cursor: pointer;
+  background-color: #333;
+}
+
+#cancel-q:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+#submit-q {
+  background-color: #000;
+  margin-left: auto;
+  color: #fff;
+}
+
+#cancel-q {
+  background-color: #fff;
+  margin-right: 10px;
+}
+
 .popup-background {
   display: flex;
   flex-direction: row;

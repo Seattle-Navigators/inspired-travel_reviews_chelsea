@@ -306,7 +306,7 @@ export default class App extends React.Component {
         />
 
         <div className="page" id="qa-page">
-          <div>Question & Answer Page Placeholder</div>
+          <div>Question & Answer Placeholder</div>
         </div>
 
       </div>
