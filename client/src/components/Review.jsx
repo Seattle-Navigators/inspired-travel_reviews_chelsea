@@ -10,6 +10,7 @@ export default class Review extends React.Component {
     this.state = {
       helpful: props.review.helpful,
       readMoreActive: false,
+      dotsActive: false,
     };
 
     const {
@@ -48,6 +49,7 @@ export default class Review extends React.Component {
     this.renderImageSpace = this.renderImageSpace.bind(this);
     this.handleReadMore = this.handleReadMore.bind(this);
     this.markHelpful = this.markHelpful.bind(this);
+    this.changeDots = this.changeDots.bind(this);
   }
 
   handleReadMore(e) {
@@ -69,6 +71,13 @@ export default class Review extends React.Component {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  changeDots() {
+    const stateCopy = this.state;
+    const { dotsActive } = this.state;
+    stateCopy.dotsActive = !dotsActive;
+    this.setState(stateCopy);
   }
 
   renderImages(index) {
@@ -102,7 +111,7 @@ export default class Review extends React.Component {
   }
 
   render() {
-    const { helpful, readMoreActive } = this.state; // eslint-disable-line
+    const { helpful, readMoreActive, dotsActive } = this.state; // eslint-disable-line
     let togglePlural = 's';
     if (this.votes <= 2) {
       togglePlural = '';
@@ -124,6 +133,16 @@ export default class Review extends React.Component {
               <span className="map-icon" />
               <span>{`${this.region}, ${this.country} ${this.contributions} contributions ${this.votes} helpful vote${togglePlural}`}</span>
             </div>
+          </div>
+          <div className="dots">
+            <button onClick={this.changeDots}>
+              ...
+            </button>
+            <select className="dots-menu" hidden={!dotsActive}>
+              <option hidden value="hidden" aria-label="hidden" />
+              <option value="dots-report-this">Report this</option>
+              <option value="dots-follow">Follow</option>
+            </select>
           </div>
         </div>
 
