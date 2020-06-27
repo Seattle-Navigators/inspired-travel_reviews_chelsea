@@ -1,3 +1,6 @@
+/* ====================================== */
+/* PARENT CONTAINER */
+/* ====================================== */
 .container {
   display: flex;
   flex-direction: column;
@@ -6,6 +9,9 @@
   padding-left: 17vw;
 }
 
+/* ====================================== */
+/* TABBED AREA */
+/* ====================================== */
 #tabs {
   display: flex;
   flex-direction: row;
@@ -38,6 +44,10 @@
   width: 25px;
 }
 
+/* ====================================== */
+/* HEADER */
+/* ====================================== */
+
 .header {
   display: flex;
   flex-direction: row;
@@ -53,6 +63,16 @@
   color: #fff;
 }
 
+.dropdown {
+  width: 20px;
+  background-color: #111;
+  color: #fff;
+}
+
+/* ====================================== */
+/* RATINGS, CHECKLISTS, RADIO LIST */
+/* ====================================== */
+
 #filter-container {
   display: flex;
   flex-direction: row;
@@ -62,6 +82,20 @@
   padding: 0px 24px;
   border: 1px solid gray;
 }
+
+.filter-header {
+  font-weight: bold;
+}
+
+.checklist-filter {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
+/* ====================================== */
+/* POPULAR MENTIONS */
+/* ====================================== */
 
 .mention-off {
   border: 1px solid #111;
@@ -76,9 +110,14 @@
   margin: 2.5px;
 }
 
-.filter-header {
-  font-weight: bold;
+#popular-mentions {
+  border: 1px solid gray;
+  padding: 5px;
 }
+
+/* ====================================== */
+/* SEARCH */
+/* ====================================== */
 
 .search {
   border: 1px solid gray;
@@ -100,20 +139,19 @@
   border: none;
 }
 
-.filter {
-  border: 1px solid gray;
+#no-results {
+  background-color: #fef8d0;
+  border: #fad69f 1px solid;
+  border-radius: 3px;
+  padding: 12px 18px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 10px;
 }
 
-.checklist-filter {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid gray;
-}
-
-#popular-mentions {
-  border: 1px solid gray;
-  padding: 5px;
-}
+/* ====================================== */
+/* REVIEW AND QUESTION FEEDS */
+/* ====================================== */
 
 .page {
   border: 1px solid gray;
@@ -132,14 +170,12 @@
   align-items: center;
 }
 
+/* ====================================== */
+/* REVIEW BLOCKS */
+/* ====================================== */
+
 .review {
   border: 1px solid gray;
-}
-
-.dropdown {
-  width: 20px;
-  background-color: #111;
-  color: #fff;
 }
 
 .review-header {
@@ -186,6 +222,35 @@
   background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
+.rating-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.green-rating-circle {
+  display: block;
+  border-radius: 50%;
+  background-color: #00aa6c;
+  border: #00aa6c 1.5px solid;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+.empty-rating-circle {
+  display: block;
+  border-radius: 50%;
+  border: #00aa6c 1.5px solid;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+/* ====================================== */
+/* NAV BAR */
+/* ====================================== */
+
 .inactive-page-button {
   background-color: #fff;
   border: none;
@@ -201,6 +266,10 @@
   flex-direction: row;
   border: 1px solid gray;
 }
+
+/* ====================================== */
+/* ASK-A-QUESTION POPUP */
+/* ====================================== */
 
 #recaptcha {
   background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Screen+Shot+2020-06-26+at+2.58.23+PM.png');
@@ -231,47 +300,4 @@
   width: 6px;
   height: 6px;
   transform: rotate(45deg);
-}
-
-/* #write-dropdown-icon {
-  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_compose_write_pen_pencil_writing_5859800.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 15px;
-  width: 15px;
-} */
-
-.rating-area {
-  display: flex;
-  flex-direction: row;
-}
-
-.green-rating-circle {
-  display: block;
-  border-radius: 50%;
-  background-color: #00aa6c;
-  border: #00aa6c 1.5px solid;
-  width: 10px;
-  height: 10px;
-  margin: 1px;
-}
-
-.empty-rating-circle {
-  display: block;
-  border-radius: 50%;
-  border: #00aa6c 1.5px solid;
-  background: #fff;
-  width: 10px;
-  height: 10px;
-  margin: 1px;
-}
-
-#no-results {
-  background-color: #fef8d0;
-  border: #fad69f 1px solid;
-  border-radius: 3px;
-  padding: 12px 18px;
-  font-size: 12px;
-  line-height: 14px;
-  margin-top: 10px;
 }
