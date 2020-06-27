@@ -27,9 +27,13 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
-  height: 110px;
+  height: 65px;
   background: #fff;
   padding: 16px 12px;
+}
+
+.tab:hover {
+  cursor: pointer;
 }
 
 .tab-title {
@@ -61,6 +65,7 @@
   background-size: contain;
   height: 25px;
   width: 25px;
+  margin-bottom: 5px;
 }
 
 #qa-icon {
@@ -69,6 +74,7 @@
   background-size: contain;
   height: 25px;
   width: 25px;
+  margin-bottom: 5px;
 }
 
 /* ====================================== */
@@ -115,6 +121,10 @@
   border-left: 1px solid #fff;
 }
 
+.header-button:hover, .dropdown:hover {
+  cursor: pointer;
+}
+
 /* ====================================== */
 /* RATINGS, CHECKLISTS, RADIO LIST */
 /* ====================================== */
@@ -129,6 +139,10 @@
   padding-right: 20px;
   padding-top: 15px;
   font-size: 13px;
+}
+
+input:hover, #lang-btn:hover {
+  cursor: pointer;
 }
 
 .filter-header {
@@ -153,6 +167,23 @@
 
 .list-item {
   margin-bottom: 4px;
+}
+
+.spacer {
+  margin-right: 3px;
+}
+
+.lang-num {
+  color: #888;
+}
+
+#lang-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  padding-left: 5px;
+  font-weight: bold;
+  text-align: left;
 }
 
 /* ====================================== */
@@ -184,17 +215,21 @@
 .mention-on:hover {
   background: #333;
   color: #fff;
+  cursor: pointer;
 }
 
 .mention-off:hover {
   background: #e0e0e0;
   color: #111;
+  cursor: pointer;
 }
 
 #popular-mentions {
   padding: 5px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   background: #fff;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 #popular-mentions-title {
@@ -247,6 +282,7 @@
   font-size: 12px;
   line-height: 14px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #clear-search {
@@ -269,6 +305,7 @@
   width: 16px;
   height: 16px;
   text-align: center;
+  cursor: pointer;
 }
 
 /* ====================================== */
@@ -289,6 +326,7 @@
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  margin-bottom: 20px;
 }
 
 /* ====================================== */
@@ -330,6 +368,68 @@
   background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
+.header-user-text {
+  font-size: 14px;
+  padding-bottom: 7px;
+}
+
+.header-user-info {
+  font-size: 11px;
+  color: #999;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 20px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.user-info-area {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.username {
+  font-weight: 500;
+}
+
+.user-num {
+  font-weight: 600;
+}
+
+.dots {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dots button {
+  background-color: #fff;
+  border: none;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 4px;
+}
+
+.dots button:hover {
+  cursor: pointer;
+}
+
+.spacer-dot {
+  display: inline-block;
+  border-radius: 50%;
+  width: 3px;
+  height: 3px;
+  background-color: #999;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.contributions-text, .helpful-text {
+  margin-left: 2px;
+}
+
 /* ====================================== */
 /* REVIEW BODY */
 /* ====================================== */
@@ -361,11 +461,13 @@
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
+  border: #fff solid 1px;
 }
 
 .rating-area {
   display: flex;
   flex-direction: row;
+  padding-bottom: 10px;
 }
 
 .green-rating-circle {
@@ -388,8 +490,79 @@
   margin: 1px;
 }
 
+.review-title {
+  font-weight: 500;
+  font-size: 17px;
+  padding-bottom: 10px;
+}
+
+.review-text {
+  font-size: 15px;
+  padding-bottom: 10px;
+  color: #555;
+}
+
+.read-more-button {
+  background-color: rgb(249, 249, 249);
+  color: #888;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.read-more-btn-txt {
+  text-decoration: underline dotted;
+}
+
+.read-more-button:hover {
+  cursor: pointer;
+}
+
+.exp-date {
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.trip-type {
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.trip-type-title, .exp-date-title {
+  font-weight: 500;
+}
+
+.disclaimer {
+  border-top: #ccc solid 1px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+}
+
+.helpful-button, .share-button {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+  background: none;
+  border: none;
+  text-decoration: underline dotted;
+  margin-right: 10px;
+}
+
+.helpful-button:hover, .share-button:hover {
+  cursor: pointer;
+}
+
+.helpful-vote {
+  color: #888;
+  padding-bottom: 15px;
+  font-size: 12px;
+}
+
 /* ====================================== */
-/* REVIEW BODY */
+/* REVIEW FOOTER */
 /* ====================================== */
 
 .review-footer {
@@ -412,10 +585,59 @@
   border: none;
 }
 
+.inactive-page-button:hover, .active-page-button:hover, #prev-page:hover, #next-page:hover {
+  cursor: pointer;
+}
+
+#prev-page:hover {
+  background-color: #e0e0e0;
+}
+
+#next-page:hover {
+  background-color: #333;
+}
+
 .nav-bar {
   display: flex;
   flex-direction: row;
-  border: 1px solid gray;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  align-items: center;
+}
+
+#prev-page, #next-page {
+  border: 1px solid #111;
+  border-radius: 5px;
+  margin: 3px;
+  text-align: center;
+  height: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#prev-page {
+  background-color: #fff;
+  margin-right: 10px;
+}
+
+#next-page {
+  background-color: #000;
+  margin-left: auto;
+  color: #fff;
+}
+
+.page-num-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  margin-right: 10px;
 }
 
 /* ====================================== */

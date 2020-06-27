@@ -23,7 +23,9 @@ const Languages = ({
     <div>
       <div className="popup-lang-background" id="exit-lang-popup" onClick={handleViewSwitch} role="button" aria-label="Exit popup" onKeyDown={handleViewSwitch} tabIndex={-1} />
       <div className="popup-lang">
-        <button onClick={handleViewSwitch} type="button">X</button>
+        <span className="lang-btn-container">
+          <button onClick={handleViewSwitch} type="button">X</button>
+        </span>
         {langs.map((lang) => {
           const selected = lang[0] === selection;
           return (
