@@ -490,6 +490,7 @@ export default class App extends React.Component {
       langActive,
       filters,
       guideActive,
+      view,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);
@@ -519,12 +520,14 @@ export default class App extends React.Component {
             title="Reviews"
             records={numReviews}
             handleViewSwitch={this.handleViewSwitch}
+            activeView={view}
           />
           <Tab
             baseId="qa"
             title="Q&A"
             records={numQuestions}
             handleViewSwitch={this.handleViewSwitch}
+            activeView={view}
           />
         </div>
 

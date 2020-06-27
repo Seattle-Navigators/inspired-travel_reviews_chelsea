@@ -1,25 +1,58 @@
+/* ====================================== */
+/* PARENT CONTAINER */
+/* ====================================== */
+
 .container {
   display: flex;
   flex-direction: column;
-  border: solid #aaa 1px;
   padding-right: 40vw;
-  padding-left: 17vw;
+  padding-left: 10vw;
+  width: 800px;
+  font-family: sans-serif;
+  font-weight: lighter;
+  background-color: #eee;
 }
 
+/* ====================================== */
+/* TABBED AREA */
+/* ====================================== */
 #tabs {
   display: flex;
   flex-direction: row;
+  background: #fff;
 }
 
 .tab {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid gray;
   width: 50%;
   height: 110px;
   background: #fff;
   padding: 16px 12px;
+}
+
+.tab-title {
+  font-size: 14px;
+}
+
+.tab-num {
+  font-weight: 600;
+}
+
+.inactive-tab {
+  background-color: rgb(249, 249, 249);
+  border: #e0e0e0 1px solid;
+}
+
+.active-tab {
+  border-left: #e0e0e0 1px solid;
+  border-top: #111 3px solid;
+  background: #fff;
+}
+
+.active-title {
+  font-weight: 600;
 }
 
 #review-icon {
@@ -38,52 +71,152 @@
   width: 25px;
 }
 
+/* ====================================== */
+/* HEADER */
+/* ====================================== */
+
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 71px;
   background: #fff;
-  padding: 0px 24px;
-  border: 1px solid gray;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #fff;
+}
+
+#subtitle {
+  font-size: 15px;
 }
 
 .header-button {
   background: #000;
   color: #fff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 40px;
+  text-align: center;
+  width: 120px;
 }
+
+.dropdown {
+  width: 35px;
+  background-color: #111;
+  color: #fff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 40px;
+  border-left: 1px solid #fff;
+}
+
+/* ====================================== */
+/* RATINGS, CHECKLISTS, RADIO LIST */
+/* ====================================== */
 
 #filter-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: left;
   height: 200px;
   background: #fff;
-  padding: 0px 24px;
-  border: 1px solid gray;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  font-size: 13px;
+}
+
+.filter-header {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.checklist-filter {
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+}
+
+.rating-name {
+  display: inline-block;
+  width: 65px;
+}
+
+.rate-bar {
+  margin-bottom: 4px;
+}
+
+.list-item {
+  margin-bottom: 4px;
+}
+
+/* ====================================== */
+/* POPULAR MENTIONS */
+/* ====================================== */
+
+.mention-on, .mention-off {
+  border: 1px solid #111;
+  border-radius: 5px;
+  margin: 3px;
+  text-align: center;
+  height: 30px;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: 12px;
+  font-weight: 300;
 }
 
 .mention-off {
-  border: 1px solid #111;
   background: #fff;
   color: #111;
-  margin: 2.5px;
 }
 
 .mention-on {
   background: #111;
   color: #fff;
-  margin: 2.5px;
 }
 
-.filter-header {
-  font-weight: bold;
+.mention-on:hover {
+  background: #333;
+  color: #fff;
 }
+
+.mention-off:hover {
+  background: #e0e0e0;
+  color: #111;
+}
+
+#popular-mentions {
+  padding: 5px;
+  padding-bottom: 10px;
+  background: #fff;
+}
+
+#popular-mentions-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 13px;
+}
+
+/* ====================================== */
+/* SEARCH */
+/* ====================================== */
 
 .search {
-  border: 1px solid gray;
   display: flex;
   flex-direction: row;
+  background-color: #fff;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 11px;
+  text-align: center;
 }
 
 #search-icon {
@@ -92,6 +225,7 @@
   background-size: contain;
   width: 20px;
   height: 20px;
+  margin-right: 8px;
 }
 
 #search-input {
@@ -100,23 +234,48 @@
   border: none;
 }
 
-.filter {
-  border: 1px solid gray;
+.search-input:focus {
+  border: 1px solid black;
+  line-height: 20px;
 }
 
-.checklist-filter {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid gray;
+#no-results {
+  background-color: #fef8d0;
+  border: #fad69f 1px solid;
+  border-radius: 3px;
+  padding: 12px 18px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 10px;
 }
 
-#popular-mentions {
-  border: 1px solid gray;
-  padding: 5px;
+#clear-search {
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  font-size: 8px;
+  border: none;
+  width: 16px;
+  height: 16px;
+  text-align: center;
 }
+
+#clear-search:hover {
+  border-radius: 50%;
+  background-color: #333;
+  color: #fff;
+  font-size: 8px;
+  border: none;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+}
+
+/* ====================================== */
+/* REVIEW AND QUESTION FEEDS */
+/* ====================================== */
 
 .page {
-  border: 1px solid gray;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,27 +283,33 @@
 }
 
 #qa-page {
-  border: 1px solid gray;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
+
+/* ====================================== */
+/* REVIEW BLOCKS */
+/* ====================================== */
 
 .review {
-  border: 1px solid gray;
+  margin-bottom: 12px;
+  background-color: #fff;
 }
 
-.dropdown {
-  width: 20px;
-  background-color: #111;
-  color: #fff;
-}
+/* ====================================== */
+/* REVIEW HEADER */
+/* ====================================== */
 
 .review-header {
   display: flex;
   flex-direction: row;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .profile-image {
@@ -153,6 +318,27 @@
   border-radius: 50%;
   background-repeat: no-repeat;
   background-size: contain;
+  margin-right: 15px;
+}
+
+.map-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
+}
+
+/* ====================================== */
+/* REVIEW BODY */
+/* ====================================== */
+
+.review-body {
+  background-color: rgb(249, 249, 249);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .button-area {
@@ -177,14 +363,44 @@
   background-size: cover;
 }
 
-.map-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
+.rating-area {
+  display: flex;
+  flex-direction: row;
 }
+
+.green-rating-circle {
+  display: block;
+  border-radius: 50%;
+  background-color: #00aa6c;
+  border: #00aa6c 1.5px solid;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+.empty-rating-circle {
+  display: block;
+  border-radius: 50%;
+  border: #00aa6c 1.5px solid;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+/* ====================================== */
+/* REVIEW BODY */
+/* ====================================== */
+
+.review-footer {
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* ====================================== */
+/* NAV BAR */
+/* ====================================== */
 
 .inactive-page-button {
   background-color: #fff;
@@ -201,6 +417,10 @@
   flex-direction: row;
   border: 1px solid gray;
 }
+
+/* ====================================== */
+/* ASK-A-QUESTION POPUP */
+/* ====================================== */
 
 #recaptcha {
   background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Screen+Shot+2020-06-26+at+2.58.23+PM.png');
@@ -231,47 +451,4 @@
   width: 6px;
   height: 6px;
   transform: rotate(45deg);
-}
-
-/* #write-dropdown-icon {
-  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_compose_write_pen_pencil_writing_5859800.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 15px;
-  width: 15px;
-} */
-
-.rating-area {
-  display: flex;
-  flex-direction: row;
-}
-
-.green-rating-circle {
-  display: block;
-  border-radius: 50%;
-  background-color: #00aa6c;
-  border: #00aa6c 1.5px solid;
-  width: 10px;
-  height: 10px;
-  margin: 1px;
-}
-
-.empty-rating-circle {
-  display: block;
-  border-radius: 50%;
-  border: #00aa6c 1.5px solid;
-  background: #fff;
-  width: 10px;
-  height: 10px;
-  margin: 1px;
-}
-
-#no-results {
-  background-color: #fef8d0;
-  border: #fad69f 1px solid;
-  border-radius: 3px;
-  padding: 12px 18px;
-  font-size: 12px;
-  line-height: 14px;
-  margin-top: 10px;
 }

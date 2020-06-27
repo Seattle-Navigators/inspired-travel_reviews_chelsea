@@ -63,6 +63,8 @@ const commonWords = [
   'location',
 ];
 
+const weightedRatings = [4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 0];
+
 const uploadBase = 'https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/userUploads';
 const profileBase = 'https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/profiles';
 
@@ -96,7 +98,7 @@ for (let i = 1; i <= 100; i += 1) {
 const seedData = [];
 
 attractionIds.forEach((id) => {
-  const numReviews = generateNumBetween(1, 100);
+  const numReviews = generateNumBetween(25, 200);
   const attractionName = chance.city();
 
   for (let i = 0; i < numReviews; i += 1) {
@@ -110,7 +112,7 @@ attractionIds.forEach((id) => {
     const numImages = pickBiased([0, 1, 2, 3]);
     const name = chance.name();
     const title = chance.sentence({ words: generateNumBetween(1, 4) });
-    const rating = generateNumBetween(0, 4);
+    const rating = weightedRatings[generateNumBetween(0, weightedRatings.length - 1)];
 
     let body = chance.paragraph().split(' ');
     body.splice(3, 0, commonWords[generateNumBetween(0, commonWords.length - 1)]);

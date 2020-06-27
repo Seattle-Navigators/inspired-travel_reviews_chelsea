@@ -8,27 +8,30 @@ const RateBar = ({
   handleFilter,
   selected,
 }) => {
-  const backWidth = 100;
+  const backWidth = 120;
   const barWidth = backWidth * percentage;
 
+  let nameNoSpace = name;
+
   if (name === 'Very Good') {
-    name = 'VeryGood'; // eslint-disable-line
+    nameNoSpace = 'VeryGood'; // eslint-disable-line
   }
 
   return (
     <div>
       <div className="rate-bar">
-        <input id={`${name}-filter`} type="checkbox" onChange={handleFilter} checked={selected} />
+        <input id={`${nameNoSpace}-filter`} type="checkbox" onChange={handleFilter} checked={selected} />
 
-        {name}
+        <span className="rating-name">{name}</span>
 
         <span style={{
           display: 'inline-flex',
           height: '12px',
-          marginLeft: '15px',
+          marginLeft: '12px',
           marginRight: '14px',
           width: `${backWidth}px`,
-          backgroundColor: '#eee',
+          backgroundColor: '#e0e0e0',
+          borderRadius: '2px',
         }}> {/*eslint-disable-line*/}
 
           <span style={{
@@ -36,10 +39,11 @@ const RateBar = ({
             height: '12px',
             width: `${barWidth}px`,
             backgroundColor: '#222',
+            borderRadius: '2px',
           }} /> {/*eslint-disable-line*/}
 
         </span>
-        <span id={`${name}-ratings`}>{ratings}</span>
+        <span id={`${nameNoSpace}-ratings`}>{ratings}</span>
       </div>
     </div>
   );

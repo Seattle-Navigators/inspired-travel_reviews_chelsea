@@ -4,7 +4,7 @@ import MentionBtn from './MentionBtn';
 
 const Mentions = ({ keywords, handleMention, search }) => (
   <div id="popular-mentions">
-    <div>Popular Mentions</div>
+    <div id="popular-mentions-title">Popular Mentions</div>
 
     {keywords.map((keyword) => {
       let mentionId;

@@ -25,7 +25,7 @@ const ListItem = ({
   }
 
   return (
-    <div>
+    <div className="list-item">
       <input
         type={type}
         name={name}
