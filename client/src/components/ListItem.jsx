@@ -20,8 +20,14 @@ const ListItem = ({
     changeFunction = handleFilter;
   }
 
+  let toggleLang = value;
   if (value === 'All languages') {
-    value = 'AllLanguages'; // eslint-disable-line
+    toggleLang = 'AllLanguages';
+  }
+
+  let toggleRecords = records;
+  if (records) {
+    toggleRecords = `(${records})`;
   }
 
   return (
@@ -29,14 +35,15 @@ const ListItem = ({
       <input
         type={type}
         name={name}
-        id={`${type}-${value}`}
-        value={`${type}-${value}`}
+        id={`${type}-${toggleLang}`}
+        value={`${type}-${toggleLang}`}
         onChange={changeFunction}
         checked={selected}
         className={`${type}`}
       />
       {value}
-      {records}
+      <span className="spacer" />
+      <span className="lang-num">{toggleRecords}</span>
     </div>
   );
 };

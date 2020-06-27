@@ -5,7 +5,32 @@
   border: 1px solid #111;
   height: 80vh;
   background-color: #fff;
+  font-size: 13px;
 }
+
+.lang-btn-container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+}
+
+.lang-btn-container button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  padding: 15px;
+  font-weight: bold;
+  color: #555;
+}
+
+.lang-btn-container button:hover {
+  cursor: pointer;
+}
+
+.popup-lang .list-item {
+  margin-left: 60px;
+}
+
 .popup-lang-background {
   display: flex;
   flex-direction: row;

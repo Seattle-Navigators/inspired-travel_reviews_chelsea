@@ -141,7 +141,7 @@
   font-size: 13px;
 }
 
-input:hover {
+input:hover, #lang-btn:hover {
   cursor: pointer;
 }
 
@@ -167,6 +167,23 @@ input:hover {
 
 .list-item {
   margin-bottom: 4px;
+}
+
+.spacer {
+  margin-right: 3px;
+}
+
+.lang-num {
+  color: #888;
+}
+
+#lang-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  padding-left: 5px;
+  font-weight: bold;
+  text-align: left;
 }
 
 /* ====================================== */

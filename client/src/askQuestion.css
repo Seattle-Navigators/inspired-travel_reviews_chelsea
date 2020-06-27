@@ -5,6 +5,7 @@
   border: 1px solid #111;
   height: 575px;
   background-color: #fff;
+  font-size: 13px;
 }
 .popup-background {
   display: flex;
