@@ -136,10 +136,10 @@ export default class Review extends React.Component {
         <div className="review-header">
           <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
           <div className="header-text">
-            <div>{`${this.username} wrote a review ${moment(this.createdAt).format('MMM YYYY')}`}</div>
-            <div>
+            <div className="header-user-text"><span className="username">{`${this.username}`}</span> {`wrote a review ${moment(this.createdAt).format('MMM YYYY')}`}</div>
+            <div className="user-info-area">
               <span className="map-icon" />
-              <span>{`${this.region}, ${this.country} ${this.contributions} contributions ${this.votes} helpful vote${togglePlural}`}</span>
+              <span className="header-user-info">{`${this.region}, ${this.country}`} <span className="user-num">{`${this.contributions}`}</span> {`contributions`} <span className="user-num">{`${this.votes}`}</span> {`helpful vote${togglePlural}`}</span>
             </div>
           </div>
           <div className="dots">

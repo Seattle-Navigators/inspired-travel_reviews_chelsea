@@ -330,6 +330,52 @@
   background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
+.header-user-text {
+  font-size: 14px;
+  padding-bottom: 7px;
+}
+
+.header-user-info {
+  font-size: 11px;
+  color: #999;
+  display: inline-block;
+  height: 20px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.user-info-area {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.username {
+  font-weight: 500;
+}
+
+.user-num {
+  font-weight: 600;
+}
+
+.dots {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dots button {
+  background-color: #fff;
+  border: none;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 4px;
+}
+
+.dots button:hover {
+  cursor: pointer;
+}
+
 /* ====================================== */
 /* REVIEW BODY */
 /* ====================================== */
