@@ -309,12 +309,6 @@ export default class App extends React.Component {
           <div>Question & Answer Page Placeholder</div>
         </div>
 
-        <NavBar
-          currentPage={currentPage}
-          numReviews={filteredReviews.length}
-          handlePageChange={this.handlePageChange}
-          view={view}
-        />
       </div>
     );
   }

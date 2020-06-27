@@ -33,14 +33,16 @@ const NavBar = ({
   return (
     <div className="nav-bar">
       <button onClick={(e) => handlePageChange(e, pageNums[pageNums.length - 1])} value="prev-page" id="prev-page" type="button">Previous</button>
-      {pageNums.map((pageNum) => (
-        <PageButton
-          currentPage={currentPage}
-          key={`page-${pageNum}`}
-          pageNumber={pageNum}
-          handlePageChange={handlePageChange}
-        />
-      ))}
+      <div className="page-num-area">
+        {pageNums.map((pageNum) => (
+          <PageButton
+            currentPage={currentPage}
+            key={`page-${pageNum}`}
+            pageNumber={pageNum}
+            handlePageChange={handlePageChange}
+          />
+        ))}
+      </div>
       <button onClick={(e) => handlePageChange(e, pageNums[pageNums.length - 1])} value="next-page" id="next-page" type="button">Next</button>
     </div>
   );
