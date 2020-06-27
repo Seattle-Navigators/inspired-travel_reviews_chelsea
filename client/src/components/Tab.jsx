@@ -9,7 +9,7 @@ const Tab = ({
   activeView,
 }) => {
   let toggleActive = 'inactive';
-  if (activeView === 'Reviews' && baseId === 'review' || activeView === 'Questions' && baseId === 'qa') {
+  if ((activeView === 'Reviews' && baseId === 'review') || (activeView === 'Questions' && baseId === 'qa')) {
     toggleActive = 'active';
   }
   return (
