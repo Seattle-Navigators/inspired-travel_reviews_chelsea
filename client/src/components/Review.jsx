@@ -136,10 +136,19 @@ export default class Review extends React.Component {
         <div className="review-header">
           <div className="profile-image" style={{ backgroundImage: `url(${this.profileImage})` }} />
           <div className="header-text">
-            <div className="header-user-text"><span className="username">{`${this.username}`}</span> {`wrote a review ${moment(this.createdAt).format('MMM YYYY')}`}</div>
+            <div className="header-user-text">
+              <span className="username">{`${this.username} `}</span>
+              {`wrote a review ${moment(this.createdAt).format('MMM YYYY')}`}
+            </div>
             <div className="user-info-area">
               <span className="map-icon" />
-              <span className="header-user-info">{`${this.region}, ${this.country}`} <span className="user-num">{`${this.contributions}`}</span> {`contributions`} <span className="user-num">{`${this.votes}`}</span> {`helpful vote${togglePlural}`}</span>
+              <span className="header-user-info">
+                {`${this.region}, ${this.country} `}
+                <span className="user-num">{`${this.contributions} `}</span>
+                <span>contributions </span>
+                <span className="user-num">{`${this.votes} `}</span>
+                {`helpful vote${togglePlural}`}
+              </span>
             </div>
           </div>
           <div className="dots">
@@ -164,9 +173,15 @@ export default class Review extends React.Component {
           <div className="review-title">{`${this.title}`}</div>
           <div className="review-text">{`${this.body}`}</div>
           <div><button className="read-more-button" type="button" onClick={this.handleReadMore} id="read-more"><span className="read-more-btn-txt">Read more</span></button></div>
-          <div className="exp-date"><span className="exp-date-title">Date of experience:</span> {`${moment(this.expDate).format('MMM YYYY')}`}</div>
+          <div className="exp-date">
+            <span className="exp-date-title">Date of experience: </span>
+            {`${moment(this.expDate).format('MMM YYYY')}`}
+          </div>
           <div hidden={!readMoreActive}>
-            <div className="trip-type"><span className="trip-type-title">Trip type:</span> {`Traveled ${mapTypeToSentence[this.travelType]}`}</div>
+            <div className="trip-type">
+              <span className="trip-type-title">Trip type: </span>
+              {`Traveled ${mapTypeToSentence[this.travelType]}`}
+            </div>
             <div className="disclaimer">
               This review is the subjective opinion of a
               TripAdvisor member and not of TripAdvisor LLC.
