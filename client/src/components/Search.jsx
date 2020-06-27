@@ -9,7 +9,7 @@ const Search = ({ handleChange, search }) => {
     <div className="search">
       <div id="search-icon" />
       <input id="search-input" type="text" onChange={handleChange} value={search} placeholder="Search reviews" />
-      <button id="clear-search" onClick={handleChange}>X</button>
+      <button type="button" id="clear-search" onClick={handleChange}>X</button>
     </div>
   );
 };

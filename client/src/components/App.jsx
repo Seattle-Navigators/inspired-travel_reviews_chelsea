@@ -286,9 +286,10 @@ export default class App extends React.Component {
             view={view}
           />
 
-        <div id="no-results" hidden={!noResults}>
-          No results found. Try removing a filter, changing your search, or clear all to read reviews.
-        </div>
+          <div id="no-results" hidden={!noResults}>
+            No results found.
+            Try removing a filter, changing your search, or clear all to read reviews.
+          </div>
 
         </div>
       );
@@ -468,7 +469,7 @@ export default class App extends React.Component {
 
   handleReadMore(e) {
     const stateCopy = this.state;
-    const { guideActive, readMoreActive } = this.state;
+    const { guideActive } = this.state;
     const target = e.target.id;
 
     const guidelineIds = ['guideline-area', 'posting-guidelines-link', 'posting-guidelines-arrow'];
@@ -488,7 +489,7 @@ export default class App extends React.Component {
       popupActive,
       langActive,
       filters,
-      guideActive
+      guideActive,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);

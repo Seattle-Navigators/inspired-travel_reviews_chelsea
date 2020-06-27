@@ -66,7 +66,7 @@ export default class Review extends React.Component {
     const stateCopy = this.state;
     const { helpful } = this.state;
     axios.patch(`/${this.attractionId}/api/reviews/${this.reviewId}`)
-      .then((res) => {
+      .then(() => {
         stateCopy.helpful = !helpful;
         this.setState(stateCopy);
       })
@@ -126,7 +126,7 @@ export default class Review extends React.Component {
       Business: 'on business',
       Couple: 'as a couple',
       Solo: 'solo',
-    }
+    };
 
     const greenCircles = range(this.rating + 1);
     const emptyCircles = range(5 - this.rating - 1);
@@ -143,7 +143,7 @@ export default class Review extends React.Component {
             </div>
           </div>
           <div className="dots">
-            <button onClick={this.changeDots}>
+            <button type="button" onClick={this.changeDots}>
               ...
             </button>
             <select className="dots-menu" hidden={!dotsActive}>
@@ -158,16 +158,19 @@ export default class Review extends React.Component {
 
         <div className="review-body">
           <div className="rating-area">
-            {greenCircles.map((circle, i) => <RatingCircle color="green" key={`circle-green-${i}-${this.reviewId}`} />)}
-            {emptyCircles.map((circle, i) => <RatingCircle color="empty" key={`circle-empty-${i}-${this.reviewId}`} />)}
+            {greenCircles.map((circle, i) => <RatingCircle color="green" key={`circle-green-${i}-${this.reviewId}`} />)} {/* eslint-disable-line */}
+            {emptyCircles.map((circle, i) => <RatingCircle color="empty" key={`circle-empty-${i}-${this.reviewId}`} />)} {/* eslint-disable-line */}
           </div>
           <div>{`${this.title}`}</div>
           <div>{`${this.body}`}</div>
-          <div><button onClick={this.handleReadMore} id="read-more">Read more</button></div>
+          <div><button type="button" onClick={this.handleReadMore} id="read-more">Read more</button></div>
           <div>{`Date of experience: ${moment(this.expDate).format('MMM YYYY')}`}</div>
           <div hidden={!readMoreActive}>
             <div>{`Trip type: Traveled ${mapTypeToSentence[this.travelType]}`}</div>
-            <div>This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</div>
+            <div>
+              This review is the subjective opinion of a
+              TripAdvisor member and not of TripAdvisor LLC.
+            </div>
           </div>
         </div>
         <div className="review-footer">
