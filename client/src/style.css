@@ -1,12 +1,21 @@
 /* ====================================== */
 /* PARENT CONTAINER */
 /* ====================================== */
+
+@font-face {
+  font-family: "Lato";
+  src: url("https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Lato/Lato-Regular.ttf") format("truetype");
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  border: solid #aaa 1px;
   padding-right: 40vw;
-  padding-left: 17vw;
+  padding-left: 10vw;
+  width: 800px;
+  font-family: sans-serif;
+  font-weight: lighter;
+  background-color: #fff;
 }
 
 /* ====================================== */
@@ -15,17 +24,28 @@
 #tabs {
   display: flex;
   flex-direction: row;
+  background: #fff;
 }
 
 .tab {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid gray;
   width: 50%;
   height: 110px;
   background: #fff;
   padding: 16px 12px;
+}
+
+.inactive-tab {
+  background-color: rgb(249, 249, 249);
+  border: #e0e0e0 1px solid;
+}
+
+.active-tab {
+  border-left: #e0e0e0 1px solid;
+  border-top: #111 3px solid;
+  background: #fff;
 }
 
 #review-icon {
@@ -55,7 +75,13 @@
   height: 71px;
   background: #fff;
   padding: 0px 24px;
-  border: 1px solid gray;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #fff;
 }
 
 .header-button {
@@ -80,7 +106,6 @@
   height: 200px;
   background: #fff;
   padding: 0px 24px;
-  border: 1px solid gray;
 }
 
 .filter-header {
@@ -90,7 +115,6 @@
 .checklist-filter {
   display: flex;
   flex-direction: column;
-  border: 1px solid gray;
 }
 
 /* ====================================== */
@@ -111,7 +135,6 @@
 }
 
 #popular-mentions {
-  border: 1px solid gray;
   padding: 5px;
 }
 

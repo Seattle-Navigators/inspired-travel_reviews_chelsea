@@ -28,7 +28,8 @@ const RateBar = ({
           marginLeft: '15px',
           marginRight: '14px',
           width: `${backWidth}px`,
-          backgroundColor: '#eee',
+          backgroundColor: '#e0e0e0',
+          borderRadius: '2px',
         }}> {/*eslint-disable-line*/}
 
           <span style={{
@@ -36,6 +37,7 @@ const RateBar = ({
             height: '12px',
             width: `${barWidth}px`,
             backgroundColor: '#222',
+            borderRadius: '2px',
           }} /> {/*eslint-disable-line*/}
 
         </span>
