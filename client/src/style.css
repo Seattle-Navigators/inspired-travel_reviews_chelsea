@@ -234,6 +234,11 @@
   border: none;
 }
 
+.search-input:focus {
+  border: 1px solid black;
+  line-height: 20px;
+}
+
 #no-results {
   background-color: #fef8d0;
   border: #fad69f 1px solid;
@@ -248,16 +253,22 @@
   border-radius: 50%;
   background-color: #000;
   color: #fff;
-  font-size: 10px;
+  font-size: 8px;
   border: none;
+  width: 16px;
+  height: 16px;
+  text-align: center;
 }
 
 #clear-search:hover {
   border-radius: 50%;
   background-color: #333;
   color: #fff;
-  font-size: 10px;
+  font-size: 8px;
   border: none;
+  width: 16px;
+  height: 16px;
+  text-align: center;
 }
 
 /* ====================================== */
@@ -269,7 +280,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
 }
 
 #qa-page {
@@ -286,12 +296,20 @@
 /* ====================================== */
 
 .review {
-  border: 1px solid gray;
+  margin-bottom: 12px;
+  background-color: #fff;
 }
+
+/* ====================================== */
+/* REVIEW HEADER */
+/* ====================================== */
 
 .review-header {
   display: flex;
   flex-direction: row;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .profile-image {
@@ -300,6 +318,27 @@
   border-radius: 50%;
   background-repeat: no-repeat;
   background-size: contain;
+  margin-right: 15px;
+}
+
+.map-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
+}
+
+/* ====================================== */
+/* REVIEW BODY */
+/* ====================================== */
+
+.review-body {
+  background-color: rgb(249, 249, 249);
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .button-area {
@@ -322,15 +361,6 @@
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-.map-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
 .rating-area {
@@ -356,6 +386,16 @@
   width: 10px;
   height: 10px;
   margin: 1px;
+}
+
+/* ====================================== */
+/* REVIEW BODY */
+/* ====================================== */
+
+.review-footer {
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* ====================================== */
