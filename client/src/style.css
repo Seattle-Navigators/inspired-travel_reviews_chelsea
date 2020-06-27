@@ -37,6 +37,14 @@
   padding: 16px 12px;
 }
 
+.tab-title {
+  font-size: 14px;
+}
+
+.tab-num {
+  font-weight: 600;
+}
+
 .inactive-tab {
   background-color: rgb(249, 249, 249);
   border: #e0e0e0 1px solid;
@@ -46,6 +54,10 @@
   border-left: #e0e0e0 1px solid;
   border-top: #111 3px solid;
   background: #fff;
+}
+
+.active-title {
+  font-weight: 600;
 }
 
 #review-icon {
@@ -72,10 +84,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 71px;
   background: #fff;
-  padding: 0px 24px;
-  font-size: 22px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-size: 25px;
   font-weight: 500;
   letter-spacing: 0.5px;
   border-bottom: 1px solid #e0e0e0;
@@ -84,15 +96,30 @@
   background-color: #fff;
 }
 
+#subtitle {
+  font-size: 15px;
+}
+
 .header-button {
   background: #000;
   color: #fff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 40px;
+  line-height: 40px;
+  width: 120px;
 }
 
 .dropdown {
-  width: 20px;
+  width: 35px;
   background-color: #111;
   color: #fff;
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 40px;
+  border-left: 1px solid #fff;
+  border-top: 4px solid #000;
+  margin-bottom: 2px;
 }
 
 /* ====================================== */
@@ -102,19 +129,37 @@
 #filter-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: left;
   height: 200px;
   background: #fff;
-  padding: 0px 24px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  font-size: 13px;
 }
 
 .filter-header {
-  font-weight: bold;
+  font-weight: 500;
+  margin-bottom: 15px;
 }
 
 .checklist-filter {
   display: flex;
   flex-direction: column;
+  padding-left: 40px;
+}
+
+.rating-name {
+  display: inline-block;
+  width: 65px;
+}
+
+.rate-bar {
+  margin-bottom: 4px;
+}
+
+.list-item {
+  margin-bottom: 4px;
 }
 
 /* ====================================== */
