@@ -1,5 +1,6 @@
 import React from 'react';
 import { objectOf, oneOfType, object, array, string, number, bool, func } from 'prop-types'; // eslint-disable-line
+import axios from 'axios';
 
 const moment = require('moment');
 
@@ -12,6 +13,8 @@ export default class Review extends React.Component {
     };
 
     const {
+      _id,
+      attractionId,
       rating,
       travelType,
       expDate,
@@ -24,6 +27,8 @@ export default class Review extends React.Component {
       uploadImages,
     } = props.review;
 
+    this.reviewId = _id;
+    this.attractionId = attractionId;
     this.rating = rating;
     this.travelType = travelType;
     this.expDate = expDate;
@@ -42,6 +47,7 @@ export default class Review extends React.Component {
     this.renderImages = this.renderImages.bind(this);
     this.renderImageSpace = this.renderImageSpace.bind(this);
     this.handleReadMore = this.handleReadMore.bind(this);
+    this.markHelpful = this.markHelpful.bind(this);
   }
 
   handleReadMore(e) {
@@ -50,6 +56,19 @@ export default class Review extends React.Component {
     stateCopy.readMoreActive = !readMoreActive;
     this.setState(stateCopy);
     e.preventDefault();
+  }
+
+  markHelpful() {
+    const stateCopy = this.state;
+    const { helpful } = this.state;
+    axios.patch(`/${this.attractionId}/api/reviews/${this.reviewId}`)
+      .then((res) => {
+        stateCopy.helpful = !helpful;
+        this.setState(stateCopy);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   renderImages(index) {
@@ -114,7 +133,7 @@ export default class Review extends React.Component {
           <div>{this.rating}</div>
           <div>{`${this.title}`}</div>
           <div>{`${this.body}`}</div>
-          <div><a href="#" onClick={this.handleReadMore} id="read-more">Read more</a></div> {/* eslint-disable-line */}
+          <div><button onClick={this.handleReadMore} id="read-more">Read more</button></div>
           <div>{`Date of experience: ${moment(this.expDate).format('MMM YYYY')}`}</div>
           <div hidden={!readMoreActive}>
             <div>{`Trip type: Traveled ${mapTypeToSentence[this.travelType]}`}</div>
@@ -122,8 +141,9 @@ export default class Review extends React.Component {
           </div>
         </div>
         <div className="review-footer">
+          <div hidden={!helpful}>1 Helpful vote</div>
           <div className="button-area">
-            <button type="button">Helpful</button>
+            <button type="button" onClick={this.markHelpful}>Helpful</button>
             <button type="button">Share</button>
           </div>
         </div>
