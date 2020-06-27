@@ -82,6 +82,22 @@
 
 .search {
   border: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+}
+
+#search-icon {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_header-search-image_1540158.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+}
+
+#search-input {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .filter {

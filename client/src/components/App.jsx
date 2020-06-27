@@ -361,7 +361,7 @@ export default class App extends React.Component {
       stateCopy.search = '';
     }
 
-    target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
+    target === '' || target === undefined ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
 
     stateCopy.currentPage = 1;
     this.setState(stateCopy);
