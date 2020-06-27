@@ -2,11 +2,6 @@
 /* PARENT CONTAINER */
 /* ====================================== */
 
-@font-face {
-  font-family: "Lato";
-  src: url("https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Lato/Lato-Regular.ttf") format("truetype");
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -15,7 +10,7 @@
   width: 800px;
   font-family: sans-serif;
   font-weight: lighter;
-  background-color: #fff;
+  background-color: #eee;
 }
 
 /* ====================================== */
@@ -91,8 +86,8 @@
   font-weight: 500;
   letter-spacing: 0.5px;
   border-bottom: 1px solid #e0e0e0;
-  margin-left: 20px;
-  margin-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: #fff;
 }
 
@@ -106,7 +101,7 @@
   border-radius: 5px;
   border: 1px solid #000;
   height: 40px;
-  line-height: 40px;
+  text-align: center;
   width: 120px;
 }
 
@@ -118,8 +113,6 @@
   border: 1px solid #000;
   height: 40px;
   border-left: 1px solid #fff;
-  border-top: 4px solid #000;
-  margin-bottom: 2px;
 }
 
 /* ====================================== */
@@ -146,7 +139,7 @@
 .checklist-filter {
   display: flex;
   flex-direction: column;
-  padding-left: 40px;
+  padding-left: 50px;
 }
 
 .rating-name {
@@ -166,21 +159,48 @@
 /* POPULAR MENTIONS */
 /* ====================================== */
 
-.mention-off {
+.mention-on, .mention-off {
   border: 1px solid #111;
+  border-radius: 5px;
+  margin: 3px;
+  text-align: center;
+  height: 30px;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.mention-off {
   background: #fff;
   color: #111;
-  margin: 2.5px;
 }
 
 .mention-on {
   background: #111;
   color: #fff;
-  margin: 2.5px;
+}
+
+.mention-on:hover {
+  background: #333;
+  color: #fff;
+}
+
+.mention-off:hover {
+  background: #e0e0e0;
+  color: #111;
 }
 
 #popular-mentions {
   padding: 5px;
+  padding-bottom: 10px;
+  background: #fff;
+}
+
+#popular-mentions-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 13px;
 }
 
 /* ====================================== */
@@ -188,9 +208,15 @@
 /* ====================================== */
 
 .search {
-  border: 1px solid gray;
   display: flex;
   flex-direction: row;
+  background-color: #fff;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 11px;
+  text-align: center;
 }
 
 #search-icon {
@@ -199,6 +225,7 @@
   background-size: contain;
   width: 20px;
   height: 20px;
+  margin-right: 8px;
 }
 
 #search-input {
@@ -217,25 +244,41 @@
   margin-top: 10px;
 }
 
+#clear-search {
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+  font-size: 10px;
+  border: none;
+}
+
+#clear-search:hover {
+  border-radius: 50%;
+  background-color: #333;
+  color: #fff;
+  font-size: 10px;
+  border: none;
+}
+
 /* ====================================== */
 /* REVIEW AND QUESTION FEEDS */
 /* ====================================== */
 
 .page {
-  border: 1px solid gray;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 
 #qa-page {
-  border: 1px solid gray;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 
 /* ====================================== */
