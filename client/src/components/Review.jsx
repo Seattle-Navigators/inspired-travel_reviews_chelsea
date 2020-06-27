@@ -131,6 +131,8 @@ export default class Review extends React.Component {
     const greenCircles = range(this.rating + 1);
     const emptyCircles = range(5 - this.rating - 1);
 
+    const toggleReadMore = readMoreActive ? 'Read less' : 'Read more';
+
     return (
       <div className={`review ${this.lang}`}>
         <div className="review-header">
@@ -144,10 +146,12 @@ export default class Review extends React.Component {
               <span className="map-icon" />
               <span className="header-user-info">
                 {`${this.region}, ${this.country} `}
-                <span className="user-num">{`${this.contributions} `}</span>
-                <span>contributions </span>
-                <span className="user-num">{`${this.votes} `}</span>
-                {`helpful vote${togglePlural}`}
+                <span className="spacer-dot" />
+                <span className="user-num">{`${this.contributions}`}</span>
+                <span className="contributions-text">contributions </span>
+                <span className="spacer-dot" />
+                <span className="user-num">{`${this.votes}`}</span>
+                <span className="helpful-text">{`helpful vote${togglePlural}`}</span>
               </span>
             </div>
           </div>
@@ -172,7 +176,7 @@ export default class Review extends React.Component {
           </div>
           <div className="review-title">{`${this.title}`}</div>
           <div className="review-text">{`${this.body}`}</div>
-          <div><button className="read-more-button" type="button" onClick={this.handleReadMore} id="read-more"><span className="read-more-btn-txt">Read more</span></button></div>
+          <div><button className="read-more-button" type="button" onClick={this.handleReadMore} id="read-more"><span className="read-more-btn-txt">{toggleReadMore}</span></button></div>
           <div className="exp-date">
             <span className="exp-date-title">Date of experience: </span>
             {`${moment(this.expDate).format('MMM YYYY')}`}

@@ -354,7 +354,9 @@ input:hover {
 .header-user-info {
   font-size: 11px;
   color: #999;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   height: 20px;
   text-align: center;
   padding-top: 5px;
@@ -390,6 +392,20 @@ input:hover {
 
 .dots button:hover {
   cursor: pointer;
+}
+
+.spacer-dot {
+  display: inline-block;
+  border-radius: 50%;
+  width: 3px;
+  height: 3px;
+  background-color: #999;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.contributions-text, .helpful-text {
+  margin-left: 2px;
 }
 
 /* ====================================== */
