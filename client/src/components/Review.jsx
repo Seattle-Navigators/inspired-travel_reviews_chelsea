@@ -1,6 +1,8 @@
 import React from 'react';
 import { objectOf, oneOfType, object, array, string, number, bool, func } from 'prop-types'; // eslint-disable-line
 import axios from 'axios';
+import { range } from 'underscore';
+import RatingCircle from './RatingCircle';
 
 const moment = require('moment');
 
@@ -111,11 +113,13 @@ export default class Review extends React.Component {
   }
 
   render() {
-    const { helpful, readMoreActive, dotsActive } = this.state; // eslint-disable-line
+    const { helpful, readMoreActive, dotsActive } = this.state;
+
     let togglePlural = 's';
     if (this.votes <= 2) {
       togglePlural = '';
     }
+
     const mapTypeToSentence = {
       Friends: 'with friends',
       Family: 'with family',
@@ -123,6 +127,10 @@ export default class Review extends React.Component {
       Couple: 'as a couple',
       Solo: 'solo',
     }
+
+    const greenCircles = range(this.rating);
+    const emptyCircles = range(5 - this.rating);
+
     return (
       <div className={`review ${this.lang}`}>
         <div className="review-header">
@@ -149,7 +157,10 @@ export default class Review extends React.Component {
         {this.renderImageSpace()}
 
         <div className="review-body">
-          <div>{this.rating}</div>
+          <div className="rating-area">
+            {greenCircles.map((circle, i) => <RatingCircle color="green" key={`circle-green-${i}-${this.reviewId}`} />)}
+            {emptyCircles.map((circle, i) => <RatingCircle color="empty" key={`circle-empty-${i}-${this.reviewId}`} />)}
+          </div>
           <div>{`${this.title}`}</div>
           <div>{`${this.body}`}</div>
           <div><button onClick={this.handleReadMore} id="read-more">Read more</button></div>
