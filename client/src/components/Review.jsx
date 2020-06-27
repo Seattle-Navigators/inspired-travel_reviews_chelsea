@@ -128,8 +128,8 @@ export default class Review extends React.Component {
       Solo: 'solo',
     }
 
-    const greenCircles = range(this.rating);
-    const emptyCircles = range(5 - this.rating);
+    const greenCircles = range(this.rating + 1);
+    const emptyCircles = range(5 - this.rating - 1);
 
     return (
       <div className={`review ${this.lang}`}>

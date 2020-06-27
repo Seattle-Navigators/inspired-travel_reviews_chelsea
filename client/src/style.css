@@ -250,17 +250,28 @@
   display: block;
   border-radius: 50%;
   background-color: #00aa6c;
-  border: #00aa6c 1px solid;
-  width: 11px;
-  height: 11px;
+  border: #00aa6c 1.5px solid;
+  width: 10px;
+  height: 10px;
   margin: 1px;
 }
 
 .empty-rating-circle {
   display: block;
   border-radius: 50%;
-  border: #00aa6c 1px solid;
-  width: 11px;
-  height: 11px;
+  border: #00aa6c 1.5px solid;
+  background: #fff;
+  width: 10px;
+  height: 10px;
   margin: 1px;
+}
+
+#no-results {
+  background-color: #fef8d0;
+  border: #fad69f 1px solid;
+  border-radius: 3px;
+  padding: 12px 18px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 10px;
 }

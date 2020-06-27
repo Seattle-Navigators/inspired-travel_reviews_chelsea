@@ -183,6 +183,8 @@ export default class App extends React.Component {
       return false;
     });
 
+    const noResults = filteredReviews.length === 0;
+
     // ========================Retrieve popular mentions=======================
 
     const reviewBodies = reviews.map((review) => review.body);
@@ -283,6 +285,10 @@ export default class App extends React.Component {
             handlePageChange={this.handlePageChange}
             view={view}
           />
+
+        <div id="no-results" hidden={!noResults}>
+          No results found. Try removing a filter, changing your search, or clear all to read reviews.
+        </div>
 
         </div>
       );
