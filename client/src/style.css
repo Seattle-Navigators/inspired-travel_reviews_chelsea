@@ -32,6 +32,10 @@
   padding: 16px 12px;
 }
 
+.tab:hover {
+  cursor: pointer;
+}
+
 .tab-title {
   font-size: 14px;
 }
@@ -115,6 +119,10 @@
   border-left: 1px solid #fff;
 }
 
+.header-button:hover, .dropdown:hover {
+  cursor: pointer;
+}
+
 /* ====================================== */
 /* RATINGS, CHECKLISTS, RADIO LIST */
 /* ====================================== */
@@ -129,6 +137,10 @@
   padding-right: 20px;
   padding-top: 15px;
   font-size: 13px;
+}
+
+input:hover {
+  cursor: pointer;
 }
 
 .filter-header {
@@ -184,11 +196,13 @@
 .mention-on:hover {
   background: #333;
   color: #fff;
+  cursor: pointer;
 }
 
 .mention-off:hover {
   background: #e0e0e0;
   color: #111;
+  cursor: pointer;
 }
 
 #popular-mentions {
@@ -247,6 +261,7 @@
   font-size: 12px;
   line-height: 14px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #clear-search {
@@ -269,6 +284,7 @@
   width: 16px;
   height: 16px;
   text-align: center;
+  cursor: pointer;
 }
 
 /* ====================================== */
@@ -407,11 +423,13 @@
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
+  border: #fff solid 1px;
 }
 
 .rating-area {
   display: flex;
   flex-direction: row;
+  padding-bottom: 10px;
 }
 
 .green-rating-circle {
@@ -434,8 +452,79 @@
   margin: 1px;
 }
 
+.review-title {
+  font-weight: 500;
+  font-size: 17px;
+  padding-bottom: 10px;
+}
+
+.review-text {
+  font-size: 15px;
+  padding-bottom: 10px;
+  color: #555;
+}
+
+.read-more-button {
+  background-color: rgb(249, 249, 249);
+  color: #888;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.read-more-btn-txt {
+  text-decoration: underline dotted;
+}
+
+.read-more-button:hover {
+  cursor: pointer;
+}
+
+.exp-date {
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.trip-type {
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+
+.trip-type-title, .exp-date-title {
+  font-weight: 500;
+}
+
+.disclaimer {
+  border-top: #ccc solid 1px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+}
+
+.helpful-button, .share-button {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+  background: none;
+  border: none;
+  text-decoration: underline dotted;
+  margin-right: 10px;
+}
+
+.helpful-button:hover, .share-button:hover {
+  cursor: pointer;
+}
+
+.helpful-vote {
+  color: #888;
+  padding-bottom: 15px;
+  font-size: 12px;
+}
+
 /* ====================================== */
-/* REVIEW BODY */
+/* REVIEW FOOTER */
 /* ====================================== */
 
 .review-footer {
