@@ -59,6 +59,7 @@ export default class App extends React.Component {
       },
       search: 'All reviews',
       currentPage: 1,
+      guideActive: false,
     };
     this.getCurrentView = this.getCurrentView.bind(this);
     this.handleViewSwitch = this.handleViewSwitch.bind(this);
@@ -67,6 +68,7 @@ export default class App extends React.Component {
     this.handleMention = this.handleMention.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleReadMore = this.handleReadMore.bind(this);
   }
 
   componentDidMount() {
@@ -181,6 +183,8 @@ export default class App extends React.Component {
       return false;
     });
 
+    const noResults = filteredReviews.length === 0;
+
     // ========================Retrieve popular mentions=======================
 
     const reviewBodies = reviews.map((review) => review.body);
@@ -282,6 +286,11 @@ export default class App extends React.Component {
             view={view}
           />
 
+          <div id="no-results" hidden={!noResults}>
+            No results found.
+            Try removing a filter, changing your search, or clear all to read reviews.
+          </div>
+
         </div>
       );
     }
@@ -295,6 +304,10 @@ export default class App extends React.Component {
           buttonId="ask-question"
           handleSelection={this.handleSelection}
         />
+
+        <div className="page" id="qa-page">
+          <div>Question & Answer Page Placeholder</div>
+        </div>
 
         <NavBar
           currentPage={currentPage}
@@ -355,10 +368,11 @@ export default class App extends React.Component {
       stateCopy.search = '';
     }
 
-    target === '' ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
+    target === '' || target === undefined ? stateCopy.search = 'All reviews' : stateCopy.search = target; // eslint-disable-line
 
     stateCopy.currentPage = 1;
     this.setState(stateCopy);
+    e.preventDefault();
   }
 
   handleMention(e) {
@@ -393,6 +407,7 @@ export default class App extends React.Component {
 
     stateCopy.currentPage = 1;
     this.setState(stateCopy);
+    e.preventDefault();
   }
 
   handlePageChange(e, max) {
@@ -411,6 +426,7 @@ export default class App extends React.Component {
     if (stateCopy.currentPage !== currentPage) {
       this.setState(stateCopy);
     }
+    e.preventDefault();
   }
 
   handleSelection(e) {
@@ -451,6 +467,19 @@ export default class App extends React.Component {
     }
   }
 
+  handleReadMore(e) {
+    const stateCopy = this.state;
+    const { guideActive } = this.state;
+    const target = e.target.id;
+
+    const guidelineIds = ['guideline-area', 'posting-guidelines-link', 'posting-guidelines-arrow'];
+    if (contains(guidelineIds, target)) {
+      stateCopy.guideActive = !guideActive;
+      this.setState(stateCopy);
+    }
+    e.preventDefault();
+  }
+
   render() {
     const {
       attractionName,
@@ -460,6 +489,7 @@ export default class App extends React.Component {
       popupActive,
       langActive,
       filters,
+      guideActive,
     } = this.state;
 
     const langsArray = this.getUniqueSortedLangs(reviews);
@@ -471,6 +501,8 @@ export default class App extends React.Component {
           hidden={!popupActive}
           handleViewSwitch={this.handleViewSwitch}
           name={attractionName}
+          guideActive={guideActive}
+          handleReadMore={this.handleReadMore}
         />
 
         <Languages

@@ -7,8 +7,9 @@ const Search = ({ handleChange, search }) => {
   }
   return (
     <div className="search">
-      Search
+      <div id="search-icon" />
       <input id="search-input" type="text" onChange={handleChange} value={search} placeholder="Search reviews" />
+      <button type="button" id="clear-search" onClick={handleChange}>X</button>
     </div>
   );
 };

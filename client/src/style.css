@@ -82,6 +82,22 @@
 
 .search {
   border: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+}
+
+#search-icon {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_header-search-image_1540158.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+}
+
+#search-input {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .filter {
@@ -101,6 +117,19 @@
 
 .page {
   border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#qa-page {
+  border: 1px solid gray;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .review {
@@ -154,6 +183,7 @@
   height: 20px;
   background-repeat: no-repeat;
   background-size: contain;
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_Map_-_Location_Solid_Style_01_2216335.png');
 }
 
 .inactive-page-button {
@@ -170,4 +200,78 @@
   display: flex;
   flex-direction: row;
   border: 1px solid gray;
+}
+
+#recaptcha {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/Screen+Shot+2020-06-26+at+2.58.23+PM.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 275px;
+  height: 70px;
+}
+
+.my-profile-image {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/profiles/img0.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+#guideline-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#posting-guidelines-arrow {
+  margin-left: 2px;
+  background-color: #111;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+}
+
+/* #write-dropdown-icon {
+  background-image: url('https://fec-images-6-18-20.s3-us-west-2.amazonaws.com/iconfinder_compose_write_pen_pencil_writing_5859800.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 15px;
+  width: 15px;
+} */
+
+.rating-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.green-rating-circle {
+  display: block;
+  border-radius: 50%;
+  background-color: #00aa6c;
+  border: #00aa6c 1.5px solid;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+.empty-rating-circle {
+  display: block;
+  border-radius: 50%;
+  border: #00aa6c 1.5px solid;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+#no-results {
+  background-color: #fef8d0;
+  border: #fad69f 1px solid;
+  border-radius: 3px;
+  padding: 12px 18px;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 10px;
 }
