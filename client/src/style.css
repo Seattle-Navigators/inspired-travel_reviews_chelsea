@@ -101,6 +101,14 @@
 
 .page {
   border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#qa-page {
+  border: 1px solid gray;
   min-height: 60vh;
   display: flex;
   flex-direction: column;

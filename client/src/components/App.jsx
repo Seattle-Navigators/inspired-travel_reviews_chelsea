@@ -365,6 +365,7 @@ export default class App extends React.Component {
 
     stateCopy.currentPage = 1;
     this.setState(stateCopy);
+    e.preventDefault();
   }
 
   handleMention(e) {
@@ -399,6 +400,7 @@ export default class App extends React.Component {
 
     stateCopy.currentPage = 1;
     this.setState(stateCopy);
+    e.preventDefault();
   }
 
   handlePageChange(e, max) {
@@ -417,6 +419,7 @@ export default class App extends React.Component {
     if (stateCopy.currentPage !== currentPage) {
       this.setState(stateCopy);
     }
+    e.preventDefault();
   }
 
   handleSelection(e) {
@@ -459,13 +462,15 @@ export default class App extends React.Component {
 
   handleReadMore(e) {
     const stateCopy = this.state;
-    const { guideActive } = this.state;
+    const { guideActive, readMoreActive } = this.state;
     const target = e.target.id;
+
     const guidelineIds = ['guideline-area', 'posting-guidelines-link', 'posting-guidelines-arrow'];
     if (contains(guidelineIds, target)) {
       stateCopy.guideActive = !guideActive;
       this.setState(stateCopy);
     }
+    e.preventDefault();
   }
 
   render() {

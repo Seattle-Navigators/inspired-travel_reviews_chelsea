@@ -1,5 +1,5 @@
 import React from 'react';
-import { objectOf, oneOfType, object, array, string, number, bool } from 'prop-types'; // eslint-disable-line
+import { objectOf, oneOfType, object, array, string, number, bool, func } from 'prop-types'; // eslint-disable-line
 
 const moment = require('moment');
 
@@ -8,6 +8,7 @@ export default class Review extends React.Component {
     super(props);
     this.state = {
       helpful: props.review.helpful,
+      readMoreActive: false,
     };
 
     const {
@@ -40,6 +41,15 @@ export default class Review extends React.Component {
 
     this.renderImages = this.renderImages.bind(this);
     this.renderImageSpace = this.renderImageSpace.bind(this);
+    this.handleReadMore = this.handleReadMore.bind(this);
+  }
+
+  handleReadMore(e) {
+    const stateCopy = this.state;
+    const { readMoreActive } = this.state;
+    stateCopy.readMoreActive = !readMoreActive;
+    this.setState(stateCopy);
+    e.preventDefault();
   }
 
   renderImages(index) {
@@ -73,10 +83,17 @@ export default class Review extends React.Component {
   }
 
   render() {
-    const { helpful } = this.state; // eslint-disable-line
+    const { helpful, readMoreActive } = this.state; // eslint-disable-line
     let togglePlural = 's';
     if (this.votes <= 2) {
       togglePlural = '';
+    }
+    const mapTypeToSentence = {
+      Friends: 'with friends',
+      Family: 'with family',
+      Business: 'on business',
+      Couple: 'as a couple',
+      Solo: 'solo',
     }
     return (
       <div className={`review ${this.lang}`}>
@@ -97,8 +114,12 @@ export default class Review extends React.Component {
           <div>{this.rating}</div>
           <div>{`${this.title}`}</div>
           <div>{`${this.body}`}</div>
-          <div><a href="#">Read more</a></div> {/* eslint-disable-line */}
+          <div><a href="#" onClick={this.handleReadMore} id="read-more">Read more</a></div> {/* eslint-disable-line */}
           <div>{`Date of experience: ${moment(this.expDate).format('MMM YYYY')}`}</div>
+          <div hidden={!readMoreActive}>
+            <div>{`Trip type: Traveled ${mapTypeToSentence[this.travelType]}`}</div>
+            <div>This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</div>
+          </div>
         </div>
         <div className="review-footer">
           <div className="button-area">
