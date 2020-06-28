@@ -159,10 +159,18 @@ attractionIds.forEach((id) => {
   }
 });
 
-Review.create(seedData)
-  .then(() => {
-    console.log('success');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+const seedDb = () => {
+  Review.create(seedData)
+    .then(() => {
+      console.log('success');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+module.exports.seedDb = seedDb;
+module.exports.generateNumBetween = generateNumBetween;
+module.exports.pickBiased = pickBiased;
+module.exports.attractionIds = attractionIds;
+module.exports.seedData = seedData;
