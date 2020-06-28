@@ -9,6 +9,7 @@ configure({ adapter: new Adapter() });
 import React from 'react';
 import App from '../../client/src/components/App.jsx';
 import RadioList from '../../client/src/components/RadioList.jsx';
+import Review from '../../client/src/components/Review.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
 // ============================HELPER FUNCTIONS================================
@@ -433,11 +434,14 @@ describe('Search component functionality', () => {
     expect(wrapper).toContainMatchingElements(1, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'amazing'}});
     expect(wrapper).toContainMatchingElements(2, '.review');
+  });
+
+  test('Search should be cleared after clicking the \'X\' button', () => {
     wrapper.find('.search').find('button').simulate('click');
+    expect(wrapper).toContainMatchingElements(5, '.review');
   });
 
   test('Search should show no reviews if no matches found', () => {
-    expect(wrapper).toContainMatchingElements(5, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
     expect(wrapper).toContainMatchingElements(0, '.review');
     wrapper.find('.search').find('button').simulate('click');
@@ -460,10 +464,116 @@ describe('Search component functionality', () => {
 
 // ==============================REVIEW FEED===================================
 describe('ReviewPage component functionality', () => {
-  test('Review page should render number of review blocks based on state', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+  const testBatch1 = generateTestData('200', true);
+  const testBatch2 = generateTestData('200', true);
+  const testData = testBatch1.concat(testBatch2);
+  const wrapper = mount(<App attractionId="200" initialData={testData} />);
+
+  test('Review page should render only five first reviews on first page', () => {
     const appInstance = wrapper.instance();
     const reviewBlocks = appInstance.state.reviews;
-    expect(wrapper.find('#review-page')).toContainMatchingElements(reviewBlocks.length, '.review');
+    expect(wrapper.find('#review-page')).toContainMatchingElements(5, '.review');
+    expect(reviewBlocks.length).toEqual(10);
+  });
+});
+
+// =============================REVIEW BLOCKS==================================
+describe('Review block component functionality', () => {
+  const testReview = generateTestData('200', true)[0];
+  const reviewWrapper = mount(<Review review={testReview} />);
+
+  test('A review block should contain a set of standard items', () => {
+    const expectedElements = [
+      '.profile-image',
+      '.header-user-text',
+      '.header-user-info',
+      '.map-icon',
+      '.rating-area',
+      '.review-title',
+      '.review-text',
+      '.read-more-button',
+      '.exp-date',
+      '.helpful-button',
+      '.share-button',
+    ];
+    expectedElements.forEach((element) => {
+      expect(reviewWrapper).toContainMatchingElement(element);
+    });
+  });
+
+  test('\'Read more\' button should expand and collapse', () => {
+    expect(reviewWrapper.find('.read-more-btn-txt')).toHaveText('Read more');
+    expect(reviewWrapper.find('.read-more-btn-txt')).not.toHaveText('Read less');
+    reviewWrapper.find('.read-more-button').simulate('click');
+    expect(reviewWrapper.find('.read-more-btn-txt')).toHaveText('Read less');
+  });
+
+  test('\'1 Helpful vote\' should be shown if state property \'helpful\' is set to true', () => {
+    reviewWrapper.setState({ helpful: true });
+    expect(reviewWrapper.find('.helpful-vote').props()['hidden']).toEqual(false);
+  });
+
+  test('Green circles representing rating should match instance\'s rating property plus one', () => {
+    const reviewInstance = reviewWrapper.instance();
+    expect(reviewWrapper).toContainMatchingElements(reviewInstance.rating + 1, '.green-rating-circle');
+  });
+
+  test('\'...\' button should open a dropdown menu', () => {
+    expect(reviewWrapper.find('.dots-menu').props()['hidden']).toEqual(true);
+    reviewWrapper.find('.dots').find('button').simulate('click');
+    expect(reviewWrapper.find('.dots-menu').props()['hidden']).toEqual(false);
+  });
+});
+
+describe('NavBar component functionality', () => {
+  const testBatch1 = generateTestData('200', true);
+  const testBatch2 = generateTestData('200', true);
+  const testBatch3 = generateTestData('200', true);
+  const testBatch4 = generateTestData('200', true);
+  const testData = testBatch1.concat(testBatch2).concat(testBatch3).concat(testBatch4);
+  const wrapper = mount(<App attractionId="200" initialData={testData} />);
+
+  test('Previous button should not go to previous page when on page 1', () => {
+    expect(wrapper).toHaveState({ currentPage: 1 });
+    wrapper.find('#prev-page').simulate('click', {target: {value: 'prev-page'}});
+    expect(wrapper).toHaveState({ currentPage: 1 });
+  });
+
+  test('Next button should go to next page when not on last page', () => {
+    expect(wrapper).toHaveState({ currentPage: 1 });
+    wrapper.find('#next-page').simulate('click', {target: {value: 'next-page'}});
+    expect(wrapper).toHaveState({ currentPage: 2 });
+  });
+
+  test('Previous button should go to previous page when not on page 1', () => {
+    wrapper.find('#next-page').simulate('click', {target: {value: 'next-page'}});
+    wrapper.find('#next-page').simulate('click', {target: {value: 'next-page'}});
+    wrapper.find('#prev-page').simulate('click', {target: {value: 'prev-page'}});
+    expect(wrapper).toHaveState({ currentPage: 3 });
+  });
+
+  test('Next button should not go to next page when on last page', () => {
+    wrapper.find('#next-page').simulate('click', {target: {value: 'next-page'}});
+    expect(wrapper).toHaveState({ currentPage: 4 });
+    wrapper.find('#next-page').simulate('click', {target: {value: 'next-page'}});
+    expect(wrapper).toHaveState({ currentPage: 4 });
+  });
+
+  test('Selecting a page number should navigate to that page', () => {
+    const pageNumber = wrapper.find('.inactive-page-button').at(1).props()['value'];
+    wrapper.find('.inactive-page-button').at(1).simulate('click', {target: {value: pageNumber}});
+    expect(wrapper).toHaveState({ currentPage: pageNumber });
+  });
+
+  test('The sixth review stored in state should be the first review on page two', () => {
+    const uniqueIdTestData = testData.map((review, i) => {
+      review._id = i;
+      return review;
+    });
+    const wrapper = mount(<App attractionId="200" initialData={uniqueIdTestData} />);
+    wrapper.find('.inactive-page-button').at(0).simulate('click', {target: {value: 2}});
+    expect(wrapper).toHaveState({ currentPage: 2 });
+    const reviewInstance = wrapper.find(Review).at(0).instance();
+    expect(reviewInstance.reviewId).toEqual(5);
   });
 });
