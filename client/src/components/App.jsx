@@ -199,7 +199,11 @@ export default class App extends React.Component {
     const popularMentions = [];
     for (const word in wordCounts) { // eslint-disable-line
       if (wordCounts[word] > reviews.length * 0.15) {
-        popularMentions.push(word);
+        if (popularMentions.join(' ').indexOf(word) === -1) {
+          if ('all reviews'.indexOf(word) === -1) {
+            popularMentions.push(word);
+          }
+        }
       }
     }
 
