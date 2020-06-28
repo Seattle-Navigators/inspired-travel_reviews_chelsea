@@ -28,6 +28,7 @@ describe('Server route handlers interact as expected with database', () => {
     Review.deleteMany({ attractionId })
       .then(() => {
         mongoose.connection.close();
+        mongoose.connection.close();
       });
   });
 
