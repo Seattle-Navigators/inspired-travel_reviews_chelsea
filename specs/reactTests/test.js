@@ -1,6 +1,8 @@
 /**
  * @jest-environment enzyme
  */
+
+// =================================SETUP======================================
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
@@ -9,97 +11,138 @@ import App from '../../client/src/components/App.jsx';
 import RadioList from '../../client/src/components/RadioList.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
+// ============================HELPER FUNCTIONS================================
 const { generateTestData } = require('../nodeTests/testData.js');
 
+const clickOn = (wrapper, checkboxes) => {
+  checkboxes.forEach((checkbox) => {
+    wrapper.find(checkbox).simulate('change', {
+      target: {
+        id: checkbox.slice(1), checked: true
+      }
+    });
+  });
+};
+
+const clickOff = (wrapper, checkboxes) => {
+  checkboxes.forEach((checkbox) => {
+    wrapper.find(checkbox).simulate('change', {
+      target: {
+        id: checkbox.slice(1), checked: false
+      }
+    });
+  });
+};
+
+const switchView = (wrapper, tab) => wrapper.find(tab).simulate('click');
+
+// ==================================APP=======================================
 describe('App component functionality', () => {
+  const attractionId = getAttractionId('http://127.0.0.1:3004/200/');
+  const wrapper = mount(<App attractionId={attractionId} initialData={generateTestData('200', true)} />);
+
   test('App should update state with a 3-character attractionId prop', () => {
-    const attractionId = getAttractionId('http://127.0.0.1:3004/200/');
-    const wrapper = mount(<App attractionId={attractionId} initialData={generateTestData('200', true)} />);
     expect(wrapper).toHaveProp({ attractionId: '200' });
     expect(wrapper).toHaveState({ attractionId: '200' });
   });
 
   test('App should render all child components', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    expect(wrapper).toContainMatchingElements(3, '.checklist-filter');
-    expect(wrapper).toContainMatchingElements(1, '.ratings-filter');
-    expect(wrapper).toContainMatchingElements(1, '.header');
-    expect(wrapper).toContainMatchingElements(1, '#popular-mentions');
-    expect(wrapper).toContainMatchingElements(1, '.nav-bar');
-    expect(wrapper).toContainMatchingElements(5, '.rate-bar');
-    expect(wrapper).toContainMatchingElements(5, '.review');
-    expect(wrapper).toContainMatchingElements(1, '#review-page');
-    expect(wrapper).toContainMatchingElements(1, '.search');
-    expect(wrapper).toContainMatchingElements(2, '.tab');
+    const expectedChildren = {
+      '.checklist-filter': 3,
+      '.ratings-filter': 1,
+      '.header': 1,
+      '#popular-mentions': 1,
+      '.nav-bar': 1,
+      '.rate-bar': 5,
+      '.review': 5,
+      '#review-page': 1,
+      '.search': 1,
+      '.tab': 2,
+    };
+    for (const element in expectedChildren) {
+      expect(wrapper).toContainMatchingElements(expectedChildren[element], element);
+    }
+  });
+
+  test('App should not render inactive popup views', () => {
+    const unexpectedChildren = ['.popup', '.popup-background', '.popup-lang', 'popup-lang-background'];
+    for (const element of unexpectedChildren) {
+      expect(wrapper).not.toContainMatchingElement(element);
+    }
   });
 });
 
+// ==================================TABS======================================
 describe('Tab component functionality', () => {
+  const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+
   test('Non-active tab should switch views when clicked', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#qa-tab').simulate('click');
+    switchView(wrapper, '#qa-tab');
     expect(wrapper).toContainMatchingElement('#qa-header');
-    wrapper.find('#review-tab').simulate('click');
+    switchView(wrapper, '#review-tab');
     expect(wrapper).toContainMatchingElement('#reviews-header');
   });
 
   test('Active tab should not switch views when clicked', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#review-tab').simulate('click');
+    switchView(wrapper, '#review-tab');
     expect(wrapper).toContainMatchingElement('#reviews-header');
-    wrapper.find('#qa-tab').simulate('click');
-    wrapper.find('#qa-tab').simulate('click');
+    switchView(wrapper, '#qa-tab');
+    switchView(wrapper, '#qa-tab');
     expect(wrapper).toContainMatchingElement('#qa-header');
   });
 
   test('Review tab should show number of reviews based on state', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
     const { numReviews } = appInstance.state;
     expect(wrapper.find('#review-num')).toHaveText(`${numReviews}`);
   });
 });
 
+// =================================HEADER=====================================
 describe('Header and AskQuestion component functionality', () => {
+  const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+
+  afterEach(() => {
+    switchView(wrapper, '#review-tab');
+  });
+
   test('Header component should show number of questions when Q&A tab selected', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
     const { numQuestions } = appInstance.state;
-    wrapper.find('#qa-tab').simulate('click');
+    switchView(wrapper, '#qa-tab');
     expect(wrapper.find('#subtitle')).toHaveText(`See all ${numQuestions} questions`);
   });
+
   test('Header component should trigger an alert when off-page links selected', () => {
     window.alert = jest.fn();
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#off-page-write').simulate('change');
-    wrapper.find('#off-page-photo').simulate('change');
+    const offPageOptions = ['#off-page-write', '#off-page-photo'];
+    offPageOptions.forEach((option) => wrapper.find(option).simulate('change'));
     wrapper.find('#write-review').simulate('click');
-    wrapper.find('#qa-tab').simulate('click');
-    wrapper.find('#off-page-write').simulate('change');
-    wrapper.find('#off-page-photo').simulate('change');
+    switchView(wrapper, '#qa-tab');
+    offPageOptions.forEach((option) => wrapper.find(option).simulate('change'));
     expect(window.alert).toHaveBeenCalledTimes(5);
   });
+
   test('Header component should trigger AskQuestion view when \'Ask a question\' selected', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     expect(wrapper.exists('.popup')).toEqual(false);
     wrapper.find('#ask-question-option').simulate('change');
     expect(wrapper.find('.popup')).toExist();
   });
+
   test('Header component should trigger AskQuestion view when \'Ask a question\' clicked', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#qa-tab').simulate('click');
+    switchView(wrapper, '#qa-tab');
     expect(wrapper.exists('.popup')).toEqual(false);
-    wrapper.find('#ask-question').simulate('click');
+    switchView(wrapper, '#ask-question');
     expect(wrapper.find('.popup')).toExist();
   });
+
   test('User can click to exit AskQuestion component', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     wrapper.find('#ask-question-option').simulate('change');
-    wrapper.find('#exit-popup').simulate('click');
+    switchView(wrapper, '#exit-popup');
     expect(wrapper.exists('.popup')).toEqual(false);
   });
+
   test('AskQuestion view should be removed upon submission', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     wrapper.find('#ask-question-option').simulate('change');
     expect(wrapper.find('.popup')).toExist();
     wrapper.find('#submit-q').simulate('click');
@@ -111,55 +154,59 @@ describe('Header and AskQuestion component functionality', () => {
   });
 });
 
+// ============================TRAVELER RATINGS================================
 describe('Ratings component functionality', () => {
+  const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+
   test('Total reviews should match total type ratings', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     const appInstance = wrapper.instance();
     const { numReviews } = appInstance.state;
-
-    const excellents = Number(wrapper.find('#Excellent-ratings').text());
-    const veryGoods = Number(wrapper.find('#VeryGood-ratings').text());
-    const averages = Number(wrapper.find('#Average-ratings').text());
-    const poors = Number(wrapper.find('#Poor-ratings').text());
-    const terribles = Number(wrapper.find('#Terrible-ratings').text());
-
-    const totalTypeRatings = excellents + veryGoods + averages + poors + terribles;
-
-    expect(totalTypeRatings).toEqual(numReviews);
+    const ratingElements = [
+      '#Excellent-ratings',
+      '#VeryGood-ratings',
+      '#Average-ratings',
+      '#Poor-ratings',
+      '#Terrible-ratings'
+    ];
+    const ratingsByType = [];
+    ratingElements.forEach((element) => ratingsByType.push(Number(wrapper.find(element).text())));
+    const totalRatings = ratingsByType.reduce((totalRatings, typeRatings) => totalRatings + typeRatings);
+    expect(totalRatings).toEqual(numReviews);
   });
 
   test('Rating types should allow user to filter and unfilter reviews', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     expect(wrapper).toContainMatchingElements(5, '.review');
-
-    wrapper.find('#Excellent-filter').simulate('change', {target: {id: 'Excellent-filter', checked: true} });
+    clickOn(wrapper, ['#Excellent-filter']);
     expect(wrapper).toContainMatchingElements(1, '.review');
-    wrapper.find('#VeryGood-filter').simulate('change', {target: {id: 'VeryGood-filter', checked: true} });
+    clickOn(wrapper, ['#VeryGood-filter']);
     expect(wrapper).toContainMatchingElements(2, '.review');
-    wrapper.find('#Average-filter').simulate('change', {target: {id: 'Average-filter', checked: true} });
+    clickOn(wrapper, ['#Average-filter']);
     expect(wrapper).toContainMatchingElements(3, '.review');
-    wrapper.find('#Poor-filter').simulate('change', {target: {id: 'Poor-filter', checked: true} });
+    clickOn(wrapper, ['#Poor-filter']);
     expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: true} });
+    clickOn(wrapper, ['#Terrible-filter']);
     expect(wrapper).toContainMatchingElements(5, '.review');
-    wrapper.find('#Excellent-filter').simulate('change', {target: {id: 'Excellent-filter', checked: false} });
+    clickOff(wrapper, ['#Excellent-filter']);
     expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#VeryGood-filter').simulate('change', {target: {id: 'VeryGood-filter', checked: false} });
-    wrapper.find('#Average-filter').simulate('change', {target: {id: 'Average-filter', checked: false} });
-    wrapper.find('#Poor-filter').simulate('change', {target: {id: 'Poor-filter', checked: false} });
-    wrapper.find('#Terrible-filter').simulate('change', {target: {id: 'Terrible-filter', checked: false} });
+    clickOff(wrapper, ['#VeryGood-filter', '#Average-filter', '#Poor-filter', '#Terrible-filter']);
     expect(wrapper).toContainMatchingElements(5, '.review');
+    clickOn(wrapper, ['#VeryGood-filter', '#Average-filter', '#Poor-filter']);
+    expect(wrapper).toContainMatchingElements(3, '.review');
   });
 });
 
+// =====================TRAVELER TYPES & TIMES OF YEAR=========================
 describe('Checklist component functionality', () => {
   test('Five traveler types should be listed', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    expect(wrapper.find('#checkbox-Families')).toExist();
-    expect(wrapper.find('#checkbox-Couples')).toExist();
-    expect(wrapper.find('#checkbox-Solo')).toExist();
-    expect(wrapper.find('#checkbox-Business')).toExist();
-    expect(wrapper.find('#checkbox-Friends')).toExist();
+    const travelerTypes = [
+      '#checkbox-Families',
+      '#checkbox-Couples',
+      '#checkbox-Solo',
+      '#checkbox-Business',
+      '#checkbox-Friends'
+    ];
+    travelerTypes.forEach((type) => expect(wrapper.find(type)).toExist());
   });
 
   test('Traveler types should allow user to filter and unfilter reviews', () => {
@@ -169,35 +216,24 @@ describe('Checklist component functionality', () => {
       review.travelType = testTypes[i];
       return review;
     });
-
     const wrapper = mount(<App attractionId="200" initialData={typeTestData} />);
-    expect(wrapper).toContainMatchingElements(5, '.review');
+    const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
 
-    wrapper.find('#checkbox-Families').simulate('change', {target: {id: 'checkbox-Families', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    wrapper.find('#checkbox-Couples').simulate('change', {target: {id: 'checkbox-Couples', checked: true}});
-    expect(wrapper).toContainMatchingElements(2, '.review');
-    wrapper.find('#checkbox-Solo').simulate('change', {target: {id: 'checkbox-Solo', checked: true}});
-    expect(wrapper).toContainMatchingElements(3, '.review');
-    wrapper.find('#checkbox-Business').simulate('change', {target: {id: 'checkbox-Business', checked: true}});
-    expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#checkbox-Friends').simulate('change', {target: {id: 'checkbox-Friends', checked: true}});
     expect(wrapper).toContainMatchingElements(5, '.review');
-    wrapper.find('#checkbox-Friends').simulate('change', {target: {id: 'checkbox-Friends', checked: false}});
-    expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#checkbox-Families').simulate('change', {target: {id: 'checkbox-Families', checked: false}});
-    wrapper.find('#checkbox-Couples').simulate('change', {target: {id: 'checkbox-Couples', checked: false}});
-    wrapper.find('#checkbox-Solo').simulate('change', {target: {id: 'checkbox-Solo', checked: false}});
-    wrapper.find('#checkbox-Business').simulate('change', {target: {id: 'checkbox-Business', checked: false}});
+    types.forEach((type, i) => {
+      clickOn(wrapper, [`#checkbox-${type}`]);
+      expect(wrapper).toContainMatchingElements(i + 1, '.review');
+    });
+    types.forEach((type, i) => {
+      clickOff(wrapper, [`#checkbox-${type}`]);
+    });
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
 
   test('Four seasons should be listed', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    expect(wrapper.find('#checkbox-Dec-Feb')).toExist();
-    expect(wrapper.find('#checkbox-Mar-May')).toExist();
-    expect(wrapper.find('#checkbox-Jun-Aug')).toExist();
-    expect(wrapper.find('#checkbox-Sep-Nov')).toExist();
+    const seasonFilters = ['#checkbox-Dec-Feb', '#checkbox-Mar-May', '#checkbox-Jun-Aug', '#checkbox-Sep-Nov'];
+    seasonFilters.forEach((season) => expect(wrapper.find(season)).toExist());
   });
 
   test('Seasons should allow user to filter and unfilter reviews', () => {
@@ -213,28 +249,21 @@ describe('Checklist component functionality', () => {
       review.expDate = testTimes[i];
       return review;
     });
-
+    const seasonFilters = ['#checkbox-Dec-Feb', '#checkbox-Mar-May', '#checkbox-Jun-Aug', '#checkbox-Sep-Nov'];
+    const cumulativeReviewsPerSeason = [2, 3, 4, 5];
     const wrapper = mount(<App attractionId="200" initialData={timeTestData} />);
-    expect(wrapper).toContainMatchingElements(5, '.review');
 
-    wrapper.find('#checkbox-Dec-Feb').simulate('change', {target: {id: 'checkbox-Dec-Feb', checked: true}});
-    expect(wrapper).toContainMatchingElements(2, '.review');
-    wrapper.find('#checkbox-Mar-May').simulate('change', {target: {id: 'checkbox-Mar-May', checked: true}});
-    expect(wrapper).toContainMatchingElements(3, '.review');
-    wrapper.find('#checkbox-Jun-Aug').simulate('change', {target: {id: 'checkbox-Jun-Aug', checked: true}});
-    expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#checkbox-Sep-Nov').simulate('change', {target: {id: 'checkbox-Sep-Nov', checked: true}});
     expect(wrapper).toContainMatchingElements(5, '.review');
-    wrapper.find('#checkbox-Sep-Nov').simulate('change', {target: {id: 'checkbox-Sep-Nov', checked: false}});
-    expect(wrapper).toContainMatchingElements(4, '.review');
-    wrapper.find('#checkbox-Dec-Feb').simulate('change', {target: {id: 'checkbox-Dec-Feb', checked: false}});
-    expect(wrapper).toContainMatchingElements(2, '.review');
-    wrapper.find('#checkbox-Mar-May').simulate('change', {target: {id: 'checkbox-Mar-May', checked: false}});
-    wrapper.find('#checkbox-Jun-Aug').simulate('change', {target: {id: 'checkbox-Jun-Aug', checked: false}});
+    seasonFilters.forEach((season, i) => {
+      clickOn(wrapper, [season]);
+      expect(wrapper).toContainMatchingElements(cumulativeReviewsPerSeason[i], '.review');
+    });
+    clickOff(wrapper, seasonFilters);
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
 });
 
+// ============================LANGUAGE FILTER=================================
 describe('RadioList component functionality', () => {
   test('Four first languages should be displayed', () => {
     const mockCallBack = jest.fn();
@@ -258,21 +287,18 @@ describe('RadioList component functionality', () => {
       return review;
     });
     const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
+
     expect(wrapper).toContainMatchingElements(5, '.review');
-
-    wrapper.find('#radio-English').simulate('change', {target: {id: 'radio-English', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('English')).toEqual(true);
-
-    wrapper.find('#radio-Spanish').simulate('change', {target: {id: 'radio-Spanish', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('Spanish')).toEqual(true);
-
-    wrapper.find('#radio-Chinese').simulate('change', {target: {id: 'radio-Chinese', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('Chinese')).toEqual(true);
-
-    wrapper.find('#radio-AllLanguages').simulate('change', {target: {id: 'radio-AllLanguages', checked: true}});
+    testLangs.forEach((lang, i) => {
+      if (i > 2) {
+        expect(wrapper.exists(`#radio-${lang}`)).toEqual(false);
+      } else {
+        clickOn(wrapper, [`#radio-${lang}`]);
+        expect(wrapper).toContainMatchingElements(1, '.review');
+        expect(wrapper.find('.review').hasClass(lang)).toEqual(true);
+      }
+    });
+    clickOn(wrapper, ['#radio-AllLanguages']);
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
 
@@ -284,92 +310,92 @@ describe('RadioList component functionality', () => {
   });
 });
 
+// =============================LANGUAGE POPUP=================================
 describe('Languages expanded view functionality', () => {
+  const testReviews = generateTestData('200', true);
+  const testLangs = ['English', 'Spanish', 'Chinese', 'German', 'Italian'];
+  const langTestData = testReviews.map((review, i) => {
+    review.lang = testLangs[i];
+    return review;
+  });
+  const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
+
   test('All languages should be displayed including default \'All languages\'', () => {
-    const testReviews = generateTestData('200', true);
-    const testLangs = ['English', 'Spanish', 'Chinese', 'German', 'Italian'];
-    const langTestData = testReviews.map((review, i) => {
-      review.lang = testLangs[i];
-      return review;
-    });
-    const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
-    wrapper.find('#lang-btn').simulate('click');
+    switchView(wrapper, '#lang-btn');
     expect(wrapper.find('.popup-lang')).toContainMatchingElements(6, '.radio');
+    wrapper.find('.popup-lang').find('button').simulate('click');
   });
 
   test('Languages expanded view should allow user to filter reviews by one language', () => {
-    const testReviews = generateTestData('200', true);
-    const testLangs = ['English', 'Spanish', 'Chinese', 'German', 'Italian'];
-    const langTestData = testReviews.map((review, i) => {
-      review.lang = testLangs[i];
-      return review;
-    });
-    const wrapper = mount(<App attractionId="200" initialData={langTestData} />);
     expect(wrapper).toContainMatchingElements(5, '.review');
-    wrapper.find('#lang-btn').simulate('click');
-
-    wrapper.find('.popup-lang').find('#radio-English').simulate('change', {target: {id: 'radio-English', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('English')).toEqual(true);
-
-    wrapper.find('.popup-lang').find('#radio-Spanish').simulate('change', {target: {id: 'radio-Spanish', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('Spanish')).toEqual(true);
-
-    wrapper.find('.popup-lang').find('#radio-Chinese').simulate('change', {target: {id: 'radio-Chinese', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('Chinese')).toEqual(true);
-
-    wrapper.find('.popup-lang').find('#radio-German').simulate('change', {target: {id: 'radio-German', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('German')).toEqual(true);
-
-    wrapper.find('.popup-lang').find('#radio-Italian').simulate('change', {target: {id: 'radio-Italian', checked: true}});
-    expect(wrapper).toContainMatchingElements(1, '.review');
-    expect(wrapper.find('.review').hasClass('Italian')).toEqual(true);
-
-    wrapper.find('.popup-lang').find('#radio-AllLanguages').simulate('change', {target: {id: 'radio-AllLanguages', checked: true}});
+    switchView(wrapper, '#lang-btn');
+    testLangs.forEach((lang) => {
+      wrapper.find('.popup-lang').find(`#radio-${lang}`).simulate('change', {
+        target: {
+          id: `radio-${lang}`, checked: true
+        }
+      });
+      expect(wrapper).toContainMatchingElements(1, '.review');
+      expect(wrapper.find('.review').hasClass(lang)).toEqual(true);
+    });
+    wrapper.find('.popup-lang').find('#radio-AllLanguages').simulate('change', {
+      target: {
+        id: 'radio-AllLanguages', checked: true
+      }
+    });
     expect(wrapper).toContainMatchingElements(5, '.review');
   });
 
   test('User can click \'X\' to exit expanded view', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#lang-btn').simulate('click');
+    switchView(wrapper, '#lang-btn');
     wrapper.find('.popup-lang').find('button').simulate('click');
     expect(wrapper.exists('.popup-lang')).toEqual(false);
   });
 
   test('User can click outside popup to exit expanded view', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    wrapper.find('#lang-btn').simulate('click');
+    switchView(wrapper, '#lang-btn');
     wrapper.find('.popup-lang-background').simulate('click');
     expect(wrapper.exists('.popup-lang')).toEqual(false);
   });
 });
 
+// ============================POPULAR MENTIONS================================
 describe('Popular Mentions component functionality', () => {
-  test('The default \'All reviews\' as well as words that recur in > 15% of reviews should be shown', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+  const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
+
+  test('\'All reviews\' and common words should appear; repeated or sub-words should not', () => {
     const expectedWords = ['allReviews', 'Like', 'I', 'said', 'a', 'great', 'place'];
     expectedWords.forEach((word) => {
-      expect(wrapper.find(`#${word}-filter`)).toExist();
+      if (word === 'a') {
+        expect(wrapper.exists(`#${word}-filter`)).toEqual(false);
+      } else {
+        expect(wrapper.find(`#${word}-filter`)).toExist();
+      }
     });
   });
 
-  test('A popular mention should change color when clicked', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    const expectedWords = ['Like', 'I', 'said', 'a', 'great', 'place'];
+  test('A popular mention should change color when clicked and unclicked', () => {
+    const expectedWords = ['Like', 'I', 'said', 'great', 'place'];
+
     expectedWords.forEach((word) => {
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}});
       expect(wrapper.find(`#${word}-filter`).find('.mention-on')).toExist();
+      expect(wrapper.find(`#${word}-filter`).exists('.mention-off')).toEqual(false);
     });
-    wrapper.find('#allReviews-filter').hostNodes().simulate('click', {target: {value: 'All reviews'}});
+
+    expect(wrapper.find('#allReviews-filter').exists('.mention-on')).toEqual(false);
+
+    expectedWords.forEach((word) => {
+      wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}});
+      expect(wrapper.find(`#${word}-filter`).find('.mention-off')).toExist();
+      expect(wrapper.find(`#${word}-filter`).exists('.mention-on')).toEqual(false);
+    });
+
     expect(wrapper.find('#allReviews-filter').find('.mention-on')).toExist();
   });
 
   test('A popular mention should change state property \'search\' when clicked and unclicked', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
-    const expectedWords = ['Like', 'I', 'said', 'a', 'great', 'place'];
+    const expectedWords = ['Like', 'I', 'said', 'great', 'place'];
     expectedWords.forEach((word) => {
       wrapper.find(`#${word}-filter`).hostNodes().simulate('click', {target: {value: word}}); // click
       expect(wrapper.state('search')).toEqual(word);
@@ -378,7 +404,6 @@ describe('Popular Mentions component functionality', () => {
   });
 
   test('State \'search\' property should reflect \'All reviews\' when nothing selected', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     expect(wrapper.find('#allReviews-filter').find('.mention-on')).toExist();
     expect(wrapper.state('search')).toEqual('All reviews');
     wrapper.find(`#Like-filter`).hostNodes().simulate('click', {target: {value: 'Like'}}); // click
@@ -387,36 +412,45 @@ describe('Popular Mentions component functionality', () => {
   });
 });
 
+// =================================SEARCH=====================================
 describe('Search component functionality', () => {
+  const testReviews = generateTestData('200', true);
+  const testBodies = ['zzz aa bb', 'amazing HI there', 'test Me out', 'words and things', 'out of ideas'];
+  const testTitles = ['Amazing title', 'Vacation', 'hello', 'This was a great vacation', 'Test'];
+  const bodyTestData = testReviews.map((review, i) => {
+    review.body = testBodies[i];
+    return review;
+  });
+  const testData = bodyTestData.map((review, i) => {
+    review.title = testTitles[i];
+    return review;
+  });
+  const wrapper = mount(<App attractionId="200" initialData={testData} />);
+
   test('Search should filter reviews based on words in body and title', () => {
-    const testReviews = generateTestData('200', true);
-    const testBodies = ['zzz aa bb', 'amazing HI there', 'test Me out', 'words and things', 'out of ideas'];
-    const testTitles = ['Amazing title', 'Vacation', 'hello', 'This was a great vacation', 'Test'];
-    const bodyTestData = testReviews.map((review, i) => {
-      review.body = testBodies[i];
-      return review;
-    });
-    const testData = bodyTestData.map((review, i) => {
-      review.title = testTitles[i];
-      return review;
-    });
-    const wrapper = mount(<App attractionId="200" initialData={testData} />);
     expect(wrapper).toContainMatchingElements(5, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'ZZZ'}});
     expect(wrapper).toContainMatchingElements(1, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'amazing'}});
     expect(wrapper).toContainMatchingElements(2, '.review');
+    wrapper.find('.search').find('button').simulate('click');
   });
 
   test('Search should show no reviews if no matches found', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     expect(wrapper).toContainMatchingElements(5, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
     expect(wrapper).toContainMatchingElements(0, '.review');
+    wrapper.find('.search').find('button').simulate('click');
+  });
+
+  test('Search should show no-results message if no matches found', () => {
+    expect(wrapper).toContainMatchingElements(5, '.review');
+    wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
+    expect(wrapper).toContainMatchingElements(1, '#no-results');
+    wrapper.find('.search').find('button').simulate('click');
   });
 
   test('All reviews should be shown if Search is empty', () => {
-    const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
     expect(wrapper).toContainMatchingElements(5, '.review');
     wrapper.find('#search-input').simulate('change', {target: {value: 'notHere'}});
     wrapper.find('#search-input').simulate('change', {target: {value: ''}});
@@ -424,6 +458,7 @@ describe('Search component functionality', () => {
   });
 });
 
+// ==============================REVIEW FEED===================================
 describe('ReviewPage component functionality', () => {
   test('Review page should render number of review blocks based on state', () => {
     const wrapper = mount(<App attractionId="200" initialData={generateTestData('200', true)} />);
