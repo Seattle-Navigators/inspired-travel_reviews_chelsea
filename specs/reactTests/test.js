@@ -10,6 +10,7 @@ import React from 'react';
 import App from '../../client/src/components/App.jsx';
 import RadioList from '../../client/src/components/RadioList.jsx';
 import Review from '../../client/src/components/Review.jsx';
+import PageButton from '../../client/src/components/PageButton.jsx';
 import getAttractionId from '../../client/src/urlParser.js';
 
 // ============================HELPER FUNCTIONS================================

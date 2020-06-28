@@ -5,7 +5,7 @@ module.exports.findForId = (req, res, testCb = () => {}) => {
     if (err) {
       res.sendStatus(500);
       testCb(err);
-    } else if (!docs) {
+    } else if (docs.length === 0) {
       res.sendStatus(404);
       testCb('not found');
     } else {
@@ -19,13 +19,10 @@ module.exports.findForId = (req, res, testCb = () => {}) => {
 module.exports.updateReview = (req, res, testCb = () => {}) => {
   Review.findOne({ _id: req.params.reviewId }, (err, doc) => {
     if (err) {
-      res.sendStatus(500);
-      testCb(err);
-    } else if (!doc) {
       res.sendStatus(404);
-      testCb('not found');
+      testCb(err);
     } else {
-      doc.helpful = true; // eslint-disable-line no-param-reassign
+      doc.helpful = !doc.helpful; // eslint-disable-line no-param-reassign
       doc.save()
         .then((modDoc) => {
           res.sendStatus(200);
@@ -46,16 +43,11 @@ module.exports.updateImage = (req, res, testCb = () => {}) => {
     $set: { 'uploadImages.$.helpful': true },
   })
     .then((data) => {
-      if (!data) {
-        res.sendStatus(404);
-        testCb('not found');
-      } else {
-        res.sendStatus(200);
-        testCb(null, data);
-      }
+      res.sendStatus(200);
+      testCb(null, data);
     })
     .catch((err) => {
-      res.sendStatus(500);
+      res.sendStatus(404);
       testCb(err);
     });
 };

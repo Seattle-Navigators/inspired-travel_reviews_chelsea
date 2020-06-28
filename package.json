@@ -8,7 +8,7 @@
     "build": "webpack",
     "watch": "webpack -w",
     "start": "nodemon server/index.js",
-    "seed": "node database/seed.js"
+    "seed": "node database/seedDb.js"
   },
   "jest": {
     "verbose": true,
@@ -28,7 +28,8 @@
       "<rootDir>/package.json",
       "<rootDir>/package-lock.json",
       "<rootDir>/README.md",
-      "<rootDir>/webpack.config.js"
+      "<rootDir>/webpack.config.js",
+      "<rootDir>/database/getImages.js"
     ],
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
