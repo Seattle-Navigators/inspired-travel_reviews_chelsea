@@ -6,4 +6,4 @@ import getAttractionId from './urlParser';
 
 const attractionId = getAttractionId(window.location.href);
 
-ReactDOM.render(<App attractionId={attractionId} />, document.getElementById('app'));
+ReactDOM.render(<App attractionId={attractionId} />, document.getElementById('reviews'));
