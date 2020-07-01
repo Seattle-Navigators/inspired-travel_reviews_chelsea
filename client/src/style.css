@@ -556,7 +556,7 @@ input:hover, #lang-btn:hover {
   font-style: italic;
 }
 
-.helpful-button, .share-button {
+.review-helpful-button, .review-share-button {
   font-size: 12px;
   font-weight: 500;
   padding: 0;

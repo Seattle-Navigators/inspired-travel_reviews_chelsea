@@ -8,7 +8,7 @@
     "build": "webpack",
     "watch": "webpack -w",
     "start": "nodemon server/index.js",
-    "seed": "node database/seedDb.js"
+    "seed": "node database/seed.js"
   },
   "jest": {
     "verbose": true,

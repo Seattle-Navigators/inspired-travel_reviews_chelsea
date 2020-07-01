@@ -6,16 +6,15 @@ const mongoose = require('mongoose');
 const { findForId, updateReview, updateImage } = require('../../server/routeHandlers.js');
 const Review = require('../../database/Reviews.js');
 const { generateTestData } = require('./testData.js');
-const { seedData, generateNumBetween, pickBiased, attractionIds } = require('../../database/seed.js');
+const { generateNumBetween, pickBiased, generateAttractionIds } = require('../../database/helpers.js');
 
 const attractionId = '200'; // okay to use any id above 100 for testing
-let statusCodes = [];
-let docArrays = [];
+
 const mockRes = {
-  status: (code) => { statusCodes.unshift(code); },
-  json: (docs) => { docArrays.push(docs); },
-  send: (docs) => { docArrays.push(docs); },
-  sendStatus: (code) => { statusCodes.unshift(code); },
+  status: () => {},
+  json: () => {},
+  send: () => {},
+  sendStatus: () => {},
 };
 
 describe('Server route handlers interact as expected with database', () => {
@@ -28,30 +27,22 @@ describe('Server route handlers interact as expected with database', () => {
     Review.deleteMany({ attractionId })
       .then(() => {
         mongoose.connection.close();
-        mongoose.connection.close();
       });
   });
 
-  beforeEach(() => {
-    statusCodes = [];
-    docArrays = [];
-  });
-
   test('findForId finds all reviews for a given attraction ID', (done) => {
-    findForId({ params: { productId: attractionId } }, mockRes, (err, docs) => {
+    findForId({ params: { productId: attractionId } }, mockRes, (err, docs, status) => {
       expect(err).toBe(null);
       expect(docs.length).toEqual(5);
-      expect(statusCodes[0]).toEqual(200);
-      expect(docArrays[0].length).toBeGreaterThan(0);
+      expect(status).toEqual(200);
       done();
     });
   });
 
   test('findForId sends a status code of 404 if an ID is not found', (done) => {
-    findForId({ params: { productId: '300' } }, mockRes, (err, docs) => {
+    findForId({ params: { productId: '300' } }, mockRes, (err, status) => {
       expect(err).toBe('not found');
-      expect(docs).toBe(undefined);
-      expect(statusCodes[0]).toEqual(404);
+      expect(status).toEqual(404);
       done();
     });
   });
@@ -59,9 +50,9 @@ describe('Server route handlers interact as expected with database', () => {
   test('updateReview changes a single review\'s "helpful" property to true', (done) => {
     Review.find({ attractionId }, (err, docs) => {
       const reviewId = docs[0]._id;
-      updateReview({ params: { reviewId } }, mockRes, (err) => {
+      updateReview({ params: { reviewId } }, mockRes, (err, status) => {
         expect(err).toBe(null);
-        expect(statusCodes[0]).toEqual(200);
+        expect(status).toEqual(200);
         Review.findOne({ _id: reviewId }, (err, doc) => {
           expect(doc.helpful).toBe(true);
           done();
@@ -71,9 +62,9 @@ describe('Server route handlers interact as expected with database', () => {
   });
 
   test('updateReview sends a status code of 404 if an ID is not found', (done) => {
-    updateReview({ params: { reviewId: '0' } }, mockRes, (err) => {
+    updateReview({ params: { reviewId: '0' } }, mockRes, (err, status) => {
       expect(err).not.toBe(null);
-      expect(statusCodes[0]).toEqual(404);
+      expect(status).toEqual(404);
       done();
     });
   });
@@ -81,9 +72,9 @@ describe('Server route handlers interact as expected with database', () => {
   test('updateImage changes a single image\'s "helpful" property to true', (done) => {
     Review.find({ attractionId }, (err, docs) => {
       const imageId = docs[0].uploadImages[0].get('id');
-      updateImage({ params: { imageId } }, mockRes, (err) => {
+      updateImage({ params: { imageId } }, mockRes, (err, status) => {
         expect(err).toBe(null);
-        expect(statusCodes[0]).toEqual(200);
+        expect(status).toEqual(200);
         Review.findOne({ 'uploadImages.id': imageId }, (err, doc) => {
           expect(doc.uploadImages[0].get('helpful')).toBe(true);
           done();
@@ -93,9 +84,9 @@ describe('Server route handlers interact as expected with database', () => {
   });
 
   test('updateImage sends a status code of 404 if an ID is not found', (done) => {
-    updateImage({ params: { imageId: '0' } }, mockRes, (err) => {
+    updateImage({ params: { imageId: '0' } }, mockRes, (err, status) => {
       expect(err).not.toBe(null);
-      expect(statusCodes[0]).toEqual(404);
+      expect(status).toEqual(404);
       done();
     });
   });
@@ -103,6 +94,7 @@ describe('Server route handlers interact as expected with database', () => {
 
 describe('Seed data has expected characteristics', () => {
   test('Attraction IDs generated should range from 001 to 100', () => {
+    const attractionIds = generateAttractionIds();
     expect(attractionIds.length).toEqual(100);
     expect(attractionIds[0]).toEqual('001');
     expect(attractionIds[attractionIds.length - 1]).toEqual('100');
@@ -136,55 +128,5 @@ describe('Seed data has expected characteristics', () => {
     }
     expect(numbers[0]).toBeGreaterThan(25);
   });
-
-  test('A review record generated should have expected properties', () => {
-    const review = seedData[generateNumBetween(0, 200)];
-    const reviewKeys = [
-      'user',
-      'uploadImages',
-      'attractionId',
-      'attractionName',
-      'rating',
-      'travelType',
-      'expDate',
-      'lang',
-      'body',
-      'title',
-      'votes',
-      'createdAt',
-      'helpful',
-    ];
-    const userKeys = [
-      'originCountry',
-      'originRegion',
-      'contributions',
-      'name',
-      'profileImage',
-    ];
-    const imageKeys = [
-      'id',
-      'helpful',
-      'url',
-      'username',
-      'createdAt',
-      'reviewTitle',
-      'reviewRating',
-    ];
-
-    reviewKeys.forEach((key) => {
-      expect(key in review).toEqual(true);
-    });
-
-    userKeys.forEach((key) => {
-      expect(key in review.user).toEqual(true);
-    });
-
-    if (review.uploadImages.length > 0) {
-      imageKeys.forEach((key) => {
-        expect(key in review.uploadImages[0]).toEqual(true);
-      });
-    }
-
-   });
 
 });

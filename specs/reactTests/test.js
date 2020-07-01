@@ -494,8 +494,8 @@ describe('Review block component functionality', () => {
       '.review-text',
       '.read-more-button',
       '.exp-date',
-      '.helpful-button',
-      '.share-button',
+      '.review-helpful-button',
+      '.review-share-button',
     ];
     expectedElements.forEach((element) => {
       expect(reviewWrapper).toContainMatchingElement(element);
