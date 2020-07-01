@@ -9,7 +9,7 @@ const Header = ({
   buttonId,
   handleSelection,
 }) => (
-  <div className="header" id={id}>
+  <div className="reviews-header" id={id}>
     <div>
       <div>{header}</div>
       <div id="subtitle">{subtitle}</div>

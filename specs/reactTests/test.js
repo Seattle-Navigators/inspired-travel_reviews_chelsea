@@ -52,7 +52,7 @@ describe('App component functionality', () => {
     const expectedChildren = {
       '.checklist-filter': 3,
       '.ratings-filter': 1,
-      '.header': 1,
+      '.reviews-header': 1,
       '#popular-mentions': 1,
       '.nav-bar': 1,
       '.rate-bar': 5,

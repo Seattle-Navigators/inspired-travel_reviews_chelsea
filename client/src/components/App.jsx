@@ -494,7 +494,7 @@ export default class App extends React.Component {
     const langsArray = this.getUniqueSortedLangs(reviews);
 
     return (
-      <div className="container">
+      <div className="review-container">
 
         <AskQuestion
           hidden={!popupActive}
