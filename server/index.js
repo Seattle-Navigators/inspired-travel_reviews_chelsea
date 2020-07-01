@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
 const { findForId, updateReview, updateImage } = require('./routeHandlers.js');
 
 const port = 3004;
@@ -10,7 +10,7 @@ const publicDir = path.resolve(__dirname, '..', 'client', 'public');
 
 const app = express();
 
-app.use(cors({origin: 'http://127.0.0.1:3000'}));
+app.use(cors({ origin: 'http://127.0.0.1:3000' }));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
