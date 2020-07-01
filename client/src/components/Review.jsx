@@ -195,8 +195,8 @@ export default class Review extends React.Component {
         <div className="review-footer">
           <div className="helpful-vote" hidden={!helpful}>1 Helpful vote</div>
           <div className="button-area">
-            <button className="helpful-button" type="button" onClick={this.markHelpful}>Helpful</button>
-            <button className="share-button" type="button">Share</button>
+            <button className="review-helpful-button" type="button" onClick={this.markHelpful}>Helpful</button>
+            <button className="review-share-button" type="button">Share</button>
           </div>
         </div>
       </div>
