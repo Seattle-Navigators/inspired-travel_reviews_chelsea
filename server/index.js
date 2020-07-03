@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const { findForId, updateReview, updateImage } = require('./routeHandlers.js');
 
-const port = 3004;
+const port = 80;
 const publicDir = path.resolve(__dirname, '..', 'client', 'public');
 
 const app = express();
