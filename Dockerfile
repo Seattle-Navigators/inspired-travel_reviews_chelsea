@@ -3,5 +3,5 @@ RUN mkdir -p /src/app
 WORKDIR /src/app
 COPY . /src/app
 RUN npm install
-EXPOSE 80
+EXPOSE 3004
 CMD [ "npm", "run", "startProd" ]
