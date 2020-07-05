@@ -1,5 +1,6 @@
 const Chance = require('chance');
 const Review = require('./Reviews.js');
+const mongoose = require('mongoose');
 const { generateNumBetween, pickBiased, generateAttractionIds } = require('./helpers.js');
 
 const chance = new Chance();
@@ -141,7 +142,9 @@ attractionIds.forEach((id) => {
 Review.create(seedData)
   .then(() => {
     console.log('success');
+    mongoose.connection.close();
   })
   .catch((err) => {
     console.log(err);
+    mongoose.connection.close();
   });

@@ -1,4 +1,7 @@
 const path = require('path');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   entry: './client/src/index.jsx',
@@ -6,8 +9,8 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'client', 'public'),
   },
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -20,7 +23,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-
       {
         test: /\.css$/i,
         use: [

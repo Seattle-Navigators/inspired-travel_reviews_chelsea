@@ -1,0 +1,5 @@
+node_modules
+specs
+__mocks__
+.circleci
+images
