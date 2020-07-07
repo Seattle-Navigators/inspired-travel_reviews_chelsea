@@ -2,6 +2,8 @@ version: '3'
 
 services:
   reviews:
+    environment:
+      - DB='database'
     build: ./
     depends_on:
       - 'database'

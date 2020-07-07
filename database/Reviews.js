@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://database/reviews', { useNewUrlParser: true, useUnifiedTopology: true });
+const DB = process.env.DB || 'localhost';
+
+mongoose.connect(`mongodb://${DB}/reviews`, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
 
 const reviewSchema = mongoose.Schema({

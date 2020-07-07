@@ -1,6 +1,6 @@
 const Chance = require('chance');
-const Review = require('./Reviews.js');
 const mongoose = require('mongoose');
+const Review = require('./Reviews.js');
 const { generateNumBetween, pickBiased, generateAttractionIds } = require('./helpers.js');
 
 const chance = new Chance();
