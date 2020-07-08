@@ -1,14 +1,8 @@
-# tripadvisor_reviews_chelsea
+# inspired-travel_reviews_chelsea
 
-# Tripadvisor Attraction Page: Reviews Module
+# Inspired Travel: Reviews Module
 
-> A clone of the "reviews" module on a Tripadvisor attraction page.
-
-## Related Projects
-
-  - https://github.com/Seattle-Navigators/tripadvisor_imageMain_Casey
-  - https://github.com/Seattle-Navigators/Tripadvisor_Experiences_Dustin
-  - https://github.com/Seattle-Navigators/tripadvisor_NearByAttractions_Jim
+> Open-source, single-page web application creating a member reviews feed for a travel website.
 
 ## Table of Contents
 
