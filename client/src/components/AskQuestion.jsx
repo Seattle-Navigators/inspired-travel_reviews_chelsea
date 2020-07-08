@@ -51,7 +51,7 @@ const AskQuestion = ({
             <li>{`Questions should be directly relevant to visiting ${name}`}</li>
             <li>
               If you have a customer service issue, please contact the business directly.
-              For questions about visiting a destination, check out Tripadvisor Forums.
+              For questions about visiting a destination, check out Inspired Travel Forums.
             </li>
             <li>Answers should be objective and to the point.</li>
             <li>Links, contact information, and advertising are not permitted.</li>

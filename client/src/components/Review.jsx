@@ -187,8 +187,8 @@ export default class Review extends React.Component {
               {`Traveled ${mapTypeToSentence[this.travelType]}`}
             </div>
             <div className="disclaimer">
-              This review is the subjective opinion of a
-              TripAdvisor member and not of TripAdvisor LLC.
+              This review is the subjective opinion of an
+              Inspired Travel member and not of Inspired Travel.
             </div>
           </div>
         </div>
