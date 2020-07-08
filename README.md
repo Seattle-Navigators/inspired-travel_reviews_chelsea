@@ -1,5 +1,3 @@
-# inspired-travel_reviews_chelsea
-
 # Inspired Travel: Reviews Module
 
 > Open-source, single-page web application creating a member reviews feed for a travel website.
