@@ -15,7 +15,7 @@ Open-source, single-page web application creating a member reviews feed microser
   - npm install
   - npm run watch || npm run build
   - npm start || npm run startProd
-  - Navigate to http://localhost/3004/001/reviewsModule
+  - Navigate to http://localhost:3004/001/reviewsModule
     - To toggle between tourist attractions, change the requested resource in the URL from 001 to any number between 002 - 100
 
 ## Run tests
