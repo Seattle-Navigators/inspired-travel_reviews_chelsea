@@ -13,8 +13,10 @@ import ReviewPage from './ReviewPage';
 import NavBar from './NavBar';
 import AskQuestion from './AskQuestion';
 import Languages from './Languages';
+import ReviewsView from './ReviewsView';
 import { applyFilters } from '../utilities/applyFilters';
 import { getPopularMentions } from '../utilities/getPopularMentions';
+import { getUniqueSortedLangs } from '../utilities/getUniqueSortedLangs';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -105,82 +107,31 @@ export default class App extends React.Component {
     const popularMentions = getPopularMentions(reviews);
 
     // ============Provide either Reviews or Questions as the view=============
-    const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
-    const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
-    const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
+    // const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
+    // const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
+    // const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
 
-    const langsArray = this.getUniqueSortedLangs(reviews);
+    // const langsArray = getUniqueSortedLangs(reviews);
 
     if (view === 'Reviews') {
       return (
-        <div>
-          <Header
-            id="reviews-header"
-            header="Reviews"
-            buttonLabel="Write a review"
-            subtitle=""
-            buttonId="write-review"
-            handleSelection={this.handleSelection}
-          />
-
-          <div id="filter-container">
-            <Ratings
-              names={names}
-              reviews={reviews}
-              numReviews={numReviews}
-              handleFilter={this.filterReviews}
-              selections={filters}
-            />
-
-            <Checklist
-              title="Traveler type"
-              labels={types}
-              handleFilter={this.filterReviews}
-              selections={filters}
-            />
-            <Checklist
-              title="Time of year"
-              labels={times}
-              handleFilter={this.filterReviews}
-              selections={filters}
-            />
-            <RadioList
-              title="Language"
-              handleSelection={this.handleSelection}
-              langs={langsArray}
-              handleFilter={this.filterReviews}
-              selection={filters.language}
-            />
-          </div>
-
-          <Mentions
-            keywords={popularMentions}
-            handleMention={this.handleMention}
-            search={search}
-          />
-          <Search
-            handleChange={this.handleChange}
-            search={search}
-          />
-
-          <ReviewPage
-            reviews={filteredReviews}
-            currentPage={currentPage}
-          />
-
-          <NavBar
-            currentPage={currentPage}
-            numReviews={filteredReviews.length}
-            handlePageChange={this.handlePageChange}
-            view={view}
-          />
-
-          <div id="no-results" hidden={!noResults}>
-            No results found.
-            Try removing a filter, changing your search, or clear all to read reviews.
-          </div>
-
-        </div>
+        <ReviewsView
+          handleSelection={this.handleSelection}
+          reviews={reviews}
+          numReviews={numReviews}
+          filterReviews={this.filterReviews}
+          filters={filters}
+          popularMentions={popularMentions}
+          handleMention={this.handleMention}
+          handleFilter={this.filterReviews}
+          handleChange={this.handleChange}
+          search={search}
+          filteredReviews={filteredReviews}
+          currentPage={currentPage}
+          handlePageChange={this.handlePageChange}
+          view={view}
+          noResults={noResults}
+        />
       );
     }
     return (
@@ -376,7 +327,7 @@ export default class App extends React.Component {
       view,
     } = this.state;
 
-    const langsArray = this.getUniqueSortedLangs(reviews);
+    const langsArray = getUniqueSortedLangs(reviews);
 
     return (
       <div className="review-container">
@@ -419,50 +370,6 @@ export default class App extends React.Component {
       </div>
     );
   }
-
-  getUniqueSortedLangs(reviews) { //eslint-disable-line
-    const allLangs = reviews.map((review) => review.lang);
-    const uniqueifier = {};
-
-    allLangs.forEach((lang) => {
-      if (lang in uniqueifier) {
-        uniqueifier[lang] += 1;
-      } else {
-        uniqueifier[lang] = 1;
-      }
-    });
-
-    const langsSummary = [];
-    for (const lang in uniqueifier) { // eslint-disable-line
-      const oneLang = [];
-      oneLang.push(lang, uniqueifier[lang]);
-      langsSummary.push(oneLang);
-    }
-
-    langsSummary.sort((langA, langB) => {
-      if (langA[1] > langB[1]) {
-        return -1;
-      }
-      if (langA[1] < langB[1]) {
-        return 1;
-      }
-      return 0;
-    });
-
-    langsSummary.unshift(['All languages', null]);
-
-    return langsSummary;
-  }
-
-  // textHasAllSearchWords(textWords, searchWords) { // eslint-disable-line
-  //   let containsSearch = true;
-  //   searchWords.forEach((searchWord) => {
-  //     if (!contains(textWords, searchWord)) {
-  //       containsSearch = false;
-  //     }
-  //   });
-  //   return containsSearch;
-  // }
 }
 
 App.propTypes = {
