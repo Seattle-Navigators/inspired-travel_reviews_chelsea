@@ -93,6 +93,7 @@ export default class App extends React.Component {
     const {
       view,
       numReviews,
+      numQuestions,
       filters,
       search,
       currentPage,
