@@ -1,4 +1,4 @@
-# Inspired Travel: Reviews Module
+# Inspired Travel: Reviews Service
 
 Open-source, single-page web application creating a member reviews feed microservice for a service-oriented travel recommendation app.
 
