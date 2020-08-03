@@ -4,19 +4,12 @@ import { contains } from 'underscore';
 import axios from 'axios';
 import Tab from './Tab';
 import Header from './Header';
-import Ratings from './Ratings';
-import Checklist from './Checklist';
-import RadioList from './RadioList';
-import Mentions from './Mentions';
-import Search from './Search';
-import ReviewPage from './ReviewPage';
-import NavBar from './NavBar';
 import AskQuestion from './AskQuestion';
 import Languages from './Languages';
 import ReviewsView from './ReviewsView';
-import { applyFilters } from '../utilities/applyFilters';
-import { getPopularMentions } from '../utilities/getPopularMentions';
-import { getUniqueSortedLangs } from '../utilities/getUniqueSortedLangs';
+import applyFilters from '../utilities/applyFilters';
+import getPopularMentions from '../utilities/getPopularMentions';
+import getUniqueSortedLangs from '../utilities/getUniqueSortedLangs';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -99,19 +92,12 @@ export default class App extends React.Component {
       filters,
       search,
       currentPage,
-      reviews
+      reviews,
     } = this.state;
 
     const filteredReviews = applyFilters(this.state);
     const noResults = filteredReviews.length === 0;
     const popularMentions = getPopularMentions(reviews);
-
-    // ============Provide either Reviews or Questions as the view=============
-    // const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
-    // const types = ['Families', 'Couples', 'Solo', 'Business', 'Friends'];
-    // const times = ['Dec-Feb', 'Mar-May', 'Jun-Aug', 'Sep-Nov'];
-
-    // const langsArray = getUniqueSortedLangs(reviews);
 
     if (view === 'Reviews') {
       return (
@@ -123,7 +109,6 @@ export default class App extends React.Component {
           filters={filters}
           popularMentions={popularMentions}
           handleMention={this.handleMention}
-          handleFilter={this.filterReviews}
           handleChange={this.handleChange}
           search={search}
           filteredReviews={filteredReviews}

@@ -1,6 +1,10 @@
-import { textHasAllSearchWords } from './textHasAllSearchWords';
+import textHasAllSearchWords from './textHasAllSearchWords';
 
-export const applyFilters = ({view, numReviews, reviews, filters, search, currentPage }) => {
+const applyFilters = ({
+  reviews,
+  filters,
+  search,
+}) => {
   let rateFiltersAreOn = false;
   let typeFiltersAreOn = false;
   let timeFiltersAreOn = false;
@@ -52,8 +56,14 @@ export const applyFilters = ({view, numReviews, reviews, filters, search, curren
     m11: 'decFeb',
   };
 
-  const filteredReviews = reviews.filter(({ rating, travelType, expDate, lang, title, body }) => {
-
+  const filteredReviews = reviews.filter(({
+    rating,
+    travelType,
+    expDate,
+    lang,
+    title,
+    body,
+  }) => {
     const reviewWords = body.toLowerCase().split(' ').concat(title.toLowerCase().split(' '));
     const trimEndSpaces = /\s+$/;
     const trimStartSpaces = /^\s+/;
@@ -79,3 +89,5 @@ export const applyFilters = ({view, numReviews, reviews, filters, search, curren
 
   return filteredReviews;
 };
+
+export default applyFilters;

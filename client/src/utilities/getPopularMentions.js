@@ -1,4 +1,4 @@
-export const getPopularMentions = (reviews) => {
+const getPopularMentions = (reviews) => {
   const reviewBodies = reviews.map((review) => review.body);
   const combinedText = reviewBodies.join(' ');
   const words = combinedText.split(' ');
@@ -33,3 +33,5 @@ export const getPopularMentions = (reviews) => {
 
   return popularMentions;
 };
+
+export default getPopularMentions;

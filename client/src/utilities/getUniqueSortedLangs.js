@@ -1,4 +1,4 @@
-export const getUniqueSortedLangs = (reviews) => {
+const getUniqueSortedLangs = (reviews) => {
   const allLangs = reviews.map((review) => review.lang);
   const uniqueifier = {};
 
@@ -31,3 +31,5 @@ export const getUniqueSortedLangs = (reviews) => {
 
   return langsSummary;
 };
+
+export default getUniqueSortedLangs;

@@ -1,6 +1,6 @@
 import { contains } from 'underscore';
 
-export const textHasAllSearchWords = (textWords, searchWords) => {
+const textHasAllSearchWords = (textWords, searchWords) => {
   let containsSearch = true;
   searchWords.forEach((searchWord) => {
     if (!contains(textWords, searchWord)) {
@@ -9,3 +9,5 @@ export const textHasAllSearchWords = (textWords, searchWords) => {
   });
   return containsSearch;
 };
+
+export default textHasAllSearchWords;

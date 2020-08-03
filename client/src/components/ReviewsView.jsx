@@ -1,4 +1,5 @@
 import React from 'react';
+import { func, arrayOf, objectOf, object, number, string, bool, any } from 'prop-types'; // eslint-disable-line
 import Header from './Header';
 import Ratings from './Ratings';
 import Checklist from './Checklist';
@@ -7,7 +8,7 @@ import Mentions from './Mentions';
 import Search from './Search';
 import ReviewPage from './ReviewPage';
 import NavBar from './NavBar';
-import { getUniqueSortedLangs } from '../utilities/getUniqueSortedLangs';
+import getUniqueSortedLangs from '../utilities/getUniqueSortedLangs';
 
 const ReviewsView = ({
   handleSelection,
@@ -17,7 +18,6 @@ const ReviewsView = ({
   filters,
   popularMentions,
   handleMention,
-  handleFilter,
   handleChange,
   search,
   filteredReviews,
@@ -104,3 +104,20 @@ const ReviewsView = ({
 };
 
 export default ReviewsView;
+
+ReviewsView.propTypes = {
+  handleSelection: func.isRequired,
+  reviews: arrayOf(object).isRequired,
+  numReviews: number.isRequired,
+  filterReviews: func.isRequired,
+  filters: objectOf(any).isRequired,
+  popularMentions: arrayOf(string).isRequired,
+  handleMention: func.isRequired,
+  handleChange: func.isRequired,
+  search: string.isRequired,
+  filteredReviews: arrayOf(object).isRequired,
+  currentPage: number.isRequired,
+  handlePageChange: func.isRequired,
+  view: string.isRequired,
+  noResults: bool.isRequired,
+};
