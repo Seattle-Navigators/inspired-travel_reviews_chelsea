@@ -14,6 +14,7 @@ import NavBar from './NavBar';
 import AskQuestion from './AskQuestion';
 import Languages from './Languages';
 import { applyFilters } from '../utilities/applyFilters';
+import { getPopularMentions } from '../utilities/getPopularMentions';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -98,43 +99,9 @@ export default class App extends React.Component {
       reviews
     } = this.state;
 
-    // ========================Apply filters to reviews========================
     const filteredReviews = applyFilters(this.state);
     const noResults = filteredReviews.length === 0;
-
-    // ========================Retrieve popular mentions=======================
-
-    const reviewBodies = reviews.map((review) => review.body);
-    const combinedText = reviewBodies.join(' ');
-    const words = combinedText.split(' ');
-
-    const wordCounts = words.reduce((counts, word) => {
-      word in counts ? counts[word] += 1 : counts[word] = 1; // eslint-disable-line
-      return counts;
-    }, {});
-
-    const popularMentions = [];
-    for (const word in wordCounts) { // eslint-disable-line
-      if (wordCounts[word] > reviews.length * 0.15) {
-        if (popularMentions.join(' ').indexOf(word) === -1) {
-          if ('all reviews'.indexOf(word) === -1) {
-            popularMentions.push(word);
-          }
-        }
-      }
-    }
-
-    popularMentions.sort((wordA, wordB) => {
-      if (wordA[1] > wordB[1]) {
-        return -1;
-      }
-      if (wordA[1] < wordB[1]) {
-        return 1;
-      }
-      return 0;
-    });
-
-    popularMentions.unshift('All reviews');
+    const popularMentions = getPopularMentions(reviews);
 
     // ============Provide either Reviews or Questions as the view=============
     const names = ['Excellent', 'Very Good', 'Average', 'Poor', 'Terrible'];
