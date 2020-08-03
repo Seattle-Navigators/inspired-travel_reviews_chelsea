@@ -6,8 +6,8 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'client', 'public'),
   },
-  mode: 'production',
-  devtool: 'source-map',
+  mode: 'development',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
